@@ -16,8 +16,9 @@
   },
   "plugins": ["@typescript-eslint", "react", "react-hooks"],
   "rules": {
-    "quotes": ["error", "double", {"allowSingleQuotes": true}],
+    "quotes": ["error", "double", { "allowSingleQuotes": true }],
     "react/react-in-jsx-scope": "off",
+    "react/jsx-closing-bracket-location": "off",
     "stylistic/eslint-plugin-js": "off",
     "max-len": ["warn", { "code": 80 }],
     "react/jsx-filename-extension": [

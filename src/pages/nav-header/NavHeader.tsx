@@ -1,6 +1,6 @@
 import { ReactElement, useEffect, useState } from "react";
-import logo from "../../assets/images/hr_logo.png";
 import { useLocation, useNavigate } from "react-router-dom";
+import logo from "../../assets/images/hr_logo.png";
 
 /**
  * Header Component which loads the navigation links.
@@ -26,60 +26,50 @@ function NavHeader(): ReactElement {
       <div className="container-fluid bg-white fixed-top shadow-sm">
         <div className="d-flex flex-row justify-content-between fw-bold mx-4">
           <div className="d-flex align-self-center pt-2 pb-1">
-            <img
-              className="align-self-center"
-              src={logo}
-              height="40px"
-              width="45px"
-              alt="HCR"
-            />
+            <img className="align-self-center" src={logo} height="40px" width="45px" alt="HCR" />
             <div className="ms-4 my-auto">
-              <span className="fs-5">Hiring cum Recruitment</span>
+              <span className="fs-4 text-secondary-dark">Hiring cum Recruitment</span>
             </div>
           </div>
           <div className="d-flex align-items-stretch">
             <button
+              type="button"
               tabIndex={0}
               className={`ms-4 border-0 shadow-0 bg-white ${
-                activeLink === "/candidates"
-                  ? "text-secondary-dark"
-                  : "text-muted "
+                activeLink === "/candidates" ? "text-secondary-dark" : "text-muted "
               }`}
               id="candidate-link"
-              onClick={() => handleNavigation("/candidates")}
-            >
+              onClick={() => handleNavigation("/candidates")}>
               Candidates
             </button>
             <button
+              type="button"
               tabIndex={0}
               className={`ms-4 border-0 shadow-0 bg-white ${
-                activeLink === "/departments"
-                  ? "text-secondary-dark"
-                  : "text-muted "
+                activeLink === "/departments" ? "text-secondary-dark" : "text-muted "
               }`}
               id="department-link"
-              onClick={() => handleNavigation("/departments")}
-            >
+              onClick={() => handleNavigation("/departments")}>
               Departments
             </button>
             <button
+              type="button"
               tabIndex={0}
               className={`ms-4 border-0 shadow-0 bg-white ${
                 activeLink === "/tests" ? "text-secondary-dark" : " text-muted "
               }`}
               id="tests-link"
-              onClick={() => handleNavigation("/tests")}
-            >
+              onClick={() => handleNavigation("/tests")}>
               Tests
             </button>
             <button
+              type="button"
               tabIndex={0}
               className={`ms-4 border-0 shadow-0 bg-white ${
                 activeLink === "/logout" ? "text-secondary-dark" : "text-muted"
               }`}
               id="logout-link"
-              onClick={() => handleNavigation("/logout")}
-            >
+              onClick={() => handleNavigation("/logout")}>
               Log Out
             </button>
           </div>
