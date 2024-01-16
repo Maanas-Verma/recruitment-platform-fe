@@ -61,10 +61,8 @@ export interface DropDownControlDetails {
   controlKey: string;
   options: ControlOption[];
   disabled?: boolean;
-  controlPlaceholder?: string;
   isHighlighted?: boolean;
   defaultValue?: ControlOption;
-  handleOnFocus?: (event: FocusEvent<HTMLElement>) => void;
   handleOnChange?: (event: ChangeEvent<HTMLElement>) => void;
   validationObject?: RegisterOptions;
   theme?: string;
@@ -159,4 +157,21 @@ export interface DateControlProps {
   isHighlighted?: boolean;
   minDate?: string;
   maxDate?: string;
+}
+
+/**
+ * Interface for text area elements.
+ */
+export interface TextAreaControlDetails {
+  label?: string;
+  name?: string;
+  inputId?: string;
+  disabled?: boolean;
+  rows?: number;
+  infoText?: string;
+  controlKey: string;
+  controlPlaceholder?: string;
+  handleOnFocus?: (event: FocusEvent<HTMLElement>) => void;
+  validationObject?: RegisterOptions;
+  isHighlighted?: boolean;
 }
