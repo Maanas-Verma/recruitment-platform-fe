@@ -2,6 +2,7 @@ import { ReactElement, useEffect, useState } from "react";
 import utils from "../utilities/application-utils";
 import TestControlPanel from "./TestControl";
 import TestCreation from "./TestCreation";
+import TabControl from "../../components/TabControl";
 
 /**
  * Test Component which loads test details table.
@@ -12,6 +13,11 @@ function TestTable(): ReactElement {
   const [tests, setTests] = useState<any>([]);
   const [selectedTestStatus, setSelectedTestStatus] = useState<string>("");
   const [showCreateTest, setShowCreateTest] = useState<boolean>(false);
+  const [value, setValue] = useState<string>("Pending");
+
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
 
   useEffect(() => {
     setTests(utils.dummyTestData);
@@ -20,13 +26,27 @@ function TestTable(): ReactElement {
   return (
     <div className="container-fluid">
       <div className="d-flex flex-column gap-5 mx-5 my-5">
-        <div>
+        <div id="test-header-container">
           <h4 className="fw-semibold">{"Test Panel"}</h4>
         </div>
-        <TestControlPanel
-          setSelectedStatusValue={setSelectedTestStatus}
-          setSelectedTestStatus={() => setShowCreateTest(true)}
-        ></TestControlPanel>
+        <div id="tab-panel">
+          <TabControl
+            value={value}
+            handleTabChange={handleChange}
+            tabList={[
+              { label: "Pending", value: "Pending" },
+              { label: "Created", value: "Created" },
+              { label: "Completed", value: "Completed" },
+            ]}
+          />
+        </div>
+
+        <div id="test-control-panel">
+          <TestControlPanel
+            setSelectedStatusValue={setSelectedTestStatus}
+            setSelectedTestStatus={() => setShowCreateTest(true)}
+          ></TestControlPanel>
+        </div>
 
         {showCreateTest ? (
           <TestCreation handleClose={() => setShowCreateTest(false)} />
@@ -34,7 +54,10 @@ function TestTable(): ReactElement {
           ""
         )}
 
-        <div className="table-responsive rounded-2 overflow-auto">
+        <div
+          className="table-responsive rounded-2 overflow-auto"
+          id="test-table-panel"
+        >
           <table className="table table-hover align-middle">
             <thead className="table-info">
               <tr>
