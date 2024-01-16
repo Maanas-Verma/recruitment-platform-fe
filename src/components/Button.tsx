@@ -88,24 +88,25 @@ function Button(props: ButtonControlDetails): ReactElement {
     [extraIconClass, icon, size]
   );
 
+  const spinStyle = (size: string): Object => {
+    if (size === "small") {
+      return { width: "0.85rem", height: "0.85rem" };
+    } else if (size === "large") {
+      return { width: "1.15rem", height: "1.15rem" };
+    } else if (size === "medium") {
+      return { width: "1rem", height: "1rem" };
+    }
+    return {};
+  };
+
   /**
    * Function to set the loading indicator on the button.
    */
   const renderLoadingSpinner = (): ReactElement => {
-    let spinStyle: Object;
-
-    if (size === "small") {
-      spinStyle = { width: "0.85rem", height: "0.85rem" };
-    } else if (size === "large") {
-      spinStyle = { width: "1.15rem", height: "1.15rem" };
-    } else if (size === "medium") {
-      spinStyle = { width: "1rem", height: "1rem" };
-    }
-
     const spinnerBorder = (
       <span
         className="spinner-border spinner-border-sm"
-        // style={spinStyle}
+        style={spinStyle(size)}
         role="status"
         aria-hidden="true"
       />
@@ -113,7 +114,7 @@ function Button(props: ButtonControlDetails): ReactElement {
     const spinnerGrow = (
       <span
         className="spinner-grow spinner-grow-sm"
-        // style={spinStyle}
+        style={spinStyle(size)}
         role="status"
         aria-hidden="true"
       />
@@ -149,11 +150,11 @@ function Button(props: ButtonControlDetails): ReactElement {
   const renderButtonContent = (): ReactElement => (
     <>
       {icon && iconPlacement === "start" && (
-        <i className={`${setIconClassName()} ${name ? "me-3" : "mx-1"}`} />
+        <i className={`${setIconClassName()} ${name ? "me-2" : "mx-1"}`} />
       )}
       {name}
       {icon && iconPlacement === "end" && (
-        <i className={`${setIconClassName()} ${name ? "ms-3" : "mx-1"}`} />
+        <i className={`${setIconClassName()} ${name ? "ms-2" : "mx-1"}`} />
       )}
     </>
   );

@@ -65,8 +65,10 @@ const TestCreation = (props: TestCreationProps): ReactElement => {
                   </div>
                   <div>
                     <TextAreaControl
+                      rows={5}
                       label={"Title Description"}
                       controlKey={"title-description"}
+                      controlPlaceholder={"Enter detail here..."}
                       validationObject={{
                         required: "Please fill title description as required",
                       }}

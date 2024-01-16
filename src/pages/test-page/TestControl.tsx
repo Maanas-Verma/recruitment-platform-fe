@@ -22,31 +22,32 @@ function TestControlPanel(props: TestControlPanelProps): ReactElement {
 
   return (
     <div className="d-flex flex-wrap gap-6">
-      <div>
-        <DropdownControl
-          controlKey={"status"}
-          defaultValue={{ name: "Status", value: "" }}
-          theme={"primary"}
-          options={[
-            {
-              name: "Pending",
-              value: "Pending",
-            },
-            { name: "Created", value: "Created" },
-            { name: "Completed", value: "Completed" },
-          ]}
-          extraClass="bg-primary text-white fw-bold fs-7"
-          handleOnChange={handleStatusOnChange}
-        />
-      </div>
+      <DropdownControl
+        controlKey={"status"}
+        defaultValue={{ name: "Status", value: "" }}
+        theme={"primary"}
+        options={[
+          {
+            name: "Pending",
+            value: "Pending",
+          },
+          { name: "Created", value: "Created" },
+          { name: "Completed", value: "Completed" },
+        ]}
+        extraClass="bg-primary text-white fw-bold fs-7"
+        handleOnChange={handleStatusOnChange}
+      />
       <div className="ms-auto">
         <Button
           size="medium"
           theme="primary"
-          name="Create Test Token"
+          name="Test Token"
           buttonId="create-test"
           onClick={setSelectedTestStatus}
           extraClass="fw-bold fs-7"
+          icon="plus-lg"
+          iconPlacement="start"
+          extraIconClass="h6"
         ></Button>
       </div>
     </div>
