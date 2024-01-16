@@ -1,0 +1,326 @@
+@import url("https://fonts.googleapis.com/css2?family=Cantarell&family=Open+Sans:wght@300;400;500;600&family=Poppins:wght@300;400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter&family=Noto+Serif&family=Roboto+Slab:wght@500&display=swap");
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
+
+// Theme Variables //
+$white: #ffffff;
+$off-white: #fffcf9;
+$light: #f2f6fb;
+$black: #000000;
+$dark: #343a40;
+$divider: #a5a5a5;
+
+$primary-lightest: #deecff;
+$primary-lighter: #a8cbfe;
+$primary-light: #5197fd;
+$primary: #257dfd;
+$primary-dark: #1a58b1;
+$primary-darker: #0f3265;
+
+$secondary-lightest: #d4e6ff;
+$secondary-lighter: #b9d6ff;
+$secondary-light: #85b8ff;
+$secondary: #5099ff;
+$secondary-dark: #1662cc;
+$secondary-darker: #114997;
+
+$tertiary-lightest: #e9e3f6;
+$tertiary-lighter: #c5b3e6;
+$tertiary-light: #9a7bd4;
+$tertiary: #6f42c1;
+$tertiary-dark: #4e2e87;
+$tertiary-darker: #2c1a4d;
+
+$success-lightest: #ddeedf;
+$success-lighter: #a4d1a8;
+$success-light: #5fae67;
+$success: #1b8b26;
+$success-dark: #13611b;
+$success-darker: #0b380f;
+
+$info-lightest: #d9ebf5;
+$info-lighter: #9acae4;
+$info-light: #4ea2d0;
+$info: #027abc;
+$info-dark: #015584;
+$info-darker: #01314b;
+
+$warning-lightest: #fef2de;
+$warning-lighter: #fbdba7;
+$warning-light: #f8c066;
+$warning: #f5a524;
+$warning-dark: #ac7319;
+$warning-darker: #62420e;
+
+$danger-lightest: #fbeaea;
+$danger-lighter: #edacac;
+$danger-light: #e06d6d;
+$danger: #d32f2f;
+$danger-dark: #942121;
+$danger-darker: #541313;
+
+$grey-lightest: #eff0f2;
+$grey-lighter: #dee1e5;
+$grey-light: #c6cbd1;
+$grey: #adb5bd;
+$grey-dark: #797f84;
+$grey-darker: #45484c;
+
+$lavender-lightest: #e9e9fc;
+$lavender-lighter: #c3c5f7;
+$lavender-light: #959af2;
+$lavender: #686fec;
+$lavender-dark: #494ea5;
+$lavender-darker: #2a2c5e;
+
+// Define own custom theme palette variables
+$custom-theme-colors: (
+  "white": $white,
+  "off-white": $off-white,
+  "black": $black,
+  "light": $light,
+  "dark": $dark,
+  "divider": $divider,
+
+  "primary-lightest": $primary-lightest,
+  "primary-lighter": $primary-lighter,
+  "primary-light": $primary-light,
+  "primary": $primary,
+  "primary-dark": $primary-dark,
+  "primary-darker": $primary-darker,
+
+  "secondary-lightest": $secondary-lightest,
+  "secondary-lighter": $secondary-lighter,
+  "secondary-light": $secondary-light,
+  "secondary": $secondary,
+  "secondary-dark": $secondary-dark,
+  "secondary-darker": $secondary-darker,
+
+  "tertiary-lightest": $tertiary-lightest,
+  "tertiary-lighter": $tertiary-lighter,
+  "tertiary-light": $tertiary-light,
+  "tertiary": $tertiary,
+  "tertiary-dark": $tertiary-dark,
+  "tertiary-darker": $tertiary-darker,
+
+  "success-lightest": $success-lightest,
+  "success-lighter": $success-lighter,
+  "success-light": $success-light,
+  "success": $success,
+  "success-dark": $success-dark,
+  "success-darker": $success-darker,
+
+  "info-lightest": $info-lightest,
+  "info-lighter": $info-lighter,
+  "info-light": $info-light,
+  "info": $info,
+  "info-dark": $info-dark,
+  "info-darker": $info-darker,
+
+  "warning-lightest": $warning-lightest,
+  "warning-lighter": $warning-lighter,
+  "warning-light": $warning-light,
+  "warning": $warning,
+  "warning-dark": $warning-dark,
+  "warning-darker": $warning-darker,
+
+  "danger-lightest": $danger-lightest,
+  "danger-lighter": $danger-lighter,
+  "danger-light": $danger-light,
+  "danger": $danger,
+  "danger-dark": $danger-dark,
+  "danger-darker": $danger-darker,
+
+  "grey-lightest": $grey-lightest,
+  "grey-lighter": $grey-lighter,
+  "grey-light": $grey-light,
+  "grey": $grey,
+  "grey-dark": $grey-dark,
+  "grey-darker": $grey-darker,
+
+  "lavender-lightest": $lavender-lightest,
+  "lavender-lighter": $lavender-lighter,
+  "lavender-light": $lavender-light,
+  "lavender": $lavender,
+  "lavender-dark": $lavender-dark,
+  "lavender-darker": $lavender-darker,
+);
+
+$text-muted: #5a6167;
+
+$theme-colors: () !default;
+$theme-colors: map-merge($custom-theme-colors, $theme-colors);
+
+// Spacer Variables //
+$spacer: 1rem !default;
+
+$spacers: (
+  0: 0,
+  1: $spacer * 0.25,
+  2: $spacer * 0.5,
+  3: $spacer * 0.75,
+  4: $spacer * 1,
+  5: $spacer * 1.5,
+  6: $spacer * 3,
+);
+
+// Typography variables //
+$font-family-cantarell: "Cantarell";
+$font-family-poppins: "Poppins";
+$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+  "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !default;
+
+// Font Size //
+$font-size-base: 1rem !default;
+
+$h1-font-size: $font-size-base * 2.5; // 40px
+$h2-font-size: $font-size-base * 2; // 32px
+$h3-font-size: $font-size-base * 1.75; // 28px
+$h4-font-size: $font-size-base * 1.5; // 24px
+$h5-font-size: $font-size-base * 1.25; // 20px
+$h6-font-size: $font-size-base; // 16px
+$h7-font-size: $font-size-base * 0.875; // 14px
+$h8-font-size: $font-size-base * 0.75; // 12px
+$h9-font-size: $font-size-base * 0.625; // 10px
+$h10-font-size: $font-size-base * 0.5; // 8px
+
+$font-sizes: (
+  1: $h1-font-size,
+  2: $h2-font-size,
+  3: $h3-font-size,
+  4: $h4-font-size,
+  5: $h5-font-size,
+  6: $h6-font-size,
+  7: $h7-font-size,
+  8: $h8-font-size,
+  9: $h9-font-size,
+  10: $h10-font-size,
+);
+
+$headings-font-family: $font-family-poppins-serif;
+
+// Settings for the `<Body>` element.
+$body-bg: $off-white;
+$body-color: $dark;
+
+// Border //
+$enable-validation-icons: false;
+$box-shadow: 0.05rem 0.05rem 0.5rem rgba($black, 0.3);
+
+// Grid containers for `.container` for different screen sizes. //
+$container-padding-x: 2rem;
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1240px,
+  xxl: 1366px,
+) !default;
+
+// Button variables //
+$input-btn-focus-width: 0.125rem;
+$input-btn-line-height: 1.75;
+
+$input-btn-padding-y-sm: 0.25rem;
+$input-btn-padding-x-sm: 0.5rem;
+
+$btn-border-radius: 0.5rem;
+$btn-border-radius-sm: 0.4rem;
+$btn-border-radius-lg: 0.6rem;
+
+$btn-font-size-sm: $font-size-base * 0.875;
+$btn-font-size-lg: $font-size-base * 1.125;
+$btn-font-family: $font-family-poppins-serif;
+
+// Input Control Overrides variables //
+$input-border-color: $light;
+$input-border-radius-lg: 0.5rem;
+$input-line-height: 1.5;
+$input-bg: $light;
+$input-font-size-lg: 14px;
+$input-focus-bg: $white;
+$input-focus-box-shadow: 0 0 0 $input-btn-focus-width rgba(98, 0, 238, 0.2);
+$input-focus-border-color: $lavender;
+$input-padding-y-lg: 0.875rem;
+$input-padding-x-lg: 0.75rem;
+$input-disabled-border-color: #e8e8e8;
+$input-disabled-bg: #e8e8e8;
+$input-placeholder-color: #7f889f;
+
+// Select variables //
+$form-select-indicator-color: $light;
+$form-select-focus-box-shadow: 0 0 0 $input-btn-focus-width
+  rgba(98, 0, 238, 0.2);
+
+@import "~bootstrap/scss/bootstrap";
+
+@keyframes GradientSlideAnimation {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100vw 0;
+  }
+}
+
+// Basic CSS //
+body {
+  margin: 0;
+  font-family: $font-family-sans-serif;
+  font-feature-settings: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.side-panel {
+  right: 0;
+  top: 48px;
+  z-index: 1;
+}
+
+// Button theme variant classes //
+@each $color, $value in $theme-colors {
+  .btn-outline-#{$color} {
+    color: $value;
+    &:hover {
+      color: $white;
+    }
+    &:active {
+      color: $white;
+      background-color: shade-color($value, 10%);
+    }
+    &:focus {
+      color: $white;
+    }
+  }
+  .btn-text-#{$color} {
+    color: $value;
+    &:hover {
+      color: $value;
+      background-color: tint-color($value, 85%);
+      border-color: tint-color($value, 85%);
+    }
+    &:active,
+    &:focus,
+    &:visited {
+      color: $value;
+      background-color: tint-color($value, 65%);
+      border-color: tint-color($value, 65%);
+    }
+  }
+}
+
+.font-nav-header {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  color: white;
+}
