@@ -88,7 +88,7 @@ function Button(props: ButtonControlDetails): ReactElement {
     [extraIconClass, icon, size]
   );
 
-  const spinStyle = (size: string): Object => {
+  const spinStyle = (size: string): { width?: string; height?: string} => {
     if (size === "small") {
       return { width: "0.85rem", height: "0.85rem" };
     } else if (size === "large") {

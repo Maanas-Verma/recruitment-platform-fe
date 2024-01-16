@@ -175,3 +175,13 @@ export interface TextAreaControlDetails {
   validationObject?: RegisterOptions;
   isHighlighted?: boolean;
 }
+
+export interface TestElement {
+  id: string;
+  title: string;
+  description: string;
+  application: string;
+  alloted_to: string;
+  status: string;
+  modified_at: string;
+}

@@ -2,6 +2,7 @@ import { ReactElement, useEffect, useState } from "react";
 import utils from "../utilities/application-utils";
 import TestControlPanel from "./TestControl";
 import TestCreation from "./TestCreation";
+import { TestElement } from "../../interfaces/global.interfaces";
 import TabControl from "../../components/TabControl";
 
 /**
@@ -9,8 +10,8 @@ import TabControl from "../../components/TabControl";
  *
  * @returns - Test component HTML with test details.
  */
-function TestTable(): ReactElement {
-  const [tests, setTests] = useState<any>([]);
+function TestSection(): ReactElement {
+  const [tests, setTests] = useState<TestElement[]>([]);
   const [selectedTestStatus, setSelectedTestStatus] = useState<string>("");
   const [showCreateTest, setShowCreateTest] = useState<boolean>(false);
   const [value, setValue] = useState<string>("Pending");
@@ -70,7 +71,7 @@ function TestTable(): ReactElement {
               </tr>
             </thead>
             <tbody>
-              {tests.map((test: { [key: string]: string }) => (
+              {tests.map((test: TestElement) => (
                 <tr key={test.id} className={"cursor-pointer"}>
                   <td className="p-2 fs-7 ">{test?.title}</td>
                   <td className="p-2 fs-7 w-50">{test?.description}</td>
@@ -102,4 +103,4 @@ function TestTable(): ReactElement {
   );
 }
 
-export default TestTable;
+export default TestSection;

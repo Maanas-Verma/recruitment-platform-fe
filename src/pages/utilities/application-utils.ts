@@ -1,6 +1,6 @@
-import { ReactControlOption } from "../../interfaces/global.interfaces";
+import { TestElement } from "../../interfaces/global.interfaces";
 
-const dummyTestData: Array<Object> = [
+const dummyTestData: Array<TestElement> = [
   {
     id: "test_1",
     title: "Quant",
@@ -43,17 +43,6 @@ const dummyTestData: Array<Object> = [
   },
 ];
 
-const parseDropdownOptions = (
-  parsedData: Array<string>
-): ReactControlOption[] => {
-  const Options: any = [];
-  Object.keys(parsedData).forEach((element: any) => {
-    const content = parsedData[element];
-    Options.push({ label: content, value: content });
-  });
-  return Options;
-};
-
 const FormatDate = (modifiedDate: string): string => {
   const date = new Date(modifiedDate);
   const options = {
@@ -68,18 +57,6 @@ const FormatDate = (modifiedDate: string): string => {
   return date.toLocaleDateString("en-US", options);
 };
 
-const FormatValues = (data: string | Object): string => {
-  if (typeof data === "string") {
-    const date = FormatDate(data);
-    if (date !== "Invalid Date") {
-      return date;
-    }
-    return data;
-  } else {
-    return JSON.stringify(data, null, 2);
-  }
-};
-
 const FormatKey = (key: string): string => {
   const words = key.split("_");
   let parsedKey = "";
@@ -90,9 +67,7 @@ const FormatKey = (key: string): string => {
 };
 
 const utils = {
-  parseDropdownOptions,
   FormatDate,
-  FormatValues,
   FormatKey,
   dummyTestData,
 };
