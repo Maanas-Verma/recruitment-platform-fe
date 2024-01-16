@@ -197,8 +197,6 @@ $font-sizes: (
   10: $h10-font-size,
 );
 
-$headings-font-family: $font-family-poppins-serif;
-
 // Settings for the `<Body>` element.
 $body-bg: $off-white;
 $body-color: $dark;
@@ -230,7 +228,6 @@ $btn-border-radius-lg: 0.6rem;
 
 $btn-font-size-sm: $font-size-base * 0.875;
 $btn-font-size-lg: $font-size-base * 1.125;
-$btn-font-family: $font-family-poppins-serif;
 
 // Input Control Overrides variables //
 $input-border-color: $light;
