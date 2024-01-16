@@ -248,6 +248,10 @@ $form-select-indicator-color: $light;
 $form-select-focus-box-shadow: 0 0 0 $input-btn-focus-width
   rgba(98, 0, 238, 0.2);
 
+// Table variables //
+$table-cell-padding-y: 1rem;
+$table-cell-padding-x: 1rem;
+
 @import "~bootstrap/scss/bootstrap";
 
 @keyframes GradientSlideAnimation {
