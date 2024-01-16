@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactElement } from "react";
 import Select from "react-select";
 import { useFormContext, get, Controller } from "react-hook-form";

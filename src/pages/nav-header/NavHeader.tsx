@@ -33,8 +33,8 @@ function NavHeader(): ReactElement {
               width="45px"
               alt="HCR"
             />
-            <div className="ms-4">
-              <span className="fs-3">Hiring cum Recruitment</span>
+            <div className="ms-4 my-auto">
+              <span className="fs-5">Hiring cum Recruitment</span>
             </div>
           </div>
           <div className="d-flex align-items-stretch">

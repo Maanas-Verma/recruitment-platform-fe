@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FieldValue, FormProvider, useForm } from "react-hook-form";
 import InputControl from "../../components/InputControl";
 import ReactDropdown from "../../components/ReactDropdown";
 import Button from "../../components/Button";
@@ -7,6 +7,12 @@ import TextAreaControl from "../../components/TextAreaControl";
 
 interface TestCreationProps {
   handleClose: () => void;
+}
+
+interface TestCreationForm {
+  title: string;
+  titleDescription: string;
+  department: string;
 }
 
 /**
@@ -22,7 +28,7 @@ const TestCreation = (props: TestCreationProps): ReactElement => {
   });
   const { handleSubmit } = methods;
 
-  const handleFormSubmit = (data: any) => {
+  const handleFormSubmit = (data: FieldValue<TestCreationForm>) => {
     console.log(data);
   };
 
