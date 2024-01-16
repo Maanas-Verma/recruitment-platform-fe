@@ -1,13 +1,19 @@
 import React from "react";
 import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import NavHeader from "./pages/nav-header/NavHeader";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Learn React</h1>
-      </header>
-    </div>
+    <BrowserRouter>
+      <NavHeader />
+      <Routes>
+        <Route path="/candidates" element={""} />
+        <Route path="/departments" element={""} />
+        <Route path="/tests" element={""} />
+        <Route path="/logout" element={""} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
