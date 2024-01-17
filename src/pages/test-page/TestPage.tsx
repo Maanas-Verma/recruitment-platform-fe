@@ -10,7 +10,7 @@ import TabControl from "../../components/TabControl";
  *
  * @returns - Test component HTML with test details.
  */
-function TestSection(): ReactElement {
+function TestPage(): ReactElement {
   const [tests, setTests] = useState<TestElement[]>([]);
   const [selectedTestStatus, setSelectedTestStatus] = useState<string>("");
   const [showCreateTest, setShowCreateTest] = useState<boolean>(false);
@@ -103,4 +103,4 @@ function TestSection(): ReactElement {
   );
 }
 
-export default TestSection;
+export default TestPage;
