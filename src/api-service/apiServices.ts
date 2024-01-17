@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 import environmentData from "../environment-constant";
 import {
-  postQuestionRequest,
-  postQuestionResponse,
+  PostQuestionRequest,
+  PostQuestionResponse,
 } from "../interfaces/global.interfaces";
 
 class HrAPI {
@@ -32,8 +32,8 @@ class HrAPI {
    * @returns - Returns a promise with currency pair positions details.
    */
   postQuestion = async (
-    data: postQuestionRequest
-  ): Promise<AxiosResponse<postQuestionResponse[]>> => {
+    data: PostQuestionRequest
+  ): Promise<AxiosResponse<PostQuestionResponse[]>> => {
     return axios.post(`${this.base_url}${this.endpoints.question}`, data);
   };
 }

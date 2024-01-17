@@ -213,7 +213,7 @@ export interface CandidatesData {
 /**
  * Interface for the Post Question API Request.
  */
-export interface postQuestionRequest {
+export interface PostQuestionRequest {
   description: string;
   question_type: string;
   tags?: string[];
@@ -224,7 +224,7 @@ export interface postQuestionRequest {
 /**
  * Interface for the Post Question API Response.
  */
-export interface postQuestionResponse {
+export interface PostQuestionResponse {
   id: 11;
   description: string[];
   question_type: string[];
