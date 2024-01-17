@@ -1,4 +1,4 @@
-import { TestElement } from "../../interfaces/global.interfaces";
+import { CandidatesData, DepartmentData, TestElement } from "../../interfaces/global.interfaces";
 
 const dummyTestData: Array<TestElement> = [
   {
@@ -43,6 +43,76 @@ const dummyTestData: Array<TestElement> = [
   },
 ];
 
+const dummyDepartmentData: Array<DepartmentData> = [
+  {
+    id: "department_1",
+    name: "Quant",
+    description:
+      "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
+    departmentHead: "Aman Gupta",
+    requirements: ["java", "python", "c++"],
+  },
+  {
+    id: "department_2",
+    name: "Quant",
+    description:
+      "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
+    departmentHead: "Aman Gupta",
+    requirements: ["java", "python", "c++"],
+  },
+  {
+    id: "department_3",
+    name: "Quant",
+    description:
+      "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
+    departmentHead: "Aman Gupta",
+    requirements: ["java", "python", "c++"],
+  },
+  {
+    id: "department_4",
+    name: "Quant",
+    description:
+      "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
+    departmentHead: "Aman Gupta",
+    requirements: ["java", "python", "c++"],
+  },
+]
+
+const dummyCandidateData: Array<CandidatesData> = [
+  {
+    id: "candidate_1",
+    name: "Aman Gupta",
+    resume_url: "https://www.google.com",
+    skill_set: ["java", "python", "c++"],
+    score: "90",
+    alloted_test: "Quant",
+  },
+  {
+    id: "candidate_2",
+    name: "Aman Gupta",
+    resume_url: "https://www.google.com",
+    skill_set: ["java", "python", "c++"],
+    score: "90",
+    alloted_test: "Quant",
+  },
+  {
+    id: "candidate_3",
+    name: "Aman Gupta",
+    resume_url: "https://www.google.com",
+    skill_set: ["java", "python", "c++"],
+    score: "90",
+    alloted_test: "Quant",
+  },
+  {
+    id: "candidate_4",
+    name: "Aman Gupta",
+    resume_url: "https://www.google.com",
+    skill_set: ["java", "python", "c++"],
+    score: "90",
+    alloted_test: "Quant",
+  }
+]
+
 const FormatDate = (modifiedDate: string): string => {
   const date = new Date(modifiedDate);
   const options = {
@@ -70,6 +140,8 @@ const utils = {
   FormatDate,
   FormatKey,
   dummyTestData,
+  dummyDepartmentData,
+  dummyCandidateData,
 };
 
 export default utils;

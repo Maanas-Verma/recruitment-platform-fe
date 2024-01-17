@@ -17,7 +17,44 @@ function InputControl(props: InputControlProps): ReactElement {
     controlPlaceholder,
     validationObject,
     isHighlighted = false,
+    nonFormElement = false,
   } = props;
+
+  if (nonFormElement)
+    return (
+      <div className="form-group mb-0">
+        <div className="d-flex justify-content-between align-items-center">
+          {label && (
+            <label
+              className="ms-1 mb-1 text-muted fs-8"
+              id={`label-control-${controlKey}`}
+              htmlFor={`input-control-${controlKey}`}
+            >
+              {label}
+              <span className="text-danger">
+                {validationObject?.required ? " *" : null}
+              </span>
+            </label>
+          )}
+        </div>
+        <div className="mx-1">
+          <input
+            type={type}
+            step={type === "number" ? `${step}` : ""}
+            id={`input-control-${controlKey}`}
+            className={`form-control form-control fs-7 border
+                        ${isHighlighted ? "bg-white border-lavender " : " "}
+                      `}
+            placeholder={controlPlaceholder}
+          />
+        </div>
+
+        <div
+          className="invalid-feedback fs-8 ms-1"
+          id={`error-message-${controlKey}`}
+        ></div>
+      </div>
+    );
 
   const {
     register,

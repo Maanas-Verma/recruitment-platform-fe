@@ -50,7 +50,7 @@ function TabControl(props: TabControlProps): ReactElement {
               role="presentation"
             >
               <button
-                className={`nav-link ${
+                className={`nav-link border-0 shadow-0 bg-white ${
                   value === list.value
                     ? `fw-semibold text-${theme} active ${
                         tabType !== "tag"
