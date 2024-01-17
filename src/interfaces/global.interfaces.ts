@@ -181,9 +181,8 @@ export interface TestElement {
   id: string;
   title: string;
   description: string;
-  application: string;
-  alloted_to: string;
   status: string;
+  assigned_to: string;
   modified_at: string;
 }
 
@@ -202,4 +201,22 @@ export interface CandidatesData {
   skill_set: string[];
   score: string;
   alloted_test: string;
+}
+
+export interface postQuestionRequest {
+  description: string;
+  question_type: string;
+  tags?: string[];
+  correct_answer: string;
+  other_dependencies?: {};
+}
+
+export interface postQuestionResponse {
+  id: 11;
+  description: string[];
+  question_type: string[];
+  tags: null | string[];
+  created_at: string[];
+  correct_answer: string[];
+  other_dependencies?: {};
 }

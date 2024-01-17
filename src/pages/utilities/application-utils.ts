@@ -6,8 +6,7 @@ const dummyTestData: Array<TestElement> = [
     title: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
-    application: "+3",
-    alloted_to: "Aman Gupta",
+    assigned_to: "Aman Gupta",
     status: "Pending",
     modified_at: "2024-01-17",
   },
@@ -16,8 +15,7 @@ const dummyTestData: Array<TestElement> = [
     title: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
-    application: "+3",
-    alloted_to: "Aman Gupta",
+    assigned_to: "Aman Gupta",
     status: "Pending",
     modified_at: "2024-01-17",
   },
@@ -26,8 +24,7 @@ const dummyTestData: Array<TestElement> = [
     title: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
-    application: "+3",
-    alloted_to: "Aman Gupta",
+    assigned_to: "Aman Gupta",
     status: "Completed",
     modified_at: "2024-01-17",
   },
@@ -36,8 +33,7 @@ const dummyTestData: Array<TestElement> = [
     title: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
-    application: "+3",
-    alloted_to: "Aman Gupta",
+    assigned_to: "Aman Gupta",
     status: "Created",
     modified_at: "2024-01-17",
   },

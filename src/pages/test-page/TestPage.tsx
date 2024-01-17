@@ -4,6 +4,7 @@ import TestControlPanel from "./TestControl";
 import TestCreation from "./TestCreation";
 import { TestElement } from "../../interfaces/global.interfaces";
 import TabControl from "../../components/TabControl";
+import Button from "../../components/Button";
 
 /**
  * Test Component which loads test details table.
@@ -29,6 +30,7 @@ function TestPage(): ReactElement {
       <div className="d-flex flex-column gap-5 mx-5 my-5">
         <div id="test-header-container">
           <h4 className="fw-semibold">{"Test Panel"}</h4>
+          <Button theme={"primary"} size={"small"} name={"send question"} />
         </div>
         <div id="tab-panel">
           <TabControl
@@ -64,9 +66,8 @@ function TestPage(): ReactElement {
               <tr>
                 <th className="px-2 py-4">Title</th>
                 <th className="px-2 py-4">Title Description</th>
-                <th className="px-2 py-4">Applications</th>
-                <th className="px-2 py-4">Alloted</th>
                 <th className="px-2 py-4">Status</th>
+                <th className="px-2 py-4">Assigned</th>
                 <th className="px-2 py-4">Modified</th>
               </tr>
             </thead>
@@ -75,8 +76,6 @@ function TestPage(): ReactElement {
                 <tr key={test.id} className={"cursor-pointer"}>
                   <td className="p-2 fs-7 ">{test?.title}</td>
                   <td className="p-2 fs-7 w-50">{test?.description}</td>
-                  <td className="p-2 fs-7 ">{test?.application}</td>
-                  <td className="p-2 fs-7 ">{test?.alloted_to}</td>
                   <td className="p-2 fs-7 ">
                     <div
                       className={`rounded-pill text-center border ${
@@ -90,6 +89,7 @@ function TestPage(): ReactElement {
                       {test?.status}
                     </div>
                   </td>
+                  <td className="p-2 fs-7 ">{test?.assigned_to}</td>
                   <td className="p-2 fs-7 ">
                     {utils.FormatDate(test?.modified_at)}
                   </td>
