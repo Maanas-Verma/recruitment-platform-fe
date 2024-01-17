@@ -1,4 +1,4 @@
-import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import utils from "../utilities/application-utils";
 import TechnicalSideBar from "./TechnicalSideBar";
 import TechnicalSection from "./TechnicalSection";
