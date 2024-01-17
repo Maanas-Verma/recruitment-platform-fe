@@ -5,7 +5,7 @@ phases:
       nodejs: 16.x 
     commands:
       - echo Installing NPM dependencies...
-      - npm ci
+      - npm install
       - echo Installed NPM dependencies...
   build:
     commands:
