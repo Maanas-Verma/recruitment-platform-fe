@@ -1,5 +1,5 @@
 const environmentData = {
-  url: process.env.BACKEND_URL,
+  url: process.env.REACT_APP_BACKEND_URL,
 };
 
 export default environmentData;

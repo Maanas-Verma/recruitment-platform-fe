@@ -15,15 +15,8 @@ class HrAPI {
       question: "/test_app/question/",
     };
 
-    this.base_url = `${environmentData.url}`;
+    this.base_url = `${environmentData.url}`
   }
-
-  getHeaders = () => {
-    const headers = {
-      "Content-Type": "application/json",
-    };
-    return headers;
-  };
 
   /**
    * Makes the API call to POST all questions.

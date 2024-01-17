@@ -5,6 +5,7 @@ import TestCreation from "./TestCreation";
 import { TestElement } from "../../interfaces/global.interfaces";
 import TabControl from "../../components/TabControl";
 import Button from "../../components/Button";
+import apiService from "../../api-service/apiServices";
 
 /**
  * Test Component which loads test details table.
@@ -21,6 +22,20 @@ function TestPage(): ReactElement {
     setValue(newValue);
   };
 
+  const handleSendQuestion = async () => {
+    const data = await apiService.postQuestion({
+      description: "This is question testing.",
+      question_type: "MCQ",
+      tags: ["tag1", "tag2"],
+      correct_answer: "A",
+      other_dependencies: {
+        "A": "This is option A",
+        "B": "This is option B",
+      }
+    })
+    console.log(data);
+  }
+
   useEffect(() => {
     setTests(utils.dummyTestData);
   }, [selectedTestStatus, showCreateTest]);
@@ -30,7 +45,11 @@ function TestPage(): ReactElement {
       <div className="d-flex flex-column gap-5 mx-5 my-5">
         <div id="test-header-container">
           <h4 className="fw-semibold">{"Test Panel"}</h4>
-          <Button theme={"primary"} size={"small"} name={"send question"} />
+          <Button 
+          theme={"primary"} 
+          size={"small"} 
+          name={"send question"} 
+          onClick={()=>handleSendQuestion()}/>
         </div>
         <div id="tab-panel">
           <TabControl
