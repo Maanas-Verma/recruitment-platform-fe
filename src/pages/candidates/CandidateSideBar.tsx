@@ -29,7 +29,7 @@ function CandidateSideBar(props: CandidateSectionProps): ReactElement {
         <Button
           size="medium"
           theme="primary"
-          name="Create"
+          name="Add"
           buttonId="create-candidate"
           onClick={() => setShowCreateCandidate(true)}
           extraClass="fw-bold fs-7"
@@ -45,16 +45,16 @@ function CandidateSideBar(props: CandidateSectionProps): ReactElement {
         <InputControl type={"number"} controlKey={"hello"} nonFormElement />
       </div>
       <DropdownControl
-        controlKey={"department-selection"}
+        controlKey={"department_selection"}
         defaultValue={{ name: "Department", value: "" }}
         theme={"primary"}
         options={[
           {
             name: "Innovation Labs",
-            value: "innovation-labs",
+            value: "innovation_labs",
           },
           { name: "Finanace", value: "finance" },
-          { name: "Start up", value: "start-up" },
+          { name: "Start up", value: "start_up" },
         ]}
         extraClass="bg-primary text-white fw-bold fs-7"
         handleOnChange={handleDepartmentOnChange}

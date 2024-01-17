@@ -36,14 +36,14 @@ const CandidateCreation = (props: CandidateCreationProps): ReactElement => {
     <div
       className="modal modal show fade d-block bg-dark bg-opacity-75"
       tabIndex={-1}
-      aria-labelledby="deals-order"
+      aria-labelledby="candidate-creation"
       aria-hidden="true"
     >
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header bg-secondary-dark rounded-top ps-4 pe-2 py-2">
             <h6 className="modal-title text-white" id="deals-order">
-              Create Candidate
+              Add Candidate
             </h6>
             <Button
               theme={"secondary-dark"}
