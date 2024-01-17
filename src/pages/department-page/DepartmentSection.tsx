@@ -23,7 +23,7 @@ function DepartmentSection(props: DepartmentSectionProps): ReactElement {
 
   return (
     <div>
-      <SearchBar controlPlaceholder="Search Department" key="department" />
+      <SearchBar controlPlaceholder="Search Department" id="department" />
       <div className="my-5">
         <Button
           disabled={selectedDepartment.length === 0}

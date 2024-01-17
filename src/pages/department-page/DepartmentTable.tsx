@@ -40,7 +40,7 @@ function DepartmentTable(props: {
         </thead>
         <tbody>
           {allDepartments.map((department: DepartmentData) => (
-            <tr className={"cursor-pointer"}>
+            <tr className={"cursor-pointer"} key={`row-${department.id}`}>
               <td className="p-2">
                 <input
                   type="checkbox"
@@ -56,7 +56,7 @@ function DepartmentTable(props: {
               <td className="p-2 fs-7 ">
                 {department?.requirements.map((skill) => {
                   return (
-                    <span className="badge bg-secondary me-1">{skill}</span>
+                    <span className="badge bg-secondary me-1" key={`skill-${skill}`}>{skill}</span>
                   );
                 })}
               </td>

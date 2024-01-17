@@ -41,7 +41,7 @@ function CandidateTable(props: {
         </thead>
         <tbody>
           {allCandidates.map((candidates: CandidatesData) => (
-            <tr className={"cursor-pointer"}>
+            <tr className={"cursor-pointer"} key={`candidate-${candidates.id}`}>
               <td className="p-2">
                 <input
                   type="checkbox"
@@ -52,9 +52,9 @@ function CandidateTable(props: {
               <td className="p-2 fs-7 ">{candidates?.name}</td>
               <td className="p-2 fs-7 w-50">{candidates?.resume_url}</td>
               <td className="p-2 fs-7 ">
-                {candidates?.skill_set.map((candidate) => {
+                {candidates?.skill_set.map((skill) => {
                   return (
-                    <span className="badge bg-secondary me-1">{candidate}</span>
+                    <span className="badge bg-secondary me-1" key={`skill-${skill}`}>{skill}</span>
                   );
                 })}
               </td>

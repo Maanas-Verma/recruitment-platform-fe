@@ -4,7 +4,7 @@ import { InputControlProps } from "../interfaces/global.interfaces";
 
 interface SearchBarProps {
   controlPlaceholder: string;
-  key: string;
+  id: string;
 }
 
 /**
@@ -16,7 +16,7 @@ interface SearchBarProps {
 function SearchBar(props: SearchBarProps): ReactElement {
   const {
     controlPlaceholder,
-    key
+    id
   } = props;
 
   return (
@@ -26,7 +26,7 @@ function SearchBar(props: SearchBarProps): ReactElement {
       <div className="mx-1">
         <input
           type={"text"}
-          id={`input-control-${key}`}
+          id={`input-control-${id}`}
           className={"form-control form-control fs-7"}
           placeholder={controlPlaceholder}
         />
