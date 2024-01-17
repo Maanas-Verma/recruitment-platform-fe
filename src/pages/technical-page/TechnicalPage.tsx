@@ -1,7 +1,7 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import utils from "../utilities/application-utils";
 import TechnicalSideBar from "./TechnicalSideBar";
-// import TechnicalSection from "./TechnicalSection";
+import TechnicalSection from "./TechnicalSection";
 import { TechnicalData } from "../../interfaces/global.interfaces";
 
 /**
@@ -11,6 +11,11 @@ import { TechnicalData } from "../../interfaces/global.interfaces";
  */
 function TechnicalPage(): ReactElement {
   const [allTechnical, setAllTechnical] = useState<TechnicalData[]>([]);
+  const [filterValue, setFilterValue] = useState<string>("Pending");
+
+  const handleFilterChange = (event: React.SyntheticEvent, value: string) => {
+    setFilterValue(value);
+  };
 
   useEffect(() => {
     setAllTechnical(utils.dummyTechnicalData);
@@ -19,13 +24,16 @@ function TechnicalPage(): ReactElement {
   return (
     <div className="container-fluid row p-0 m-0" style={{ height: "94vh" }}>
       <div className="col-2 p-0 align-items-stretch d-flex">
-        <div className="border border-1 rounded-2 m-4 me-2 align-items-stretch w-100 p-5">
-          <TechnicalSideBar />
+        <div className="border border-1 rounded-2 m-4 me-2 align-items-stretch w-100 p-5 bg-white">
+          <TechnicalSideBar
+            filterValue={filterValue}
+            handleFilterChange={handleFilterChange}
+          />
         </div>
       </div>
       <div className="col-10 p-0 align-items-stretch d-flex">
-        <div className="border border-1 rounded-2 m-4 ms-2 align-items-stretch w-100 p-5">
-          {/* <TechnicalSection allTechnical={allTechnical} /> */}
+        <div className="border border-1 rounded-2 m-4 ms-2 align-items-stretch w-100 p-5 bg-white">
+          <TechnicalSection allTechnical={allTechnical} />
         </div>
       </div>
     </div>

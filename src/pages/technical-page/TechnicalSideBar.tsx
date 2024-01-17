@@ -1,26 +1,36 @@
-import { ReactElement, useState } from "react";
-import Button from "../../components/Button";
+import { ReactElement } from "react";
+import TabControl from "../../components/TabControl";
+
+interface TechnicalSideBarProps {
+  filterValue: string;
+  handleFilterChange: (event: React.SyntheticEvent, innerValue: string) => void;
+}
 
 /**
  * Technical SideBar Component which loads side panel.
  *
  * @returns - Technical sidebar component return side panel.
  */
-function TechnicalSideBar(): ReactElement {
+function TechnicalSideBar(props: TechnicalSideBarProps): ReactElement {
+  const { filterValue, handleFilterChange } = props;
+
   return (
     <div>
-      <div className="fs-5">Technical Page</div>
+      <div className="fs-5 fw-semibold">Tech Dashboard</div>
       <div className="mt-5">
-        <Button
-          size="medium"
-          theme="primary"
-          name="Create Technical"
-          buttonId="create-technical"
-          extraClass="fw-bold fs-7"
-          icon="plus-lg"
-          iconPlacement="start"
-          extraIconClass="h6"
-        ></Button>
+        <div className="fw-light">Filters:</div>
+        <div className="p-2">
+          <TabControl
+            value={filterValue}
+            alignTab={"vertical"}
+            tabList={[
+              { label: "Pending", value: "Pending" },
+              { label: "Created", value: "Created" },
+              { label: "Completed", value: "Completed" },
+            ]}
+            handleTabChange={handleFilterChange}
+          />
+        </div>
       </div>
     </div>
   );
