@@ -2,7 +2,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 20.x 
+      nodejs: 16.x 
     commands:
       - echo Installing NPM dependencies...
       - npm ci
