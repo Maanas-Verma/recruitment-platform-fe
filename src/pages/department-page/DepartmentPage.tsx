@@ -21,7 +21,7 @@ function DepartmentPage(): ReactElement {
   return (
     <div className="container-fluid row p-0 m-0" style={{ height: "94vh" }}>
       <div className="col-2 p-0 align-items-stretch d-flex">
-        <div className="border border-1 rounded-2 m-4 me-2 align-items-stretch w-100 p-5">
+        <div className="border border-1 rounded-2 m-4 me-2 align-items-stretch w-100 p-5 bg-white">
           <DepartmentSideBar
             showCreateDepartment={showCreateDepartment}
             setShowCreateDepartment={setShowCreateDepartment}
@@ -29,7 +29,7 @@ function DepartmentPage(): ReactElement {
         </div>
       </div>
       <div className="col-10 p-0 align-items-stretch d-flex">
-        <div className="border border-1 rounded-2 m-4 ms-2 align-items-stretch w-100 p-5">
+        <div className="border border-1 rounded-2 m-4 ms-2 align-items-stretch w-100 p-5 bg-white">
           <DepartmentSection allDepartments={allDepartments} />
         </div>
       </div>
