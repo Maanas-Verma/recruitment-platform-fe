@@ -1,4 +1,4 @@
-import { DepartmentData, TestElement } from "../../interfaces/global.interfaces";
+import { CandidatesData, DepartmentData, TestElement } from "../../interfaces/global.interfaces";
 
 const dummyTestData: Array<TestElement> = [
   {
@@ -78,6 +78,41 @@ const dummyDepartmentData: Array<DepartmentData> = [
   },
 ]
 
+const dummyCandidateData: Array<CandidatesData> = [
+  {
+    id: "candidate_1",
+    name: "Aman Gupta",
+    resume_url: "https://www.google.com",
+    skill_set: ["java", "python", "c++"],
+    score: "90",
+    alloted_test: "Quant",
+  },
+  {
+    id: "candidate_2",
+    name: "Aman Gupta",
+    resume_url: "https://www.google.com",
+    skill_set: ["java", "python", "c++"],
+    score: "90",
+    alloted_test: "Quant",
+  },
+  {
+    id: "candidate_3",
+    name: "Aman Gupta",
+    resume_url: "https://www.google.com",
+    skill_set: ["java", "python", "c++"],
+    score: "90",
+    alloted_test: "Quant",
+  },
+  {
+    id: "candidate_4",
+    name: "Aman Gupta",
+    resume_url: "https://www.google.com",
+    skill_set: ["java", "python", "c++"],
+    score: "90",
+    alloted_test: "Quant",
+  }
+]
+
 const FormatDate = (modifiedDate: string): string => {
   const date = new Date(modifiedDate);
   const options = {
@@ -106,6 +141,7 @@ const utils = {
   FormatKey,
   dummyTestData,
   dummyDepartmentData,
+  dummyCandidateData,
 };
 
 export default utils;

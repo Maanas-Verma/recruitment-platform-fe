@@ -17,7 +17,7 @@ function DepartmentSection(props: DepartmentSectionProps): ReactElement {
   const { allDepartments } = props;
   const [selectedDepartment, setSelectedDepartment] = useState<string[]>([]);
 
-  const handleCancelButton = () => {
+  const handleRemoveButton = () => {
     console.log("delete ", selectedDepartment);
   };
 
@@ -29,9 +29,9 @@ function DepartmentSection(props: DepartmentSectionProps): ReactElement {
           disabled={selectedDepartment.length === 0}
           size="medium"
           theme="primary"
-          name="Cancel Order"
-          buttonId="cancel-order"
-          onClick={handleCancelButton}
+          name="Remove Department"
+          buttonId="remove-department"
+          onClick={handleRemoveButton}
         ></Button>
       </div>
       <DepartmentTable

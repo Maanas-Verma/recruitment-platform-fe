@@ -46,6 +46,7 @@ export interface InputControlProps {
   controlPlaceholder?: string;
   validationObject?: RegisterOptions;
   isHighlighted?: boolean;
+  nonFormElement?: boolean;
 }
 
 /**
@@ -192,4 +193,13 @@ export interface DepartmentData {
   description: string;
   departmentHead: string;
   requirements: string[];
+}
+
+export interface CandidatesData {
+  id: string;
+  name: string;
+  resume_url: string;
+  skill_set: string[];
+  score: string;
+  alloted_test: string;
 }
