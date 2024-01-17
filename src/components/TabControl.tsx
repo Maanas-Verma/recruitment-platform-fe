@@ -7,7 +7,7 @@ interface TabControlProps {
   tabList: TabList[];
   theme?: string;
   isDisabled?: boolean;
-  alignTab?: "left" | "right";
+  alignTab?: "left" | "right" | "vertical";
   tabType?: "linear" | "tag";
   handleTabChange: (event: React.SyntheticEvent, innerValue: string) => void;
 }
@@ -37,7 +37,11 @@ function TabControl(props: TabControlProps): ReactElement {
     <>
       <ul
         className={`nav ${tabType === "tag" ? "nav-tabs" : ""} ${
-          alignTab === "right" ? "justify-content-end" : ""
+          alignTab === "right"
+            ? "justify-content-end"
+            : alignTab === "vertical"
+            ? "flex-column align-items-center"
+            : ""
         }`}
         id="tab-container"
         role="tablist"

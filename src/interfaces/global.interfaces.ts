@@ -186,6 +186,13 @@ export interface TestElement {
   modified_at: string;
 }
 
+export interface TechnicalData extends TestElement {
+  questions: {};
+  created_by: string;
+  created_at: string;
+  conducted_on: string;
+}
+
 export interface DepartmentData {
   id: string;
   name: string;
@@ -203,7 +210,10 @@ export interface CandidatesData {
   alloted_test: string;
 }
 
-export interface postQuestionRequest {
+/**
+ * Interface for the Post Question API Request.
+ */
+export interface PostQuestionRequest {
   description: string;
   question_type: string;
   tags?: string[];
@@ -211,7 +221,10 @@ export interface postQuestionRequest {
   other_dependencies?: {};
 }
 
-export interface postQuestionResponse {
+/**
+ * Interface for the Post Question API Response.
+ */
+export interface PostQuestionResponse {
   id: 11;
   description: string[];
   question_type: string[];
