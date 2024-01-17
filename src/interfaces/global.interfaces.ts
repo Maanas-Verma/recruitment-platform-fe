@@ -185,3 +185,11 @@ export interface TestElement {
   status: string;
   modified_at: string;
 }
+
+export interface DepartmentData {
+  id: string;
+  name: string;
+  description: string;
+  departmentHead: string;
+  requirements: string[];
+}

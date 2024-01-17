@@ -1,4 +1,4 @@
-import { TestElement } from "../../interfaces/global.interfaces";
+import { DepartmentData, TestElement } from "../../interfaces/global.interfaces";
 
 const dummyTestData: Array<TestElement> = [
   {
@@ -43,6 +43,41 @@ const dummyTestData: Array<TestElement> = [
   },
 ];
 
+const dummyDepartmentData: Array<DepartmentData> = [
+  {
+    id: "department_1",
+    name: "Quant",
+    description:
+      "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
+    departmentHead: "Aman Gupta",
+    requirements: ["java", "python", "c++"],
+  },
+  {
+    id: "department_2",
+    name: "Quant",
+    description:
+      "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
+    departmentHead: "Aman Gupta",
+    requirements: ["java", "python", "c++"],
+  },
+  {
+    id: "department_3",
+    name: "Quant",
+    description:
+      "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
+    departmentHead: "Aman Gupta",
+    requirements: ["java", "python", "c++"],
+  },
+  {
+    id: "department_4",
+    name: "Quant",
+    description:
+      "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
+    departmentHead: "Aman Gupta",
+    requirements: ["java", "python", "c++"],
+  },
+]
+
 const FormatDate = (modifiedDate: string): string => {
   const date = new Date(modifiedDate);
   const options = {
@@ -70,6 +105,7 @@ const utils = {
   FormatDate,
   FormatKey,
   dummyTestData,
+  dummyDepartmentData,
 };
 
 export default utils;
