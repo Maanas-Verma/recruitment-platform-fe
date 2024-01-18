@@ -53,13 +53,13 @@ const QuestionCreation = (props: QuestionCreationProps): ReactElement => {
     };
 
     Object.keys(data).forEach((key) => {
-      if (key === "choice_a") {
+      if (key === "A") {
         parsedData.other_dependencies[key] = data[key];
-      } else if (key === "choice_b") {
+      } else if (key === "B") {
         parsedData.other_dependencies[key] = data[key];
-      } else if (key === "choice_c") {
+      } else if (key === "C") {
         parsedData.other_dependencies[key] = data[key];
-      } else if (key === "choice_d") {
+      } else if (key === "D") {
         parsedData.other_dependencies[key] = data[key];
       } else {
         parsedData[key] = data[key];
@@ -122,7 +122,7 @@ const QuestionCreation = (props: QuestionCreationProps): ReactElement => {
                     <InputControl
                       label={"Question Choice A"}
                       type={"text"}
-                      controlKey={"choice_a"}
+                      controlKey={"A"}
                       validationObject={{
                         required:
                           "Please fill question choice field as required",
@@ -131,7 +131,7 @@ const QuestionCreation = (props: QuestionCreationProps): ReactElement => {
                     <InputControl
                       label={"Question Choice B"}
                       type={"text"}
-                      controlKey={"choice_b"}
+                      controlKey={"B"}
                       validationObject={{
                         required:
                           "Please fill question choice field as required",
@@ -142,7 +142,7 @@ const QuestionCreation = (props: QuestionCreationProps): ReactElement => {
                     <InputControl
                       label={"Question Choice C"}
                       type={"text"}
-                      controlKey={"choice_c"}
+                      controlKey={"C"}
                       validationObject={{
                         required:
                           "Please fill question choice field as required",
@@ -151,7 +151,7 @@ const QuestionCreation = (props: QuestionCreationProps): ReactElement => {
                     <InputControl
                       label={"Question Choice D"}
                       type={"text"}
-                      controlKey={"choice_d"}
+                      controlKey={"D"}
                       validationObject={{
                         required:
                           "Please fill question choice field as required",

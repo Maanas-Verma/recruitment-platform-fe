@@ -59,13 +59,13 @@ function QuestionPanelLeft(props: QuestionPanelLeftProps): ReactElement {
                     <div className="w-50">
                       <span className="me-2">A.</span>
                       <span className="me-2">
-                        {JSON.stringify(question?.other_dependencies?.choice_a)}
+                        {JSON.stringify(question?.other_dependencies?.A)}
                       </span>
                     </div>
                     <div className="w-50">
                       <span className="me-2">B.</span>
                       <span className="me-2">
-                        {JSON.stringify(question?.other_dependencies?.choice_b)}
+                        {JSON.stringify(question?.other_dependencies?.B)}
                       </span>
                     </div>
                   </div>
@@ -73,13 +73,13 @@ function QuestionPanelLeft(props: QuestionPanelLeftProps): ReactElement {
                     <div className="w-50">
                       <span className="me-2">C.</span>
                       <span className="me-2">
-                        {JSON.stringify(question?.other_dependencies?.choice_c)}
+                        {JSON.stringify(question?.other_dependencies?.C)}
                       </span>
                     </div>
                     <div className="w-50">
                       <span className="me-2">D.</span>
                       <span className="me-2">
-                        {JSON.stringify(question?.other_dependencies?.choice_d)}
+                        {JSON.stringify(question?.other_dependencies?.D)}
                       </span>
                     </div>
                   </div>

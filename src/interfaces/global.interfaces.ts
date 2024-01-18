@@ -239,10 +239,10 @@ export interface QuestionCreationForm {
   description: string;
   question_type: string;
   other_dependencies: {
-    choice_a: string;
-    choice_b: string;
-    choice_c: string;
-    choice_d: string;
+    A: string;
+    B: string;
+    C: string;
+    D: string;
   };
   correct_answer: string;
   created_at: string;

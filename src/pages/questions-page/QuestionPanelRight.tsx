@@ -21,10 +21,10 @@ function QuestionPanelRight(props: QuestionPanelRightProps): ReactElement {
     description: "",
     question_type: "",
     other_dependencies: {
-      choice_a: "",
-      choice_b: "",
-      choice_c: "",
-      choice_d: "",
+      A: "",
+      B: "",
+      C: "",
+      D: "",
     },
     correct_answer: "",
     created_at: "",
@@ -90,13 +90,13 @@ function QuestionPanelRight(props: QuestionPanelRightProps): ReactElement {
                     <div className="w-50">
                       <span className="me-2">A.</span>
                       <span className="me-2">
-                        {JSON.stringify(question?.other_dependencies?.choice_a)}
+                        {question?.other_dependencies?.A}
                       </span>
                     </div>
                     <div className="w-50">
                       <span className="me-2">B.</span>
                       <span className="me-2">
-                        {JSON.stringify(question?.other_dependencies?.choice_b)}
+                        {question?.other_dependencies?.B}
                       </span>
                     </div>
                   </div>
@@ -104,13 +104,13 @@ function QuestionPanelRight(props: QuestionPanelRightProps): ReactElement {
                     <div className="w-50">
                       <span className="me-2">C.</span>
                       <span className="me-2">
-                        {JSON.stringify(question?.other_dependencies?.choice_c)}
+                        {question?.other_dependencies?.C}
                       </span>
                     </div>
                     <div className="w-50">
                       <span className="me-2">D.</span>
                       <span className="me-2">
-                        {JSON.stringify(question?.other_dependencies?.choice_d)}
+                        {question?.other_dependencies?.D}
                       </span>
                     </div>
                   </div>
