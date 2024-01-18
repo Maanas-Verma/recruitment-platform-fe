@@ -31,7 +31,7 @@ function CandidateSection(props: CandidateSectionProps): ReactElement {
       <div className="my-5">
         <Button
           disabled={selectedCandidates.length === 0}
-          size="medium"
+          size="small"
           theme="primary"
           name="Remove Candidate"
           buttonId="remove-candidate"

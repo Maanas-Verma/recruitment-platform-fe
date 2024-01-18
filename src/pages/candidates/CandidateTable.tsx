@@ -35,9 +35,9 @@ function CandidateTable(props: {
             <th className="px-2 py-4">Select</th>
             <th className="px-2 py-4">Name</th>
             <th className="px-2 py-4">Resume</th>
-            <th className="px-2 py-4">skill_set</th>
-            <th className="px-2 py-4">score</th>
-            <th className="px-2 py-4">alloted_test</th>
+            <th className="px-2 py-4">Skill Set</th>
+            <th className="px-2 py-4">Score</th>
+            <th className="px-2 py-4">Assigned Test</th>
           </tr>
         </thead>
         <tbody>
