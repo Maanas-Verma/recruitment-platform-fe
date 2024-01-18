@@ -15,6 +15,9 @@ function Home(): ReactElement {
   });
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isTestEnabled, setIsTestEnabled] = useState<boolean>(true); // change this to false
+  // TODO: set this after fetching from api
+  
   const navigate = useNavigate();
 
   const imagePath = "/logo.png";
@@ -41,8 +44,8 @@ function Home(): ReactElement {
 
   const handleEnterTheTest = () => {
     console.log("Enter the test clicked");
-    navigate('/candidate-test');
-  }
+    navigate("/candidate-test");
+  };
 
   // const tableData = axios.get("http://13.233.194.145:8000/user/candidate/").then((resp)=>{
   //   const id = resp.data.alloted_set;
@@ -79,13 +82,49 @@ function Home(): ReactElement {
 
   return (
     <div className="d-flex flex-row mx-0 mt-6">
-      <div>
+      <div className="d-flex  p-2 col-4">
         <img src={imagePath} alt=""></img>
       </div>
-      <div className="d-flex flex-column">
-        <div>Hi, {userName}</div>
-        <div>Welcome to {companyName}</div>
-        <div></div>
+      <div className="d-flex col-8 flex-column">
+        <div className="d-flex flex-column">
+          <div>Hi, {userName}</div>
+          <div>Welcome to {companyName}</div>
+        </div>
+        <div>
+          <FormProvider {...methods}>
+            <form>
+              <label htmlFor="file-upload">
+                Upload Your Resume
+                <input
+                  type="file"
+                  id="file-upload"
+                  name="asd"
+                  onChange={handleFileChange}
+                />
+              </label>
+
+              <Button
+                theme=""
+                size="small"
+                name="Submit"
+                extraClass="btn btn-outline-dark btn-lg"
+                onClick={handleFileUpload}
+              />
+            </form>
+          </FormProvider>
+        </div>
+
+        <div>
+          <Button
+            size="large"
+            theme=""
+            name="Enter The Test"
+            disabled = {!isTestEnabled}
+            buttonId="enter-the-test"
+            extraClass="btn btn-outline-dark btn-lg"
+            onClick={handleEnterTheTest}
+          ></Button>
+        </div>
         <div>
           <Button
             size="large"
@@ -97,29 +136,6 @@ function Home(): ReactElement {
           ></Button>
         </div>
       </div>
-      <FormProvider {...methods}>
-        <form>
-          <label htmlFor="file-upload">Upload Your Resume</label>
-          <input type="file" id="file-upload" onChange={handleFileChange} />
-          <button
-            type="button"
-            onClick={handleFileUpload}
-            className="btn btn-primary"
-          >
-            Submit
-          </button>
-        </form>
-      </FormProvider>
-      <div>
-          <Button
-            size="large"
-            theme=""
-            name="Enter The Test"
-            buttonId="enter-the-test"
-            extraClass="btn btn-outline-dark btn-lg"
-            onClick={handleEnterTheTest}
-          ></Button>
-        </div>
     </div>
   );
 }
