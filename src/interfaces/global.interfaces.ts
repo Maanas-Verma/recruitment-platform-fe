@@ -218,36 +218,26 @@ export interface CandidatesData {
 export interface PostQuestionRequest {
   description: string;
   question_type: string;
-  tags?: string[];
+  tags?: string[] | null;
   correct_answer: string;
-  other_dependencies?: {};
+  other_dependencies: {
+    [key: string]: string;
+  };
 }
 
 /**
  * Interface for the Post Question API Response.
  */
 export interface PostQuestionResponse {
-  id: 11;
-  description: string[];
-  question_type: string[];
-  tags: null | string[];
-  created_at: string[];
-  correct_answer: string[];
-  other_dependencies?: {};
-}
-
-export interface QuestionCreationForm {
   id: string;
   description: string;
   question_type: string;
-  other_dependencies: {
-    A: string;
-    B: string;
-    C: string;
-    D: string;
-  };
-  correct_answer: string;
+  tags?: string[] | null;
   created_at: string;
+  correct_answer: string;
+  other_dependencies?: {
+    [key: string]: string;
+  };
 }
 
 export interface GetTestResponse extends TestElement {
