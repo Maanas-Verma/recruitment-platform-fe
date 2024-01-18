@@ -1,19 +1,23 @@
 import axios from "axios";
 import { ReactElement, useEffect, useState } from "react";
 
-interface CandidateResultData {
-  [key: string]: {
-    question: string;
-    options: {
-      [key: string]: string;
-    };
-    selectedOptionKey: string;
-    correctOptionKey: string;
+interface QuestionData {
+  id: string;
+  description: string;
+  other_dependencies: {
+    [key: string]: string;
   };
+  correct_answer: string;
+  selected_answer: string;
+}
+
+interface FetchedResultData {
+  candidate_id: string;
+  data: QuestionData[];
 }
 
 function CandidateResult(): ReactElement {
-  const [resultData, setResultData] = useState<any>(null);
+  const [resultData, setResultData] = useState<FetchedResultData | null>(null);
   const TestName = "React Test";
   const candidateId = 1;
 
@@ -55,8 +59,7 @@ function CandidateResult(): ReactElement {
           </thead>
           <tbody>
             {resultData &&
-              resultData.questions &&
-              resultData.questions.map((questionData: any) => {
+              resultData.data.map((questionData: any) => {
                 const { id, description, other_dependencies, correct_answer, selected_answer } =
                   questionData;
 
