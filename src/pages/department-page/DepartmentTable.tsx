@@ -14,7 +14,7 @@ function DepartmentTable(props: {
   const { selectedDepartment, allDepartments, setSelectedDepartment } = props;
 
   const handleCheckboxChange = (id: string) => {
-    const updatedSelectedDepartment: string[] = [...selectedDepartment]
+    const updatedSelectedDepartment: string[] = [...selectedDepartment];
     if (updatedSelectedDepartment.includes(id)) {
       const index = updatedSelectedDepartment.indexOf(id);
       updatedSelectedDepartment.splice(index, 1);
@@ -24,7 +24,7 @@ function DepartmentTable(props: {
     if (updatedSelectedDepartment !== undefined) {
       setSelectedDepartment(updatedSelectedDepartment);
     }
-  }
+  };
 
   return (
     <div className="table-responsive rounded-2 overflow-auto mt-5">
@@ -35,7 +35,7 @@ function DepartmentTable(props: {
             <th className="px-2 py-4">Name</th>
             <th className="px-2 py-4">Description</th>
             <th className="px-2 py-4">Head</th>
-            <th className="px-2 py-4">requirements</th>
+            <th className="px-2 py-4">Requirements</th>
           </tr>
         </thead>
         <tbody>
@@ -45,20 +45,25 @@ function DepartmentTable(props: {
                 <input
                   type="checkbox"
                   checked={selectedDepartment.includes(department.id)}
-                  onChange={() =>
-                    handleCheckboxChange(department?.id)
-                  }
+                  onChange={() => handleCheckboxChange(department?.id)}
                 />
               </td>
               <td className="p-2 fs-7 ">{department?.name}</td>
               <td className="p-2 fs-7 w-50">{department?.description}</td>
               <td className="p-2 fs-7 ">{department?.departmentHead}</td>
               <td className="p-2 fs-7 ">
-                {department?.requirements.map((skill) => {
-                  return (
-                    <span className="badge bg-secondary me-1" key={`skill-${skill}`}>{skill}</span>
-                  );
-                })}
+                <div className="d-flex flex-wrap flex-row gap-1">
+                  {department?.requirements.map((skill) => {
+                    return (
+                      <span
+                        className="badge rounded-pill bg-primary px-2 py-1"
+                        key={`skill-${skill}`}
+                      >
+                        {skill}
+                      </span>
+                    );
+                  })}
+                </div>
               </td>
             </tr>
           ))}

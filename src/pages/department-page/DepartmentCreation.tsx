@@ -43,7 +43,7 @@ const DepartmentCreation = (props: DepartmentCreationProps): ReactElement => {
         <div className="modal-content">
           <div className="modal-header bg-secondary-dark rounded-top ps-4 pe-2 py-2">
             <h6 className="modal-title text-white" id="deals-order">
-              Create Department
+              Add Department
             </h6>
             <Button
               theme={"secondary-dark"}
@@ -71,12 +71,14 @@ const DepartmentCreation = (props: DepartmentCreationProps): ReactElement => {
                   </div>
                   <div>
                     <TextAreaControl
-                      rows={5}
-                      label={"Title Description"}
-                      controlKey={"title-description"}
-                      controlPlaceholder={"Enter detail here..."}
+                      rows={3}
+                      label={"Description"}
+                      controlKey={"description"}
+                      controlPlaceholder={
+                        "Enter department description here..."
+                      }
                       validationObject={{
-                        required: "Please fill title description as required",
+                        required: "Please fill description as required",
                       }}
                     />
                   </div>
@@ -93,6 +95,16 @@ const DepartmentCreation = (props: DepartmentCreationProps): ReactElement => {
                       ]}
                       validationObject={{
                         required: "Please select department as required",
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <InputControl
+                      label={"Requirements"}
+                      type={"text"}
+                      controlKey={"requirements"}
+                      validationObject={{
+                        required: "Please fill requirements as required",
                       }}
                     />
                   </div>

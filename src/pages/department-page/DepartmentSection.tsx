@@ -26,11 +26,12 @@ function DepartmentSection(props: DepartmentSectionProps): ReactElement {
       <SearchBar
         controlPlaceholder="Search Department"
         controlKey="department"
+        extraClass="fs-7 p-3 rounded-5"
       />
       <div className="my-5">
         <Button
           disabled={selectedDepartment.length === 0}
-          size="medium"
+          size="small"
           theme="primary"
           name="Remove Department"
           buttonId="remove-department"
