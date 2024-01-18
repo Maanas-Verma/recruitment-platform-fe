@@ -5,6 +5,7 @@ import Button from "../../components/Button";
 interface DepartmentSectionProps {
   showCreateDepartment: boolean;
   setShowCreateDepartment: (value: boolean) => void;
+  reloadDepartmentAPI: () => void;
 }
 
 /**
@@ -13,7 +14,7 @@ interface DepartmentSectionProps {
  * @returns - Test component HTML with test details.
  */
 function DepartmentSideBar(props: DepartmentSectionProps): ReactElement {
-  const { showCreateDepartment, setShowCreateDepartment } = props;
+  const { showCreateDepartment, setShowCreateDepartment, reloadDepartmentAPI } = props;
 
   return (
     <div>
@@ -34,6 +35,7 @@ function DepartmentSideBar(props: DepartmentSectionProps): ReactElement {
       {showCreateDepartment ? (
         <DepartmentCreation
           handleClose={() => setShowCreateDepartment(false)}
+          reloadDepartmentAPI={reloadDepartmentAPI}
         />
       ) : (
         ""

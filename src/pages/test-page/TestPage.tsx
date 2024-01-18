@@ -1,9 +1,5 @@
 import { ReactElement, useEffect, useState } from "react";
-import utils from "../utilities/application-utils";
-import TestCreation from "./TestCreation";
 import { TestElement } from "../../interfaces/global.interfaces";
-import TabControl from "../../components/TabControl";
-import Button from "../../components/Button";
 import apiService from "../../api-service/apiServices";
 import TestSection from "./TestSection";
 import TestSideBar from "./TestSideBar";
@@ -15,12 +11,16 @@ import TestSideBar from "./TestSideBar";
  */
 function TestPage(): ReactElement {
   const [allTests, setAllTests] = useState<TestElement[]>([]);
-  const [selectedTestStatus, setSelectedTestStatus] = useState<string>("");
   const [showCreateTest, setShowCreateTest] = useState<boolean>(false);
 
+  const handleGetTest = async () => {
+    const getAllTests = await apiService.getTest();
+    setAllTests(getAllTests.data);
+  }
+
   useEffect(() => {
-    setAllTests(utils.dummyTestData);
-  }, [selectedTestStatus, showCreateTest]);
+    handleGetTest();
+  },[]);
 
   return (
     <div className="container-fluid row p-0 m-0" style={{ height: "94vh" }}>

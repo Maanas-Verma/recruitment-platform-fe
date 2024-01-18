@@ -8,7 +8,7 @@ import {
 const dummyTestData: Array<TestElement> = [
   {
     id: "test_1",
-    title: "Quant",
+    name: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
     assigned_to: "Aman Gupta",
@@ -17,7 +17,7 @@ const dummyTestData: Array<TestElement> = [
   },
   {
     id: "test_2",
-    title: "Quant",
+    name: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
     assigned_to: "Aman Gupta",
@@ -26,7 +26,7 @@ const dummyTestData: Array<TestElement> = [
   },
   {
     id: "test_3",
-    title: "Quant",
+    name: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
     assigned_to: "Aman Gupta",
@@ -35,7 +35,7 @@ const dummyTestData: Array<TestElement> = [
   },
   {
     id: "test_4",
-    title: "Quant",
+    name: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
     assigned_to: "Aman Gupta",
@@ -47,7 +47,7 @@ const dummyTestData: Array<TestElement> = [
 const dummyTechnicalData: Array<TechnicalData> = [
   {
     id: "test_1",
-    title: "Quant",
+    name: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
     status: "Pending",
@@ -60,7 +60,7 @@ const dummyTechnicalData: Array<TechnicalData> = [
   },
   {
     id: "test_2",
-    title: "Quant",
+    name: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
     status: "Created",
@@ -73,7 +73,7 @@ const dummyTechnicalData: Array<TechnicalData> = [
   },
   {
     id: "test_3",
-    title: "Quant",
+    name: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
     status: "Completed",
@@ -86,7 +86,7 @@ const dummyTechnicalData: Array<TechnicalData> = [
   },
   {
     id: "test_4",
-    title: "Quant",
+    name: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
     status: "Completed",
@@ -99,7 +99,7 @@ const dummyTechnicalData: Array<TechnicalData> = [
   },
   {
     id: "test_5",
-    title: "Quant",
+    name: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
     status: "Completed",
@@ -112,7 +112,7 @@ const dummyTechnicalData: Array<TechnicalData> = [
   },
   {
     id: "test_6",
-    title: "Quant",
+    name: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
     status: "Completed",
@@ -125,7 +125,7 @@ const dummyTechnicalData: Array<TechnicalData> = [
   },
   {
     id: "test_7",
-    title: "Quant",
+    name: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
     status: "Completed",
@@ -144,7 +144,7 @@ const dummyDepartmentData: Array<DepartmentData> = [
     name: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
-    departmentHead: "Aman Gupta",
+    head: "Aman Gupta",
     requirements: ["java", "python", "c++"],
   },
   {
@@ -152,7 +152,7 @@ const dummyDepartmentData: Array<DepartmentData> = [
     name: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
-    departmentHead: "Aman Gupta",
+    head: "Aman Gupta",
     requirements: ["java", "python", "c++"],
   },
   {
@@ -160,7 +160,7 @@ const dummyDepartmentData: Array<DepartmentData> = [
     name: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
-    departmentHead: "Aman Gupta",
+    head: "Aman Gupta",
     requirements: ["java", "python", "c++"],
   },
   {
@@ -168,7 +168,7 @@ const dummyDepartmentData: Array<DepartmentData> = [
     name: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
-    departmentHead: "Aman Gupta",
+    head: "Aman Gupta",
     requirements: ["java", "python", "c++"],
   },
 ];

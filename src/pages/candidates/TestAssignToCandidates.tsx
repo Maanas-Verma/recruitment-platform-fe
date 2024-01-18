@@ -4,20 +4,15 @@ import InputControl from "../../components/InputControl";
 import ReactDropdown from "../../components/ReactDropdown";
 import Button from "../../components/Button";
 import TextAreaControl from "../../components/TextAreaControl";
-import apiService from "../../api-service/apiServices";
-import { PostDepartmentRequest } from "../../interfaces/global.interfaces";
-import { toast } from "react-toastify";
 
-interface DepartmentCreationProps {
+interface TestAssignToCandidatesProps {
   handleClose: () => void;
-  reloadDepartmentAPI: () => void;
 }
 
-interface DepartmentCreationForm {
-  name: string;
-  department: string;
-  head?: string;
-  requirements: string | string[];
+interface TestAssignToCandidatesForm {
+  title: string;
+  titleDescription: string;
+  candidate: string;
 }
 
 /**
@@ -25,41 +20,32 @@ interface DepartmentCreationForm {
  *
  * @returns - Form Container return html component.
  */
-const DepartmentCreation = (props: DepartmentCreationProps): ReactElement => {
-  const { handleClose, reloadDepartmentAPI } = props;
+const TestAssignToCandidates = (
+  props: TestAssignToCandidatesProps
+): ReactElement => {
+  const { handleClose } = props;
 
   const methods = useForm({
     mode: "all",
   });
   const { handleSubmit } = methods;
 
-  const handleFormSubmit = async (data: FieldValue<DepartmentCreationForm>) => {
-    const formData = data as DepartmentCreationForm;
-    formData.requirements = (formData.requirements as string).split(" ")
-    try {
-      const departmentData = await apiService.postDepartment(formData as PostDepartmentRequest);
-      if (departmentData.data) {
-        toast.success("Department added successfully");
-        handleClose();
-        reloadDepartmentAPI()
-      }
-    } catch (error) {
-      toast.error(`Error while adding: ${error}`);
-    }
+  const handleFormSubmit = (data: FieldValue<TestAssignToCandidatesForm>) => {
+    console.log(data);
   };
 
   return (
     <div
       className="modal modal show fade d-block bg-dark bg-opacity-75"
       tabIndex={-1}
-      aria-labelledby="deals-order"
+      aria-labelledby="candidate-creation"
       aria-hidden="true"
     >
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header bg-secondary-dark rounded-top ps-4 pe-2 py-2">
             <h6 className="modal-title text-white" id="deals-order">
-              Add Department
+              Assign Test To Candidates
             </h6>
             <Button
               theme={"secondary-dark"}
@@ -76,29 +62,9 @@ const DepartmentCreation = (props: DepartmentCreationProps): ReactElement => {
               <div className="modal-body bg-lavender-lightest">
                 <div className="d-flex flex-column border border-lavender-lightest bg-white rounded-3 p-2 gap-1">
                   <div>
-                    <InputControl
-                      label={"Name"}
-                      type={"text"}
-                      controlKey={"name"}
-                      validationObject={{
-                        required: "Please fill title as required",
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <TextAreaControl
-                      rows={3}
-                      label={"Description"}
-                      controlKey={"description"}
-                      controlPlaceholder={
-                        "Enter department description here..."
-                      }
-                    />
-                  </div>
-                  <div>
                     <ReactDropdown
                       label={"Head"}
-                      controlKey={"head"}
+                      controlKey={"department"}
                       options={[
                         { label: "Arun", value: "Arun" },
                         { label: "Bharti", value: "Bharti" },
@@ -106,15 +72,8 @@ const DepartmentCreation = (props: DepartmentCreationProps): ReactElement => {
                         { label: "Varun", value: "Varun" },
                         { label: "Xavier", value: "Xavier" },
                       ]}
-                    />
-                  </div>
-                  <div>
-                    <InputControl
-                      label={"Requirements"}
-                      type={"text"}
-                      controlKey={"requirements"}
                       validationObject={{
-                        required: "Please fill requirements as required",
+                        required: "Please select department as required",
                       }}
                     />
                   </div>
@@ -140,4 +99,4 @@ const DepartmentCreation = (props: DepartmentCreationProps): ReactElement => {
   );
 };
 
-export default DepartmentCreation;
+export default TestAssignToCandidates;

@@ -18,7 +18,7 @@ function TestTable(props: {
       <table className="table table-hover align-middle">
         <thead className="table-info">
           <tr>
-            <th className="px-2 py-4">Title</th>
+            <th className="px-2 py-4">Name</th>
             <th className="px-2 py-4">Title Description</th>
             <th className="px-2 py-4">Status</th>
             <th className="px-2 py-4">Assigned</th>
@@ -34,7 +34,7 @@ function TestTable(props: {
           })
           .map((test: TestElement) => (
             <tr key={test.id} className={"cursor-pointer"}>
-              <td className="p-2 fs-7 ">{test?.title}</td>
+              <td className="p-2 fs-7 ">{test?.name}</td>
               <td className="p-2 fs-7 w-50">{test?.description}</td>
               <td className="p-2 fs-7 ">
                 <div

@@ -40,7 +40,7 @@ function TechnicalCards(props: TechnicalSectionProps): ReactElement {
               <div className="col-md-9">
                 <div className="card-body">
                   <div className="card-title d-flex justify-content-between">
-                    <h5>{data.title}</h5>
+                    <h5>{data.name}</h5>
                     <div className="fs-8">
                       <TagControl
                         text={data.status}

@@ -179,7 +179,7 @@ export interface TextAreaControlDetails {
 
 export interface TestElement {
   id: string;
-  title: string;
+  name: string;
   description: string;
   status: string;
   assigned_to: string;
@@ -196,9 +196,11 @@ export interface TechnicalData extends TestElement {
 export interface DepartmentData {
   id: string;
   name: string;
-  description: string;
-  departmentHead: string;
+  description?: string;
+  head?: string;
   requirements: string[];
+  modified_at?: string;
+  created_at?: string;
 }
 
 export interface CandidatesData {
@@ -246,4 +248,18 @@ export interface QuestionCreationForm {
   };
   correct_answer: string;
   created_at: string;
+}
+
+export interface GetTestResponse extends TestElement {
+  conduced_on: null | string;
+  created_at: string;
+  created_by: null | string;
+  questions: string[];
+}
+
+export interface PostDepartmentRequest {
+  name: string;
+  requirements: string[];
+  description?: string;
+  head?: string;
 }
