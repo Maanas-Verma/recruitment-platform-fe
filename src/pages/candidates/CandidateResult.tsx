@@ -71,7 +71,7 @@ function CandidateResult(): ReactElement {
 
   return (
     <div className="d-flex flex-column">
-      <div>{TestName}</div>
+      <div><strong>{TestName}</strong></div>
       <table className="p-2 table table-bordered">
         <thead>
           <tr>
