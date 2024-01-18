@@ -104,7 +104,7 @@ const TestCreation = (props: TestCreationProps): ReactElement => {
                     size="small"
                     submitType="submit"
                     theme="primary"
-                    name="Submit"
+                    name="Add New Test"
                     buttonId="section-form-submit-btn"
                     extraClass="fs-6"
                   />
