@@ -18,7 +18,7 @@ function DepartmentSideBar(props: DepartmentSectionProps): ReactElement {
 
   return (
     <div>
-      <div className="fs-5">Department</div>
+      <div className="fs-5 fw-semibold">Department</div>
       <div className="mt-5">
         <Button
           size="medium"
