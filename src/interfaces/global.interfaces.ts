@@ -177,22 +177,6 @@ export interface TextAreaControlDetails {
   isHighlighted?: boolean;
 }
 
-export interface TestElement {
-  id: string;
-  name: string;
-  description: string;
-  status: string;
-  assigned_to: string;
-  modified_at: string;
-}
-
-export interface TechnicalData extends TestElement {
-  questions: {};
-  created_by: string;
-  created_at: string;
-  conducted_on: string;
-}
-
 export interface DepartmentData {
   id: string;
   name: string;
@@ -231,10 +215,24 @@ export interface PostQuestionResponse {
   };
 }
 
-export interface GetTestResponse extends TestElement {
+export interface PostTestRequest {
+  name: string;
+  description: string;
+  assigned_to: string;
+  created_by: string;
+}
+export interface PatchTestRequest {
+  id: string;
+  questions: string[];
+  status: string;
+}
+
+export interface GetTestResponse extends PostTestRequest {
+  id: string;
   conduced_on: null | string;
   created_at: string;
-  created_by: null | string;
+  modified_at: string;
+  status: string;
   questions: string[];
 }
 
@@ -251,13 +249,6 @@ export interface GetEmployeeDataResponse {
   modified_at: string;
   created_at: string;
   department: number;
-}
-
-export interface PostTestRequest {
-  name: string;
-  description: string;
-  assigned_to: string;
-  created_by: string;
 }
 
 export interface DropdownChoicesInterface {

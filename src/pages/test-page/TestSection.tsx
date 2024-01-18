@@ -1,11 +1,11 @@
 import { ReactElement, useState } from "react";
 import TestTable from "./TestTable";
 import SearchBar from "../../components/SearchBar";
-import { TestElement } from "../../interfaces/global.interfaces";
+import { GetTestResponse } from "../../interfaces/global.interfaces";
 import TabControl from "../../components/TabControl";
 
 interface TestSectionProps {
-  allTests: TestElement[];
+  allTests: GetTestResponse[];
 }
 
 /**
@@ -15,7 +15,7 @@ interface TestSectionProps {
  */
 function TestSection(props: TestSectionProps): ReactElement {
   const { allTests } = props;
-  const [status, setStatus] = useState<string>("Pending");
+  const [status, setStatus] = useState<string>("PENDING");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setStatus(newValue);
@@ -29,13 +29,13 @@ function TestSection(props: TestSectionProps): ReactElement {
           value={status}
           handleTabChange={handleChange}
           tabList={[
-            { label: "Pending", value: "Pending" },
-            { label: "Created", value: "Created" },
-            { label: "Completed", value: "Completed" },
+            { label: "Pending", value: "PENDING" },
+            { label: "Created", value: "CREATED" },
+            { label: "Completed", value: "COMPLETED" },
           ]}
         />
       </div>
-      <TestTable allTests={allTests} testStatus={status}/>
+      <TestTable allTests={allTests} testStatus={status} />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from "react";
-import { TestElement } from "../../interfaces/global.interfaces";
+import { GetTestResponse } from "../../interfaces/global.interfaces";
 import apiService from "../../api-service/apiServices";
 import TestSection from "./TestSection";
 import TestSideBar from "./TestSideBar";
@@ -11,23 +11,23 @@ import { toast } from "react-toastify";
  * @returns - Test component HTML with test details.
  */
 function TestPage(): ReactElement {
-  const [allTests, setAllTests] = useState<TestElement[]>([]);
+  const [allTests, setAllTests] = useState<GetTestResponse[]>([]);
   const [showCreateTest, setShowCreateTest] = useState<boolean>(false);
 
   const handleGetTest = async () => {
-    try{
+    try {
       const getAllTests = await apiService.getTest();
-      if ( getAllTests.data ){
+      if (getAllTests.data) {
         setAllTests(getAllTests.data);
       }
     } catch (error) {
       toast.error(`Error while getting all tests: ${error}`);
     }
-  }
+  };
 
   useEffect(() => {
     handleGetTest();
-  },[]);
+  }, []);
 
   return (
     <div className="container-fluid row p-0 m-0" style={{ height: "94vh" }}>
