@@ -233,3 +233,17 @@ export interface PostQuestionResponse {
   correct_answer: string[];
   other_dependencies?: {};
 }
+
+export interface QuestionCreationForm {
+  id: string;
+  description: string;
+  question_type: string;
+  other_dependencies: {
+    choice_a: string;
+    choice_b: string;
+    choice_c: string;
+    choice_d: string;
+  };
+  correct_answer: string;
+  created_at: string;
+}

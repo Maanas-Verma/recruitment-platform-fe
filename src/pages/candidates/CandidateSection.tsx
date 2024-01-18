@@ -23,7 +23,11 @@ function CandidateSection(props: CandidateSectionProps): ReactElement {
 
   return (
     <div>
-      <SearchBar controlPlaceholder="Search Candidate" controlKey="candidate" />
+      <SearchBar
+        controlPlaceholder="Search Candidate"
+        controlKey="candidate"
+        extraClass="fs-7 p-3 rounded-5"
+      />
       <div className="my-5">
         <Button
           disabled={selectedCandidates.length === 0}

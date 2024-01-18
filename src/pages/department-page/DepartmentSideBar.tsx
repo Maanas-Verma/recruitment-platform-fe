@@ -7,7 +7,6 @@ interface DepartmentSectionProps {
   setShowCreateDepartment: (value: boolean) => void;
 }
 
-
 /**
  * Test Component which loads test details table.
  *
@@ -18,14 +17,14 @@ function DepartmentSideBar(props: DepartmentSectionProps): ReactElement {
 
   return (
     <div>
-      <div className="fs-5">Department</div>
+      <div className="fs-5 fw-semibold">Department</div>
       <div className="mt-5">
         <Button
           size="medium"
           theme="primary"
-          name="Create"
+          name="Add Department"
           buttonId="create-department"
-          onClick={()=> setShowCreateDepartment(true)}
+          onClick={() => setShowCreateDepartment(true)}
           extraClass="fw-bold fs-7"
           icon="plus-lg"
           iconPlacement="start"
@@ -33,7 +32,9 @@ function DepartmentSideBar(props: DepartmentSectionProps): ReactElement {
         ></Button>
       </div>
       {showCreateDepartment ? (
-        <DepartmentCreation handleClose={() => setShowCreateDepartment(false)} />
+        <DepartmentCreation
+          handleClose={() => setShowCreateDepartment(false)}
+        />
       ) : (
         ""
       )}
