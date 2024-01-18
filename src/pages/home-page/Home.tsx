@@ -34,7 +34,7 @@ function Home(): ReactElement {
         
         if (response.data.resume !== null || response.data.resume !== "") {
           setIsTestEnabled(true);
-          setTestId(response.data.id);
+          setTestId(response.data.alloted_test);
         }
       } catch (error) {
         console.error("Error fetching user specific data:", error);
