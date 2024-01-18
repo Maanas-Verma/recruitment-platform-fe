@@ -1,5 +1,7 @@
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { DepartmentData } from "../../interfaces/global.interfaces";
+import apiService from "../../api-service/apiServices";
+import { toast } from "react-toastify";
 
 /**
  * Test Component which loads test details table.
@@ -12,6 +14,26 @@ function DepartmentTable(props: {
   setSelectedDepartment: (value: string[]) => void;
 }): ReactElement {
   const { selectedDepartment, allDepartments, setSelectedDepartment } = props;
+  const [idEmployeeName, setIdEmployeeName] = useState<{
+    [key: string]: any;
+  }>([]);
+
+  const handleGetEmployee = async () => {
+    try {
+      const getAllEmployees = await apiService.getEmployee();
+      if (getAllEmployees.data) {
+        const idEmployeeSet: {
+          [key: string]: any;
+        } = {};
+        getAllEmployees.data.forEach((employee) => {
+          idEmployeeSet[employee.id] = employee.name;
+        });
+        setIdEmployeeName(idEmployeeSet);
+      }
+    } catch (error) {
+      toast.error(`Error while getting employees: ${error}`);
+    }
+  };
 
   const handleCheckboxChange = (id: string) => {
     const updatedSelectedDepartment: string[] = [...selectedDepartment];
@@ -25,6 +47,10 @@ function DepartmentTable(props: {
       setSelectedDepartment(updatedSelectedDepartment);
     }
   };
+
+  useEffect(() => {
+    handleGetEmployee();
+  }, []);
 
   return (
     <div className="table-responsive rounded-2 overflow-auto mt-5">
@@ -50,7 +76,9 @@ function DepartmentTable(props: {
               </td>
               <td className="p-2 fs-7 ">{department?.name}</td>
               <td className="p-2 fs-7 ">{department?.description}</td>
-              <td className="p-2 fs-7 ">{department?.head}</td>
+              <td className="p-2 fs-7 ">
+                {department?.head && idEmployeeName[department?.head]}
+              </td>
               <td className="p-2 fs-7 ">
                 <div className="d-flex flex-wrap flex-row gap-1">
                   {department?.requirements.map((skill) => {

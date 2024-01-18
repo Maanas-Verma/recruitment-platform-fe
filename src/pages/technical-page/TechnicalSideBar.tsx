@@ -23,6 +23,7 @@ function TechnicalSideBar(props: TechnicalSideBarProps): ReactElement {
           <TabControl
             value={filterValue}
             alignTab={"vertical"}
+            tabType="tag"
             tabList={[
               { label: "Pending", value: "Pending" },
               { label: "Created", value: "Created" },

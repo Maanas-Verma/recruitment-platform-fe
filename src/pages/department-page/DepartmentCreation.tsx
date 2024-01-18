@@ -1,11 +1,14 @@
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { FieldValue, FormProvider, useForm } from "react-hook-form";
 import InputControl from "../../components/InputControl";
 import ReactDropdown from "../../components/ReactDropdown";
 import Button from "../../components/Button";
 import TextAreaControl from "../../components/TextAreaControl";
 import apiService from "../../api-service/apiServices";
-import { PostDepartmentRequest } from "../../interfaces/global.interfaces";
+import {
+  DropdownChoicesInterface,
+  PostDepartmentRequest,
+} from "../../interfaces/global.interfaces";
 import { toast } from "react-toastify";
 
 interface DepartmentCreationProps {
@@ -27,6 +30,9 @@ interface DepartmentCreationForm {
  */
 const DepartmentCreation = (props: DepartmentCreationProps): ReactElement => {
   const { handleClose, reloadDepartmentAPI } = props;
+  const [allEmployee, setAllEmployees] = useState<DropdownChoicesInterface[]>(
+    []
+  );
 
   const methods = useForm({
     mode: "all",
@@ -35,18 +41,42 @@ const DepartmentCreation = (props: DepartmentCreationProps): ReactElement => {
 
   const handleFormSubmit = async (data: FieldValue<DepartmentCreationForm>) => {
     const formData = data as DepartmentCreationForm;
-    formData.requirements = (formData.requirements as string).split(" ")
+    formData.requirements = (formData.requirements as string).split(" ");
     try {
-      const departmentData = await apiService.postDepartment(formData as PostDepartmentRequest);
+      const departmentData = await apiService.postDepartment(
+        formData as PostDepartmentRequest
+      );
       if (departmentData.data) {
         toast.success("Department added successfully");
         handleClose();
-        reloadDepartmentAPI()
+        reloadDepartmentAPI();
       }
     } catch (error) {
       toast.error(`Error while adding: ${error}`);
     }
   };
+
+  const handleGetEmployee = async () => {
+    try {
+      const getAllEmployees = await apiService.getEmployee();
+      if (getAllEmployees.data) {
+        const employeeChoices: DropdownChoicesInterface[] = [];
+        getAllEmployees.data.forEach((employee) => {
+          employeeChoices.push({
+            label: employee.name,
+            value: employee.id,
+          });
+        });
+        setAllEmployees(employeeChoices);
+      }
+    } catch (error) {
+      toast.error(`Error while getting employees: ${error}`);
+    }
+  };
+
+  useEffect(() => {
+    handleGetEmployee();
+  }, []);
 
   return (
     <div
@@ -99,19 +129,16 @@ const DepartmentCreation = (props: DepartmentCreationProps): ReactElement => {
                     <ReactDropdown
                       label={"Head"}
                       controlKey={"head"}
-                      options={[
-                        { label: "Arun", value: "Arun" },
-                        { label: "Bharti", value: "Bharti" },
-                        { label: "Minakshi", value: "Minakshi" },
-                        { label: "Varun", value: "Varun" },
-                        { label: "Xavier", value: "Xavier" },
-                      ]}
+                      options={allEmployee}
+                      validationObject={{
+                        required: "Please Add any head as required",
+                      }}
                     />
                   </div>
                   <div>
-                    <InputControl
+                    <TextAreaControl
+                      rows={3}
                       label={"Requirements"}
-                      type={"text"}
                       controlKey={"requirements"}
                       validationObject={{
                         required: "Please fill requirements as required",

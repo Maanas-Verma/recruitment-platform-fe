@@ -203,15 +203,6 @@ export interface DepartmentData {
   created_at?: string;
 }
 
-export interface CandidatesData {
-  id: string;
-  name: string;
-  resume_url: string;
-  skill_set: string[];
-  score: string;
-  alloted_test: string;
-}
-
 /**
  * Interface for the Post Question API Request.
  */
@@ -262,4 +253,43 @@ export interface PostDepartmentRequest {
   requirements: string[];
   description?: string;
   head?: string;
+}
+
+export interface GetEmployeeDataResponse {
+  id: string;
+  name: string;
+  modified_at: string;
+  created_at: string;
+  department: number;
+}
+
+export interface PostTestRequest {
+  name: string;
+  description: string;
+  assigned_to: string;
+  created_by: string;
+}
+
+export interface DropdownChoicesInterface {
+  label: string;
+  value: string;
+}
+
+export interface GetCandidateDataResponse {
+  id: string;
+  name: string;
+  resume: string;
+  skill_set: string[];
+  score: string;
+  alloted_test: string;
+  modified_at?: string;
+  created_at?: string;
+}
+
+export interface PostCandidateRequest {
+  name: string;
+  resume: string;
+  skill_set: string[];
+  score: string;
+  alloted_test: string;
 }

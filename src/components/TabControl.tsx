@@ -36,7 +36,7 @@ function TabControl(props: TabControlProps): ReactElement {
   return (
     <>
       <ul
-        className={`nav ${tabType === "tag" ? "nav-tabs" : ""} ${
+        className={`nav border-0 ${tabType === "tag" ? "nav-tabs" : ""} ${
           alignTab === "right"
             ? "justify-content-end"
             : alignTab === "vertical"

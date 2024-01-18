@@ -6,6 +6,7 @@ import apiService from "../../api-service/apiServices";
 interface TestSectionProps {
   showCreateTest: boolean;
   setShowCreateTest: (value: boolean) => void;
+  reloadTestAPI: () => void;
 }
 
 /**
@@ -14,21 +15,7 @@ interface TestSectionProps {
  * @returns - Test component HTML with test details.
  */
 function TestSideBar(props: TestSectionProps): ReactElement {
-  const { showCreateTest, setShowCreateTest } = props;
-
-  const handleSendQuestion = async () => {
-    const data = await apiService.postQuestion({
-      description: "This is question testing.",
-      question_type: "MCQ",
-      tags: ["tag1", "tag2"],
-      correct_answer: "A",
-      other_dependencies: {
-        A: "This is option A",
-        B: "This is option B",
-      },
-    });
-    console.log(data);
-  };
+  const { showCreateTest, setShowCreateTest, reloadTestAPI } = props;
 
   return (
     <div>
@@ -47,18 +34,10 @@ function TestSideBar(props: TestSectionProps): ReactElement {
         />
       </div>
       {showCreateTest ? (
-        <TestCreation handleClose={() => setShowCreateTest(false)} />
+        <TestCreation handleClose={() => setShowCreateTest(false)} reloadTestAPI={reloadTestAPI} />
       ) : (
         ""
       )}
-      <div className="my-4">
-        <Button
-          theme={"primary"}
-          size={"small"}
-          name={"Question post test"}
-          onClick={() => handleSendQuestion()}
-        />
-      </div>
       <div id="test-control-panel"></div>
     </div>
   );

@@ -1,12 +1,15 @@
 import { ReactElement, useState } from "react";
 import CandidateTable from "./CandidateTable";
 import SearchBar from "../../components/SearchBar";
-import { CandidatesData } from "../../interfaces/global.interfaces";
+import { GetCandidateDataResponse } from "../../interfaces/global.interfaces";
 import Button from "../../components/Button";
 import TestAssignToCandidates from "./TestAssignToCandidates";
+import apiService from "../../api-service/apiServices";
+import { toast } from "react-toastify";
 
 interface CandidateSectionProps {
-  allCandidates: CandidatesData[];
+  allCandidates: GetCandidateDataResponse[];
+  reloadCandidateAPI: () => void;
 }
 
 /**
@@ -15,12 +18,20 @@ interface CandidateSectionProps {
  * @returns - Test component HTML with test details.
  */
 function CandidateSection(props: CandidateSectionProps): ReactElement {
-  const { allCandidates } = props;
+  const { allCandidates, reloadCandidateAPI } = props;
   const [selectedCandidates, setSelectedCandidates] = useState<string[]>([]);
   const [showAssignTest, setShowAssignTest] = useState<boolean>(false);
 
   const handleRemoveButton = () => {
-    console.log("delete ", selectedCandidates);
+    try {
+      selectedCandidates.forEach((candidateId) => {
+        apiService.removeCandidate(candidateId);
+      });
+      reloadCandidateAPI();
+      toast.success("Candidate removed successfully");
+    } catch (error) {
+      console.log(`Error while removing candidate: ${error}`);
+    }
   };
 
   const handleSelectAll = () => {
@@ -31,8 +42,8 @@ function CandidateSection(props: CandidateSectionProps): ReactElement {
     setSelectedCandidates(allCandidates.map((candidate) => candidate.id));
   };
 
-  const handleAssignTest = () => {
-    console.log("assign test", selectedCandidates);
+  const handleAssignTest = (data: { test: string }) => {
+    console.log(data);
   };
 
   return (
@@ -75,6 +86,7 @@ function CandidateSection(props: CandidateSectionProps): ReactElement {
         {showAssignTest ? (
           <TestAssignToCandidates
             handleClose={() => setShowAssignTest(false)}
+            sendTestToCandidates={handleAssignTest}
           />
         ) : (
           ""
