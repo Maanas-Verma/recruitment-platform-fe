@@ -3,6 +3,7 @@ import { TestElement } from "../../interfaces/global.interfaces";
 import apiService from "../../api-service/apiServices";
 import TestSection from "./TestSection";
 import TestSideBar from "./TestSideBar";
+import { toast } from "react-toastify";
 
 /**
  * Test Component which loads test details table.
@@ -14,8 +15,14 @@ function TestPage(): ReactElement {
   const [showCreateTest, setShowCreateTest] = useState<boolean>(false);
 
   const handleGetTest = async () => {
-    const getAllTests = await apiService.getTest();
-    setAllTests(getAllTests.data);
+    try{
+      const getAllTests = await apiService.getTest();
+      if ( getAllTests.data ){
+        setAllTests(getAllTests.data);
+      }
+    } catch (error) {
+      toast.error(`Error while getting all tests: ${error}`);
+    }
   }
 
   useEffect(() => {
@@ -29,6 +36,7 @@ function TestPage(): ReactElement {
           <TestSideBar
             showCreateTest={showCreateTest}
             setShowCreateTest={setShowCreateTest}
+            reloadTestAPI={handleGetTest}
           />
         </div>
       </div>

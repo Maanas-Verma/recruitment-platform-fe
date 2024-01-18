@@ -1,18 +1,18 @@
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { FieldValue, FormProvider, useForm } from "react-hook-form";
-import InputControl from "../../components/InputControl";
 import ReactDropdown from "../../components/ReactDropdown";
 import Button from "../../components/Button";
-import TextAreaControl from "../../components/TextAreaControl";
+import { TestElement } from "../../interfaces/global.interfaces";
+import apiService from "../../api-service/apiServices";
+import { toast } from "react-toastify";
 
 interface TestAssignToCandidatesProps {
   handleClose: () => void;
+  sendTestToCandidates: (data: { test: string }) => void;
 }
 
 interface TestAssignToCandidatesForm {
-  title: string;
-  titleDescription: string;
-  candidate: string;
+  test: string;
 }
 
 /**
@@ -23,7 +23,8 @@ interface TestAssignToCandidatesForm {
 const TestAssignToCandidates = (
   props: TestAssignToCandidatesProps
 ): ReactElement => {
-  const { handleClose } = props;
+  const { handleClose, sendTestToCandidates } = props;
+  const [allTests, setAllTests] = useState<TestElement[]>([]);
 
   const methods = useForm({
     mode: "all",
@@ -31,8 +32,23 @@ const TestAssignToCandidates = (
   const { handleSubmit } = methods;
 
   const handleFormSubmit = (data: FieldValue<TestAssignToCandidatesForm>) => {
-    console.log(data);
+    sendTestToCandidates(data as TestAssignToCandidatesForm);
   };
+
+  const handleGetTest = async () => {
+    try {
+      const getAllTests = await apiService.getTest();
+      if (getAllTests.data) {
+        setAllTests(getAllTests.data);
+      }
+    } catch (error) {
+      toast.error(`Error while getting all tests: ${error}`);
+    }
+  };
+
+  useEffect(() => {
+    handleGetTest();
+  }, []);
 
   return (
     <div
@@ -63,15 +79,14 @@ const TestAssignToCandidates = (
                 <div className="d-flex flex-column border border-lavender-lightest bg-white rounded-3 p-2 gap-1">
                   <div>
                     <ReactDropdown
-                      label={"Head"}
-                      controlKey={"department"}
-                      options={[
-                        { label: "Arun", value: "Arun" },
-                        { label: "Bharti", value: "Bharti" },
-                        { label: "Minakshi", value: "Minakshi" },
-                        { label: "Varun", value: "Varun" },
-                        { label: "Xavier", value: "Xavier" },
-                      ]}
+                      label={"Test"}
+                      controlKey={"test"}
+                      options={allTests.map((test) => {
+                        return {
+                          label: test.name,
+                          value: test.id,
+                        };
+                      })}
                       validationObject={{
                         required: "Please select department as required",
                       }}

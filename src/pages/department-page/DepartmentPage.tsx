@@ -23,7 +23,7 @@ function DepartmentPage(): ReactElement {
         setAllDepartments(getAllDepartments.data);
       }
     } catch (error) {
-      toast.error(`Error while adding: ${error}`);
+      toast.error(`Error while getting department: ${error}`);
     }
   }
 

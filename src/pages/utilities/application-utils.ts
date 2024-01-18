@@ -1,5 +1,5 @@
 import {
-  CandidatesData,
+  GetCandidateDataResponse,
   DepartmentData,
   TechnicalData,
   TestElement,
@@ -173,11 +173,11 @@ const dummyDepartmentData: Array<DepartmentData> = [
   },
 ];
 
-const dummyCandidateData: Array<CandidatesData> = [
+const dummyCandidateData: Array<GetCandidateDataResponse> = [
   {
     id: "candidate_1",
     name: "Aman Gupta",
-    resume_url: "https://www.google.com",
+    resume: "https://www.google.com",
     skill_set: ["java", "python", "c++"],
     score: "90",
     alloted_test: "Quant",
@@ -185,7 +185,7 @@ const dummyCandidateData: Array<CandidatesData> = [
   {
     id: "candidate_2",
     name: "Aman Gupta",
-    resume_url: "https://www.google.com",
+    resume: "https://www.google.com",
     skill_set: ["java", "python", "c++"],
     score: "90",
     alloted_test: "Quant",
@@ -193,7 +193,7 @@ const dummyCandidateData: Array<CandidatesData> = [
   {
     id: "candidate_3",
     name: "Aman Gupta",
-    resume_url: "https://www.google.com",
+    resume: "https://www.google.com",
     skill_set: ["java", "python", "c++"],
     score: "90",
     alloted_test: "Quant",
@@ -201,7 +201,7 @@ const dummyCandidateData: Array<CandidatesData> = [
   {
     id: "candidate_4",
     name: "Aman Gupta",
-    resume_url: "https://www.google.com",
+    resume: "https://www.google.com",
     skill_set: ["java", "python", "c++"],
     score: "90",
     alloted_test: "Quant",
