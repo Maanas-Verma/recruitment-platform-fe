@@ -179,7 +179,7 @@ export interface TextAreaControlDetails {
 
 export interface TestElement {
   id: string;
-  title: string;
+  name: string;
   description: string;
   status: string;
   assigned_to: string;
@@ -246,4 +246,11 @@ export interface QuestionCreationForm {
   };
   correct_answer: string;
   created_at: string;
+}
+
+export interface GetTestResponse extends TestElement {
+  conduced_on: null | string;
+  created_at: string;
+  created_by: null | string;
+  questions: string[];
 }

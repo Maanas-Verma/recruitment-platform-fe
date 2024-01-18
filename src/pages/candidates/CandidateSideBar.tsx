@@ -23,7 +23,7 @@ function CandidateSideBar(props: CandidateSectionProps): ReactElement {
   };
 
   return (
-    <div>
+    <div className="d-flex flex-column h-100">
       <div className="fs-5 fw-semibold">Candidate</div>
       <div className="mt-5">
         <Button
@@ -64,6 +64,19 @@ function CandidateSideBar(props: CandidateSectionProps): ReactElement {
       ) : (
         ""
       )}
+      <div className="my-auto"></div>
+      <div>
+        <Button
+          size="medium"
+          theme="primary"
+          name="Apply Filter"
+          buttonId="create-candidate"
+          onClick={() => setShowCreateCandidate(true)}
+          extraClass="fw-bold fs-7"
+          iconPlacement="start"
+          extraIconClass="my-auto"
+        ></Button>
+      </div>
     </div>
   );
 }

@@ -2,7 +2,6 @@ import { ReactElement, useState } from "react";
 import TestTable from "./TestTable";
 import SearchBar from "../../components/SearchBar";
 import { TestElement } from "../../interfaces/global.interfaces";
-import Button from "../../components/Button";
 import TabControl from "../../components/TabControl";
 
 interface TestSectionProps {
@@ -16,12 +15,7 @@ interface TestSectionProps {
  */
 function TestSection(props: TestSectionProps): ReactElement {
   const { allTests } = props;
-  const [selectedTest, setSelectedTest] = useState<string[]>([]);
   const [status, setStatus] = useState<string>("Pending");
-
-  const handleRemoveButton = () => {
-    console.log("delete ", selectedTest);
-  };
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setStatus(newValue);

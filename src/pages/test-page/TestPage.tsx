@@ -18,6 +18,15 @@ function TestPage(): ReactElement {
   const [selectedTestStatus, setSelectedTestStatus] = useState<string>("");
   const [showCreateTest, setShowCreateTest] = useState<boolean>(false);
 
+  const handleGetTest = async () => {
+    const getAllTests = await apiService.getTest();
+    setAllTests(getAllTests.data);
+  }
+
+  useEffect(() => {
+    handleGetTest();
+  },[]);
+
   useEffect(() => {
     setAllTests(utils.dummyTestData);
   }, [selectedTestStatus, showCreateTest]);
