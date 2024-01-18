@@ -1,11 +1,9 @@
 import { ReactElement, useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useForm, FormProvider } from "react-hook-form";
-import InputControl from "../../components/InputControl";
-import ReactDropdown from "../../components/ReactDropdown";
-import TextAreaControl from "../../components/TextAreaControl";
-import Button from "../../components/Button";
-
+import { useForm, FormProvider, FieldValue, set } from "react-hook-form";
+import SignUpFormProvider from "./SignUpFormProvider";
+import SignInFormProvider from "./SignInFormProvider";
+import TabControl from "../../components/TabControl";
 
 /**
  * Component for Sign In Component.
@@ -15,64 +13,57 @@ import Button from "../../components/Button";
 
 function SignIn(): ReactElement {
   const navigate = useNavigate();
-  const methods = useForm({
-    mode: "all",
-  });
-  const { handleSubmit } = methods;
+  const [isSignUp, setIsSignUp] = useState(false);
 
-   interface LoginFormData {
-    // email: string;
-    // password: string;
-  }
-
-  const handleSignInFormSubmit = (loginFormData: LoginFormData) => {
-    // creds validation to be added.
-    console.log(loginFormData);
-    navigate('/home');
+  const handleToChange = (event: React.SyntheticEvent, value: string) => {
+    setIsSignUp(!isSignUp);
   };
 
+  // const handleSignInFormSubmit = (loginFormData: LoginFormData) => {
+  //   // creds validation to be added.
+  //   console.log(loginFormData);
+  //   navigate("/home");
+  // };
+
   return (
-    <div className="row mx-0 mt-6">
-      <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(handleSignInFormSubmit)}>
-          <div className="modal-body bg-lavender-lightest">
-            <div className="d-flex flex-column border border-lavender-lightest bg-white rounded-3 p-2 gap-1">
-            <div className="mb-2">
-                  <InputControl
-                    type="email"
-                    controlKey="email"
-                    label="Email Address"
-                    validationObject={{
-                      required: "Please fill email as required",
-                    }}
-                  />
-                </div>
-                <div className="mb-2">
-                      <InputControl
-                        type="password"
-                        controlKey="password"
-                        label="Password"
-                        validationObject={{
-                          required: "Please fill password as required",
-                        }}
-                      />
-                    </div>
+    <div
+      className="px-4 py-5 px-md-5 container-fluid row text-center text-lg-start d-flex"
+      style={{ height: "94vh" }}
+    >
+      <div className="container d-flex align-items-stretch">
+        <div className="row gx-lg-5 align-items-center d-flex align-items-center">
+          <div className="col-lg-6 mb-5 ps-6 mb-lg-0 d-flex flex-column justify-content-center">
+            <h1 className="mb-5 display-3 fw-bold ls-tight">
+              The best offer <br />
+              <span className="text-primary">for your business</span>
+            </h1>
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet,
+              itaque accusantium odio, soluta, corrupti aliquam quibusdam
+              tempora at cupiditate quis eum maiores libero veritatis? Dicta
+              facilis sint aliquid ipsum atque?
+            </p>
+          </div>
+
+          <div className="col-lg-6 px-5 d-flex justify-content-center">
+            <div className="card" style={{ width: "400px", height: "400px"}}>
+              <div className="card-header bg-transparent border-bottom-0 pt-6 px-md-5">
+                <TabControl
+                  value={isSignUp ? "Sign Up" : "Sign In"}
+                  handleTabChange={handleToChange}
+                  tabList={[
+                    { label: "Sign In", value: "Sign In" },
+                    { label: "Sign Up", value: "Sign Up" },
+                  ]}
+                />
+              </div>
+              <div className="card-body py-5 px-md-5">
+                {isSignUp ? <SignUpFormProvider /> : <SignInFormProvider />}
+              </div>
             </div>
           </div>
-          <div className="modal-footer bg-lavender-lightest rounded-bottom">
-            <div className="d-flex flex-row-reverse">
-              <Button
-                size="small"
-                submitType="submit"
-                theme="primary"
-                name="Submit"
-                buttonId="section-form-submit-btn"
-                extraClass="fs-6"
-              />
-            </div>
-          </div>
-        </form>
-      </FormProvider>
+        </div>
+      </div>
     </div>
   );
 }

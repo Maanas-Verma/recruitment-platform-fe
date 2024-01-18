@@ -10,6 +10,8 @@ import {
   PostQuestionRequest,
   PostQuestionResponse,
   PostTestRequest,
+  SignInRequest,
+  SignUpRequest,
 } from "../interfaces/global.interfaces";
 
 class HrAPI {
@@ -48,6 +50,17 @@ class HrAPI {
   };
 
   /**
+   * Makes the API call to Get department by id
+   * 
+   * @param id - Department id
+   */
+  getDepartmentById = async (
+    id: string
+  ): Promise<AxiosResponse<DepartmentData>> => {
+    return axios.get(`${this.base_url}${this.endpoints.department}${id}/`);
+  }
+
+  /**
    * Makes the API call to get all employees
    *
    * @returns - Returns a promise with all employees.
@@ -55,6 +68,17 @@ class HrAPI {
   getEmployee = async (): Promise<AxiosResponse<GetEmployeeDataResponse[]>> => {
     return axios.get(`${this.base_url}${this.endpoints.employee}`);
   };
+
+  /**
+   * Makes the API call to get employee by id
+   * 
+   * @param id - Candidate id
+   */
+  getEmployeeById = async (
+    id: string
+  ): Promise<AxiosResponse<GetEmployeeDataResponse>> => {
+    return axios.get(`${this.base_url}${this.endpoints.employee}${id}/`);
+  }
 
   /**
    * Makes the API call to Get all Candidates
@@ -144,6 +168,24 @@ class HrAPI {
   ): Promise<AxiosResponse<PostQuestionResponse>> => {
     return axios.post(`${this.base_url}${this.endpoints.question}`, postData);
   };
+
+  /**
+   * Makes the API call for Sign Up.
+   * 
+   * @param data - Sign Up request details.
+   */
+  signUp = async (data: SignUpRequest) => {
+    return axios.post(`${this.base_url}/user/user/`, data);
+  }
+
+  /**
+   * Makes the API call for Sign In.
+   * 
+   * @param data - Sign In request details.
+   */
+  signIn = async (data: SignInRequest) => {
+    return axios.post(`${this.base_url}/login/`, data);
+  }
 }
 const apiService = new HrAPI();
 
