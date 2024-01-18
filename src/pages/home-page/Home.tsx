@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
 import Button from "../../components/Button";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 //TODO: add a patch call for resume.
 
@@ -12,9 +13,9 @@ function Home(): ReactElement {
   });
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isTestEnabled, setIsTestEnabled] = useState<boolean>(true); // change this to false
+  const [isTestEnabled, setIsTestEnabled] = useState<boolean>(false);
   const [userSpecificData, setUserSpecificData] = useState<any>(null);
-
+  const [testId, setTestId] = useState<any>(null);
   const navigate = useNavigate();
 
   const imagePath = "/Logo_large.png";
@@ -26,10 +27,15 @@ function Home(): ReactElement {
       try {
         const response = await axios.get(
           //TODO: change this to some Id later
-          "http://13.233.194.145:8000/user/candidate/8f622670-1ead-4d6c-8719-22219962152c/"
+          "http://13.233.194.145:8000/user/candidate/1/"
         );
         setUserSpecificData(response.data);
-       if(response.data.resume!==null || response.data.resume!=="") setIsTestEnabled(true);
+        console.log('responsea aa: ', response);
+        
+        if (response.data.resume !== null || response.data.resume !== "") {
+          setIsTestEnabled(true);
+          setTestId(response.data.id);
+        }
       } catch (error) {
         console.error("Error fetching user specific data:", error);
       }
@@ -37,7 +43,6 @@ function Home(): ReactElement {
 
     fetchData();
   }, []);
-  console.log("user specific data: ", userSpecificData);
 
   const handleClick = () => {
     const newWindow = window.open(
@@ -59,7 +64,8 @@ function Home(): ReactElement {
 
   const handleEnterTheTest = () => {
     console.log("Enter the test clicked");
-    navigate("/candidate-test");
+    alert("You are about to enter the test!");
+    navigate("/candidate-test", { state: { testId } });
   };
 
   const handleFileUpload = async () => {
@@ -71,7 +77,7 @@ function Home(): ReactElement {
     const formData = new FormData();
     formData.append("resume", selectedFile);
 
-    const apiUrl = `http://13.233.194.145:8000/user/candidate/8f622670-1ead-4d6c-8719-22219962152c/`;
+    const apiUrl = `http://13.233.194.145:8000/user/candidate/1/`;
 
     try {
       await axios.patch(apiUrl, formData);
@@ -79,8 +85,11 @@ function Home(): ReactElement {
       // Fetch updated user data after successful upload
       const response = await axios.get(apiUrl);
       setUserSpecificData(response.data);
-      if(response.data.resume!==null || response.data.resume!=="") setIsTestEnabled(true);
+      if (response.data.resume !== null || response.data.resume !== "") {
+        setIsTestEnabled(true);
+      }
       console.log("File uploaded successfully:", response.data);
+      toast.success("File uploaded successfully!");
     } catch (error) {
       console.error("Error uploading file:", error);
     }
@@ -88,38 +97,50 @@ function Home(): ReactElement {
 
   return (
     <div className="d-flex flex-row mx-0 mt-6">
-      <div className="d-flex  p-2 col-4">
+      <div className="d-flex  p-2 flex-shrink">
         <img src={imagePath} alt=""></img>
       </div>
       <div className="d-flex col-8 flex-column">
         <div className="d-flex flex-column">
-          <div>Hi, {userName}</div>
-          <div>Welcome to {companyName}</div>
+          <h3>
+            <strong>
+              <div>Hi, {userName}</div>
+              <div>Welcome to {companyName}</div>
+            </strong>
+          </h3>
         </div>
         <div>
           <FormProvider {...methods}>
-            <form>
-              <label htmlFor="file-upload">
+            <form onSubmit={(e) => e.preventDefault()}>
+              <label
+                htmlFor="file-upload"
+                className="border border-1 rounded-3 mt-3 p-2"
+              >
                 Upload Your Resume
                 <input
                   type="file"
                   id="file-upload"
                   name="asd"
                   onChange={handleFileChange}
+                  className="p-2"
                 />
               </label>
-              <div>
+              <div style={{ overflow: "auto" }}>
                 {userSpecificData && userSpecificData.resume && (
-                  <span>Selected File: {userSpecificData.resume}</span>
+                  <span className="col-3">
+                    Uploaded File: {userSpecificData.resume}
+                  </span>
                 )}
               </div>
 
               <Button
-                theme=""
-                size="small"
+                size="medium"
+                theme="dark"
+                buttonType="outline"
                 name="Submit"
-                extraClass="btn btn-outline-dark btn-lg"
+                submitType="submit"
                 onClick={handleFileUpload}
+                disabled={!selectedFile}
               />
             </form>
           </FormProvider>
@@ -127,22 +148,22 @@ function Home(): ReactElement {
 
         <div>
           <Button
-            size="large"
-            theme=""
+            size="medium"
+            theme="dark"
+            buttonType="outline"
             name="Enter The Test"
             disabled={!isTestEnabled}
             buttonId="enter-the-test"
-            extraClass="btn btn-outline-dark btn-lg"
             onClick={handleEnterTheTest}
           ></Button>
         </div>
         <div>
           <Button
-            size="large"
-            theme=""
+            size="medium"
+            theme="dark"
+            buttonType="outline"
             name="Join Our Community"
             buttonId="join-our-community"
-            extraClass="btn btn-outline-dark btn-lg"
             onClick={handleClick}
           ></Button>
         </div>
