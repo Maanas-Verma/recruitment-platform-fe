@@ -1,13 +1,10 @@
-import { ReactElement, useState } from "react";
-import { Form, Link, Navigate, useNavigate } from "react-router-dom";
+import { ReactElement, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
-import InputControl from "../../components/InputControl";
-import ReactDropdown from "../../components/ReactDropdown";
-import TextAreaControl from "../../components/TextAreaControl";
 import Button from "../../components/Button";
 import axios from "axios";
 
-// Add a get method call for resume getting
+//TODO: add a patch call for resume.
 
 function Home(): ReactElement {
   const methods = useForm({
@@ -16,13 +13,31 @@ function Home(): ReactElement {
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isTestEnabled, setIsTestEnabled] = useState<boolean>(true); // change this to false
-  // TODO: set this after fetching from api
-  
+  const [userSpecificData, setUserSpecificData] = useState<any>(null);
+
   const navigate = useNavigate();
 
-  const imagePath = "/logo.png";
+  const imagePath = "/Logo_large.png";
   const userName = "Manoj Sharma";
   const companyName = "ICICI";
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          //TODO: change this to some Id later
+          "http://13.233.194.145:8000/user/candidate/8f622670-1ead-4d6c-8719-22219962152c/"
+        );
+        setUserSpecificData(response.data);
+       if(response.data.resume!==null || response.data.resume!=="") setIsTestEnabled(true);
+      } catch (error) {
+        console.error("Error fetching user specific data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  console.log("user specific data: ", userSpecificData);
 
   const handleClick = () => {
     const newWindow = window.open(
@@ -47,13 +62,7 @@ function Home(): ReactElement {
     navigate("/candidate-test");
   };
 
-  // const tableData = axios.get("http://13.233.194.145:8000/user/candidate/").then((resp)=>{
-  //   const id = resp.data.alloted_set;
-  //   axios.get(`http://13.233.194.145:8000/test_app/test/${id}/`);
-  // });
-  // return tableData;
-
-  const handleFileUpload = () => {
+  const handleFileUpload = async () => {
     if (!selectedFile) {
       console.error("No file selected");
       return;
@@ -61,23 +70,20 @@ function Home(): ReactElement {
 
     const formData = new FormData();
     formData.append("resume", selectedFile);
-    formData.append("name", "abc");
-    formData.append("skill_set", "asfjb");
-    formData.append("score", String(40));
 
-    const apiUrl = "http://13.233.194.145:8000/user/candidate/";
+    const apiUrl = `http://13.233.194.145:8000/user/candidate/8f622670-1ead-4d6c-8719-22219962152c/`;
 
-    fetch(apiUrl, {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("File uploaded successfully:", data);
-      })
-      .catch((error) => {
-        console.error("Error uploading file:", error);
-      });
+    try {
+      await axios.patch(apiUrl, formData);
+
+      // Fetch updated user data after successful upload
+      const response = await axios.get(apiUrl);
+      setUserSpecificData(response.data);
+      if(response.data.resume!==null || response.data.resume!=="") setIsTestEnabled(true);
+      console.log("File uploaded successfully:", response.data);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
   };
 
   return (
@@ -102,6 +108,11 @@ function Home(): ReactElement {
                   onChange={handleFileChange}
                 />
               </label>
+              <div>
+                {userSpecificData && userSpecificData.resume && (
+                  <span>Selected File: {userSpecificData.resume}</span>
+                )}
+              </div>
 
               <Button
                 theme=""
@@ -119,7 +130,7 @@ function Home(): ReactElement {
             size="large"
             theme=""
             name="Enter The Test"
-            disabled = {!isTestEnabled}
+            disabled={!isTestEnabled}
             buttonId="enter-the-test"
             extraClass="btn btn-outline-dark btn-lg"
             onClick={handleEnterTheTest}
