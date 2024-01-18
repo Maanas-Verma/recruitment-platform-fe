@@ -4,6 +4,7 @@ import CandidateSideBar from "./CandidateSideBar";
 import CandidateSection from "./CandidateSection";
 import { GetCandidateDataResponse } from "../../interfaces/global.interfaces";
 import apiService from "../../api-service/apiServices";
+import { toast } from "react-toastify";
 
 /**
  * Test Component which loads test details table.
@@ -16,14 +17,14 @@ function CandidatePage(): ReactElement {
     useState<boolean>(false);
 
   const handleGetCandidate = async () : Promise<void> => {
-    console.log("handleGetCandidate");
+
     try {
       const getAllCandidates = await apiService.getCandidate();
       if (getAllCandidates.data) {
         setAllCandidates(getAllCandidates.data);
       }
     } catch (error) {
-      console.log(`Error while getting candidates: ${error}`);
+      toast.error(`Error while getting candidates: ${error}`);
     }
   }
 

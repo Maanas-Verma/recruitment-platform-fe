@@ -39,6 +39,18 @@ function CandidateSideBar(props: CandidateSectionProps): ReactElement {
         ></Button>
       </div>
       <div className="my-6">
+        <div>
+          <Button
+            size="medium"
+            theme="primary"
+            name="Apply Filter"
+            buttonId="create-candidate"
+            onClick={() => {}}
+            extraClass="fw-bold fs-7"
+            iconPlacement="start"
+            extraIconClass="my-auto"
+          ></Button>
+        </div>
         <div className="px-2 mb-2">
           <span>Filter Candidates based on Score: (Greater than)</span>
         </div>
@@ -46,7 +58,7 @@ function CandidateSideBar(props: CandidateSectionProps): ReactElement {
       </div>
       <DropdownControl
         controlKey={"department_selection"}
-        defaultValue={{ name: "Choose Department", value: "" }}
+        defaultValue={{ name: "Select Department", value: "" }}
         theme={"primary"}
         options={[
           {
@@ -65,18 +77,6 @@ function CandidateSideBar(props: CandidateSectionProps): ReactElement {
         ""
       )}
       <div className="my-auto"></div>
-      <div>
-        <Button
-          size="medium"
-          theme="primary"
-          name="Apply Filter"
-          buttonId="create-candidate"
-          onClick={() => setShowCreateCandidate(true)}
-          extraClass="fw-bold fs-7"
-          iconPlacement="start"
-          extraIconClass="my-auto"
-        ></Button>
-      </div>
     </div>
   );
 }

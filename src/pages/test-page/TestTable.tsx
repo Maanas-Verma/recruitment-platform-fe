@@ -38,7 +38,6 @@ function TestTable(props: {
 
   useEffect(() => {
     handleGetDepartment();
-    console.log(idDepartmentName);
   }, []);
 
   return (

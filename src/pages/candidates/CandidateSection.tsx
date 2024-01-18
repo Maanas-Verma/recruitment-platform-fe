@@ -55,7 +55,7 @@ function CandidateSection(props: CandidateSectionProps): ReactElement {
       />
       <div className="my-5 d-flex">
         <Button
-          size="medium"
+          size="small"
           theme="primary"
           name={
             selectedCandidates.length === allCandidates.length
@@ -76,7 +76,7 @@ function CandidateSection(props: CandidateSectionProps): ReactElement {
         ></Button>
         <Button
           disabled={selectedCandidates.length === 0}
-          size="medium"
+          size="small"
           theme="primary"
           name="Assign Test"
           buttonId="remove-candidate"
