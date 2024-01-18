@@ -208,6 +208,21 @@ const dummyCandidateData: Array<GetCandidateDataResponse> = [
   },
 ];
 
+const Question = {
+  id: "",
+  description: "",
+  question_type: "",
+  tags: null,
+  other_dependencies: {
+    A: "",
+    B: "",
+    C: "",
+    D: "",
+  },
+  correct_answer: "",
+  created_at: "",
+};
+
 const FormatDate = (modifiedDate: string): string => {
   const date = new Date(modifiedDate);
   const options = {
@@ -234,6 +249,7 @@ const FormatKey = (key: string): string => {
 const utils = {
   FormatDate,
   FormatKey,
+  Question,
   dummyTestData,
   dummyTechnicalData,
   dummyDepartmentData,

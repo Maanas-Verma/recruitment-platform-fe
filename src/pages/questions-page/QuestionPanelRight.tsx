@@ -1,11 +1,18 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, SetStateAction, useEffect, useState } from "react";
 import SearchBar from "../../components/SearchBar";
 import Button from "../../components/Button";
 import QuestionCreation from "./QuestionCreation";
-import { QuestionCreationForm } from "../../interfaces/global.interfaces";
+import apiService from "../../api-service/apiServices";
+import { toast } from "react-toastify";
+import { AxiosError } from "axios";
+import { PostQuestionResponse } from "../../interfaces/global.interfaces";
+import TagControl from "../../components/TagControl";
 
 interface QuestionPanelRightProps {
-  allQuestionLists: QuestionCreationForm[];
+  countIDLength: number;
+  setCountIDLength: React.Dispatch<SetStateAction<number>>;
+  selectedQuestionIDs: string[];
+  setSelectedQuestionIDs: React.Dispatch<SetStateAction<string[]>>;
 }
 
 /**
@@ -14,28 +21,45 @@ interface QuestionPanelRightProps {
  * @returns - Technical sidebar component return side panel.
  */
 function QuestionPanelRight(props: QuestionPanelRightProps): ReactElement {
-  const { allQuestionLists } = props;
+  const {
+    countIDLength,
+    setCountIDLength,
+    selectedQuestionIDs,
+    setSelectedQuestionIDs,
+  } = props;
+
+  const [allQuestionArray, setAllQuestionArray] = useState<
+    PostQuestionResponse[]
+  >([]);
+
   const [showCreateQuestion, setShowCreateQuestion] = useState<boolean>(false);
-  const [filledForm, setFilledForm] = useState<QuestionCreationForm>({
-    id: "",
-    description: "",
-    question_type: "",
-    other_dependencies: {
-      A: "",
-      B: "",
-      C: "",
-      D: "",
-    },
-    correct_answer: "",
-    created_at: "",
-  });
+  const [totalQuestionCount, setTotalQuestionCount] = useState(0);
+
+  const filterAddQuestions = (selectedID: string): void => {
+    if (selectedQuestionIDs) {
+      selectedQuestionIDs.push(selectedID);
+      setSelectedQuestionIDs(selectedQuestionIDs);
+      setCountIDLength(() => countIDLength + 1);
+      toast.success(`Added Question`);
+    }
+  };
+
+  const fetchAllQuestionsArray = async (): Promise<void> => {
+    try {
+      const getQuestionResponse = await apiService.getQuestion();
+      if (getQuestionResponse?.data) {
+        setAllQuestionArray(getQuestionResponse.data);
+        setTotalQuestionCount(getQuestionResponse.data.length);
+      }
+    } catch (error) {
+      const errors = error as Error | AxiosError;
+      toast.error(errors?.message);
+    }
+  };
 
   useEffect(() => {
-    if (filledForm?.id) {
-      allQuestionLists.push(filledForm);
-      console.log(allQuestionLists); // debug
-    }
-  }, [filledForm]);
+    fetchAllQuestionsArray();
+  }, [totalQuestionCount]);
 
   return (
     <>
@@ -57,7 +81,8 @@ function QuestionPanelRight(props: QuestionPanelRightProps): ReactElement {
 
           {showCreateQuestion ? (
             <QuestionCreation
-              handleFilledForm={setFilledForm}
+              totalQuestionCount={totalQuestionCount}
+              handleQuestionsCount={setTotalQuestionCount}
               handleClose={() => setShowCreateQuestion(false)}
             />
           ) : (
@@ -69,7 +94,7 @@ function QuestionPanelRight(props: QuestionPanelRightProps): ReactElement {
         className="d-flex flex-column gap-4 overflow-auto p-4"
         style={{ maxHeight: "35rem" }}
       >
-        {allQuestionLists.map((question: QuestionCreationForm) => {
+        {allQuestionArray?.map((question: PostQuestionResponse) => {
           return (
             <div key={question?.id} className="card shadow-sm">
               <Button
@@ -79,14 +104,15 @@ function QuestionPanelRight(props: QuestionPanelRightProps): ReactElement {
                 extraClass={
                   "p-0 position-absolute rounded-circle top-0 start-0 translate-middle"
                 }
+                onClick={() => filterAddQuestions(question.id)}
               />
               <div className="row g-0">
                 <div className="card-body">
-                  <div className="card-text d-flex flex-row gap-2 fs-6 mb-2">
+                  <div className="card-text d-flex flex-row gap-2 fs-6 mb-2 fw-light">
                     <span>Q.</span>
                     <span>{question?.description}</span>
                   </div>
-                  <div className="card-text d-flex justify-content-between fs-7 mb-2">
+                  <div className="card-text d-flex justify-content-between fs-7 mb-2 fw-light">
                     <div className="w-50">
                       <span className="me-2">A.</span>
                       <span className="me-2">
@@ -100,7 +126,7 @@ function QuestionPanelRight(props: QuestionPanelRightProps): ReactElement {
                       </span>
                     </div>
                   </div>
-                  <div className="card-text d-flex justify-content-between fs-7 mb-2">
+                  <div className="card-text d-flex justify-content-between fs-7 mb-2 fw-light">
                     <div className="w-50">
                       <span className="me-2">C.</span>
                       <span className="me-2">
@@ -114,11 +140,22 @@ function QuestionPanelRight(props: QuestionPanelRightProps): ReactElement {
                       </span>
                     </div>
                   </div>
-                  <p className="card-text fs-7 mt-4">
-                    <small className="text-muted">
-                      Created at: <span>{question.created_at}</span>
-                    </small>
-                  </p>
+                  <div className="card-text fs-7 mt-4">
+                    <div className="d-flex flex-row gap-2">
+                      {question?.tags?.map((tag: string) => {
+                        return (
+                          <div key={`key-${tag}`}>
+                            <TagControl
+                              text={tag}
+                              tagType={"badge"}
+                              bgTheme={"danger-lighter"}
+                              textTheme={"white"}
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
