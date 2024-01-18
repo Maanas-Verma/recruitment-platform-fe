@@ -24,7 +24,7 @@ function CandidateSideBar(props: CandidateSectionProps): ReactElement {
 
   return (
     <div>
-      <div className="fs-5">Candidate</div>
+      <div className="fs-5 fw-semibold">Candidate</div>
       <div className="mt-5">
         <Button
           size="medium"

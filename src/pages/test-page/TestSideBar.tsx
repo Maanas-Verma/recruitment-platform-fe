@@ -32,12 +32,12 @@ function TestSideBar(props: TestSectionProps): ReactElement {
 
   return (
     <div>
-      <div className="fs-5">Test</div>
+      <div className="fs-5 fw-semibold">Test Dashboard</div>
       <div className="mt-5">
         <Button
           size="medium"
           theme="primary"
-          name="Create"
+          name="Add Test"
           buttonId="create-test"
           onClick={() => setShowCreateTest(true)}
           extraClass="fw-bold fs-7"
@@ -59,7 +59,6 @@ function TestSideBar(props: TestSectionProps): ReactElement {
           onClick={() => handleSendQuestion()}
         />
       </div>
-
       <div id="test-control-panel"></div>
     </div>
   );
