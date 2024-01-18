@@ -179,7 +179,7 @@ export interface TextAreaControlDetails {
 
 export interface TestElement {
   id: string;
-  title: string;
+  name: string;
   description: string;
   status: string;
   assigned_to: string;
@@ -196,18 +196,11 @@ export interface TechnicalData extends TestElement {
 export interface DepartmentData {
   id: string;
   name: string;
-  description: string;
-  departmentHead: string;
+  description?: string;
+  head?: string;
   requirements: string[];
-}
-
-export interface CandidatesData {
-  id: string;
-  name: string;
-  resume_url: string;
-  skill_set: string[];
-  score: string;
-  alloted_test: string;
+  modified_at?: string;
+  created_at?: string;
 }
 
 /**
@@ -216,20 +209,77 @@ export interface CandidatesData {
 export interface PostQuestionRequest {
   description: string;
   question_type: string;
-  tags?: string[];
+  tags?: string[] | null;
   correct_answer: string;
-  other_dependencies?: {};
+  other_dependencies: {
+    [key: string]: string;
+  };
 }
 
 /**
  * Interface for the Post Question API Response.
  */
 export interface PostQuestionResponse {
-  id: 11;
-  description: string[];
-  question_type: string[];
-  tags: null | string[];
-  created_at: string[];
-  correct_answer: string[];
-  other_dependencies?: {};
+  id: string;
+  description: string;
+  question_type: string;
+  tags?: string[] | null;
+  created_at: string;
+  correct_answer: string;
+  other_dependencies?: {
+    [key: string]: string;
+  };
+}
+
+export interface GetTestResponse extends TestElement {
+  conduced_on: null | string;
+  created_at: string;
+  created_by: null | string;
+  questions: string[];
+}
+
+export interface PostDepartmentRequest {
+  name: string;
+  requirements: string[];
+  description?: string;
+  head?: string;
+}
+
+export interface GetEmployeeDataResponse {
+  id: string;
+  name: string;
+  modified_at: string;
+  created_at: string;
+  department: number;
+}
+
+export interface PostTestRequest {
+  name: string;
+  description: string;
+  assigned_to: string;
+  created_by: string;
+}
+
+export interface DropdownChoicesInterface {
+  label: string;
+  value: string;
+}
+
+export interface GetCandidateDataResponse {
+  id: string;
+  name: string;
+  resume: string;
+  skill_set: string[];
+  score: string;
+  alloted_test: string;
+  modified_at?: string;
+  created_at?: string;
+}
+
+export interface PostCandidateRequest {
+  name: string;
+  resume: string;
+  skill_set: string[];
+  score: string;
+  alloted_test: string;
 }

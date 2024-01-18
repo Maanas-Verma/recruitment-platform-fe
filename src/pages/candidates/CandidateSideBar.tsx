@@ -23,13 +23,13 @@ function CandidateSideBar(props: CandidateSectionProps): ReactElement {
   };
 
   return (
-    <div>
-      <div className="fs-5">Candidate</div>
+    <div className="d-flex flex-column h-100">
+      <div className="fs-5 fw-semibold">Candidate</div>
       <div className="mt-5">
         <Button
           size="medium"
           theme="primary"
-          name="Add"
+          name="Add Candidate"
           buttonId="create-candidate"
           onClick={() => setShowCreateCandidate(true)}
           extraClass="fw-bold fs-7"
@@ -39,24 +39,36 @@ function CandidateSideBar(props: CandidateSectionProps): ReactElement {
         ></Button>
       </div>
       <div className="my-6">
+        <div>
+          <Button
+            size="medium"
+            theme="primary"
+            name="Apply Filter"
+            buttonId="create-candidate"
+            onClick={() => {}}
+            extraClass="fw-bold fs-7"
+            iconPlacement="start"
+            extraIconClass="my-auto"
+          ></Button>
+        </div>
         <div className="px-2 mb-2">
-          <span>Filter Candidate with percentage greater than </span>
+          <span>Filter Candidates based on Score: (Greater than)</span>
         </div>
         <InputControl type={"number"} controlKey={"hello"} nonFormElement />
       </div>
       <DropdownControl
         controlKey={"department_selection"}
-        defaultValue={{ name: "Department", value: "" }}
+        defaultValue={{ name: "Select Department", value: "" }}
         theme={"primary"}
         options={[
           {
             name: "Innovation Labs",
             value: "innovation_labs",
           },
-          { name: "Finanace", value: "finance" },
-          { name: "Start up", value: "start_up" },
+          { name: "Finance", value: "finance" },
+          { name: "Marketing", value: "marketing" },
         ]}
-        extraClass="bg-primary text-white fw-bold fs-7"
+        extraClass="bg-primary text-white fw-semibold fs-7 p-2"
         handleOnChange={handleDepartmentOnChange}
       />
       {showCreateCandidate ? (
@@ -64,6 +76,7 @@ function CandidateSideBar(props: CandidateSectionProps): ReactElement {
       ) : (
         ""
       )}
+      <div className="my-auto"></div>
     </div>
   );
 }

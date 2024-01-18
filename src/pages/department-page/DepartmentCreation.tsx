@@ -1,18 +1,26 @@
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { FieldValue, FormProvider, useForm } from "react-hook-form";
 import InputControl from "../../components/InputControl";
 import ReactDropdown from "../../components/ReactDropdown";
 import Button from "../../components/Button";
 import TextAreaControl from "../../components/TextAreaControl";
+import apiService from "../../api-service/apiServices";
+import {
+  DropdownChoicesInterface,
+  PostDepartmentRequest,
+} from "../../interfaces/global.interfaces";
+import { toast } from "react-toastify";
 
 interface DepartmentCreationProps {
   handleClose: () => void;
+  reloadDepartmentAPI: () => void;
 }
 
 interface DepartmentCreationForm {
-  title: string;
-  titleDescription: string;
+  name: string;
   department: string;
+  head?: string;
+  requirements: string | string[];
 }
 
 /**
@@ -21,16 +29,54 @@ interface DepartmentCreationForm {
  * @returns - Form Container return html component.
  */
 const DepartmentCreation = (props: DepartmentCreationProps): ReactElement => {
-  const { handleClose } = props;
+  const { handleClose, reloadDepartmentAPI } = props;
+  const [allEmployee, setAllEmployees] = useState<DropdownChoicesInterface[]>(
+    []
+  );
 
   const methods = useForm({
     mode: "all",
   });
   const { handleSubmit } = methods;
 
-  const handleFormSubmit = (data: FieldValue<DepartmentCreationForm>) => {
-    console.log(data);
+  const handleFormSubmit = async (data: FieldValue<DepartmentCreationForm>) => {
+    const formData = data as DepartmentCreationForm;
+    formData.requirements = (formData.requirements as string).split(" ");
+    try {
+      const departmentData = await apiService.postDepartment(
+        formData as PostDepartmentRequest
+      );
+      if (departmentData.data) {
+        toast.success("Department added successfully");
+        handleClose();
+        reloadDepartmentAPI();
+      }
+    } catch (error) {
+      toast.error(`Error while adding: ${error}`);
+    }
   };
+
+  const handleGetEmployee = async () => {
+    try {
+      const getAllEmployees = await apiService.getEmployee();
+      if (getAllEmployees.data) {
+        const employeeChoices: DropdownChoicesInterface[] = [];
+        getAllEmployees.data.forEach((employee) => {
+          employeeChoices.push({
+            label: employee.name,
+            value: employee.id,
+          });
+        });
+        setAllEmployees(employeeChoices);
+      }
+    } catch (error) {
+      toast.error(`Error while getting employees: ${error}`);
+    }
+  };
+
+  useEffect(() => {
+    handleGetEmployee();
+  }, []);
 
   return (
     <div
@@ -43,7 +89,7 @@ const DepartmentCreation = (props: DepartmentCreationProps): ReactElement => {
         <div className="modal-content">
           <div className="modal-header bg-secondary-dark rounded-top ps-4 pe-2 py-2">
             <h6 className="modal-title text-white" id="deals-order">
-              Create Department
+              Add Department
             </h6>
             <Button
               theme={"secondary-dark"}
@@ -63,7 +109,7 @@ const DepartmentCreation = (props: DepartmentCreationProps): ReactElement => {
                     <InputControl
                       label={"Name"}
                       type={"text"}
-                      controlKey={"title"}
+                      controlKey={"name"}
                       validationObject={{
                         required: "Please fill title as required",
                       }}
@@ -71,28 +117,31 @@ const DepartmentCreation = (props: DepartmentCreationProps): ReactElement => {
                   </div>
                   <div>
                     <TextAreaControl
-                      rows={5}
-                      label={"Title Description"}
-                      controlKey={"title-description"}
-                      controlPlaceholder={"Enter detail here..."}
-                      validationObject={{
-                        required: "Please fill title description as required",
-                      }}
+                      rows={3}
+                      label={"Description"}
+                      controlKey={"description"}
+                      controlPlaceholder={
+                        "Enter department description here..."
+                      }
                     />
                   </div>
                   <div>
                     <ReactDropdown
                       label={"Head"}
-                      controlKey={"department"}
-                      options={[
-                        { label: "Arun", value: "Arun" },
-                        { label: "Bharti", value: "Bharti" },
-                        { label: "Minakshi", value: "Minakshi" },
-                        { label: "Varun", value: "Varun" },
-                        { label: "Xavier", value: "Xavier" },
-                      ]}
+                      controlKey={"head"}
+                      options={allEmployee}
                       validationObject={{
-                        required: "Please select department as required",
+                        required: "Please Add any head as required",
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <TextAreaControl
+                      rows={3}
+                      label={"Requirements"}
+                      controlKey={"requirements"}
+                      validationObject={{
+                        required: "Please fill requirements as required",
                       }}
                     />
                   </div>

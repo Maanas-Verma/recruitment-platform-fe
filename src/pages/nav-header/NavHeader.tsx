@@ -81,7 +81,8 @@ function NavHeader(): ReactElement {
               type="button"
               tabIndex={0}
               className={`ms-4 border-0 shadow-0 bg-white ${
-                activeLink === "/tech-admin"
+                activeLink === "/tech-admin" ||
+                activeLink === "/tech-admin/questions"
                   ? "text-secondary-dark"
                   : " text-muted "
               }`}

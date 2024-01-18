@@ -2,6 +2,7 @@ import { ReactElement } from "react";
 
 interface TagControlProps {
   text: string;
+  tagType?: "tag" | "badge";
   textTheme?: string;
   bgTheme?: string;
 }
@@ -13,19 +14,31 @@ interface TagControlProps {
  * @returns - Returns a react element for tab control.
  */
 function TagControl(props: TagControlProps): ReactElement {
-  const { text, bgTheme, textTheme } = props;
+  const { tagType = "tag", text, bgTheme, textTheme } = props;
 
   return (
     <>
-      <div
-        className={`px-2 rounded-pill text-center ${
-          bgTheme && textTheme
-            ? `text-${textTheme} bg-${bgTheme} border-0`
-            : "text-grey border border-grey"
-        }`}
-      >
-        {text}
-      </div>
+      {tagType === "badge" ? (
+        <div
+          className={`badge rounded-pill px-2 py-1 ${
+            bgTheme && textTheme
+              ? `text-${textTheme} bg-${bgTheme} border-0`
+              : "text-grey border border-grey"
+          }`}
+        >
+          {text}
+        </div>
+      ) : (
+        <div
+          className={`px-2 rounded-pill text-center ${
+            bgTheme && textTheme
+              ? `text-${textTheme} bg-${bgTheme} border-0`
+              : "text-grey border border-grey"
+          }`}
+        >
+          {text}
+        </div>
+      )}
     </>
   );
 }

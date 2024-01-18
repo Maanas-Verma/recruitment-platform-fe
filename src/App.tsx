@@ -10,6 +10,7 @@ import SignIn from "./pages/sign-in/SignIn";
 import Home from "./pages/home-page/Home";
 import CandidateTest from "./pages/candidates/CandidateTest";
 import CandidateResult from "./pages/candidates/CandidateResult";
+import TechnicalQuestions from "./pages/questions-page/TechnicalQuestions";
 
 function App(): ReactElement {
   return (
@@ -24,6 +25,7 @@ function App(): ReactElement {
         <Route path="/tech-admin" element={<TechnicalPage />} />
         <Route path="/candidate-test" element={<CandidateTest />} />
         <Route path="/candidate-result" element={<CandidateResult />} />
+        <Route path="/tech-admin/questions" element={<TechnicalQuestions />} />
         <Route path="/logout" element={""} />
       </Routes>
     </BrowserRouter>

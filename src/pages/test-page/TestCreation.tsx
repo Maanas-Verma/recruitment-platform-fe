@@ -1,18 +1,23 @@
-import { ReactElement } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { FieldValue, FormProvider, useForm } from "react-hook-form";
 import InputControl from "../../components/InputControl";
 import ReactDropdown from "../../components/ReactDropdown";
 import Button from "../../components/Button";
 import TextAreaControl from "../../components/TextAreaControl";
+import apiService from "../../api-service/apiServices";
+import { DropdownChoicesInterface, GetEmployeeDataResponse, PostTestRequest } from "../../interfaces/global.interfaces";
+import { toast } from "react-toastify";
 
 interface TestCreationProps {
   handleClose: () => void;
+  reloadTestAPI: () => void;
 }
 
 interface TestCreationForm {
   title: string;
   titleDescription: string;
   department: string;
+  created_by: string;
 }
 
 /**
@@ -21,16 +26,72 @@ interface TestCreationForm {
  * @returns - Form Container return html component.
  */
 const TestCreation = (props: TestCreationProps): ReactElement => {
-  const { handleClose } = props;
+  const { handleClose, reloadTestAPI } = props;
+  const [allEmployee, setAllEmployees] = useState<DropdownChoicesInterface[]>(
+    []
+  );
+  const [allDepartment, setAllDepartment] = useState<DropdownChoicesInterface[]>(
+    []
+  );
 
   const methods = useForm({
     mode: "all",
   });
   const { handleSubmit } = methods;
 
-  const handleFormSubmit = (data: FieldValue<TestCreationForm>) => {
-    console.log(data);
+  const handleFormSubmit = async (data: FieldValue<TestCreationForm>) => {
+    try {
+      const testData = await apiService.postTestToken(data as PostTestRequest);
+      if (testData.data) {
+        toast.success("Test added successfully");
+        handleClose();
+        reloadTestAPI();
+      }
+    } catch (error) {
+      toast.error(`Error while adding: ${error}`);
+    }
   };
+
+  const handleGetEmployee = async () => {
+    try {
+      const getAllEmployees = await apiService.getEmployee();
+      if (getAllEmployees.data) {
+        const employeeChoices: DropdownChoicesInterface[] = [];
+        getAllEmployees.data.forEach((employee) => {
+          employeeChoices.push({
+            label: employee.name,
+            value: employee.id,
+          });
+        });
+        setAllEmployees(employeeChoices);
+      }
+    } catch (error) {
+      toast.error(`Error while getting employees: ${error}`);
+    }
+  };
+
+  const handleGetDepartment = async () => {
+    try {
+      const getAllDepartments = await apiService.getDepartment();
+      if (getAllDepartments.data) {
+        const departmentChoices: DropdownChoicesInterface[] = [];
+        getAllDepartments.data.forEach((department) => {
+          departmentChoices.push({
+            label: department.name,
+            value: department.id,
+          });
+        });
+        setAllDepartment(departmentChoices);
+      }
+    } catch (error) {
+      toast.error(`Error while getting department: ${error}`);
+    }
+  }
+
+  useEffect(() => {
+    handleGetEmployee();
+    handleGetDepartment();
+  }, []);
 
   return (
     <div
@@ -43,7 +104,7 @@ const TestCreation = (props: TestCreationProps): ReactElement => {
         <div className="modal-content">
           <div className="modal-header bg-secondary-dark rounded-top ps-4 pe-2 py-2">
             <h6 className="modal-title text-white" id="deals-order">
-              Create Test Token
+              Add New Test
             </h6>
             <Button
               theme={"secondary-dark"}
@@ -61,19 +122,19 @@ const TestCreation = (props: TestCreationProps): ReactElement => {
                 <div className="d-flex flex-column border border-lavender-lightest bg-white rounded-3 p-2 gap-1">
                   <div>
                     <InputControl
-                      label={"Title"}
+                      label={"Name"}
                       type={"text"}
-                      controlKey={"title"}
+                      controlKey={"name"}
                       validationObject={{
-                        required: "Please fill title as required",
+                        required: "Please fill name as required",
                       }}
                     />
                   </div>
                   <div>
                     <TextAreaControl
                       rows={5}
-                      label={"Title Description"}
-                      controlKey={"title-description"}
+                      label={"Test Description"}
+                      controlKey={"description"}
                       controlPlaceholder={"Enter detail here..."}
                       validationObject={{
                         required: "Please fill title description as required",
@@ -82,15 +143,19 @@ const TestCreation = (props: TestCreationProps): ReactElement => {
                   </div>
                   <div>
                     <ReactDropdown
+                      label={"Created by"}
+                      controlKey={"created_by"}
+                      options={allEmployee}
+                      validationObject={{
+                        required: "Please select HR employee as required",
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <ReactDropdown
                       label={"Department Allocation"}
-                      controlKey={"department"}
-                      options={[
-                        { label: "Devops", value: "devops" },
-                        { label: "Business", value: "business" },
-                        { label: "Finance", value: "finance" },
-                        { label: "Marketing", value: "marketing" },
-                        { label: "Equity Market", value: "equity_market" },
-                      ]}
+                      controlKey={"assigned_to"}
+                      options={allDepartment}
                       validationObject={{
                         required: "Please select department as required",
                       }}
@@ -104,7 +169,7 @@ const TestCreation = (props: TestCreationProps): ReactElement => {
                     size="small"
                     submitType="submit"
                     theme="primary"
-                    name="Submit"
+                    name="Add Test"
                     buttonId="section-form-submit-btn"
                     extraClass="fs-6"
                   />

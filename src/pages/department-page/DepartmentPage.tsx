@@ -3,6 +3,8 @@ import utils from "../utilities/application-utils";
 import DepartmentSideBar from "./DepartmentSideBar";
 import DepartmentSection from "./DepartmentSection";
 import { DepartmentData } from "../../interfaces/global.interfaces";
+import apiService from "../../api-service/apiServices";
+import { toast } from "react-toastify";
 
 /**
  * Test Component which loads test details table.
@@ -14,9 +16,20 @@ function DepartmentPage(): ReactElement {
   const [showCreateDepartment, setShowCreateDepartment] =
     useState<boolean>(false);
 
+  const handleGetDepartment = async () => {
+    try {
+      const getAllDepartments = await apiService.getDepartment();
+      if (getAllDepartments.data){
+        setAllDepartments(getAllDepartments.data);
+      }
+    } catch (error) {
+      toast.error(`Error while getting department: ${error}`);
+    }
+  }
+
   useEffect(() => {
-    setAllDepartments(utils.dummyDepartmentData);
-  }, [showCreateDepartment]);
+    handleGetDepartment();
+  }, []);
 
   return (
     <div className="container-fluid row p-0 m-0" style={{ height: "94vh" }}>
@@ -25,6 +38,7 @@ function DepartmentPage(): ReactElement {
           <DepartmentSideBar
             showCreateDepartment={showCreateDepartment}
             setShowCreateDepartment={setShowCreateDepartment}
+            reloadDepartmentAPI={handleGetDepartment}
           />
         </div>
       </div>

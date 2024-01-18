@@ -6,6 +6,7 @@ interface SearchBarProps {
   controlKey: string;
   controlPlaceholder: string;
   validationObject?: RegisterOptions;
+  extraClass?: string;
 }
 
 /**
@@ -15,7 +16,13 @@ interface SearchBarProps {
  * @returns - Returns a react element for text and number control.
  */
 function SearchBar(props: SearchBarProps): ReactElement {
-  const { label, controlKey, controlPlaceholder, validationObject } = props;
+  const {
+    label,
+    controlKey,
+    controlPlaceholder,
+    validationObject,
+    extraClass = "",
+  } = props;
 
   return (
     <div className="form-group mb-0">
@@ -37,7 +44,7 @@ function SearchBar(props: SearchBarProps): ReactElement {
         <input
           type={"text"}
           id={`search-control-${controlKey}`}
-          className={"form-control form-control fs-7 p-3 rounded-5"}
+          className={`form-control form-control ${extraClass}`}
           placeholder={controlPlaceholder}
         />
       </div>

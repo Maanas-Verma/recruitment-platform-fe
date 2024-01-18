@@ -79,6 +79,8 @@ function InputControl(props: InputControlProps): ReactElement {
       </div>
       <div className="mx-1">
         <input
+          {...register(controlKey, validationObject)}
+          name={controlKey}
           type={type}
           step={type === "number" ? `${step}` : ""}
           id={`input-control-${controlKey}`}
@@ -91,7 +93,6 @@ function InputControl(props: InputControlProps): ReactElement {
         ${get(errors, controlKey) ? "is-invalid bg-danger bg-opacity-10" : ""}
         `}
           placeholder={controlPlaceholder}
-          {...register(controlKey, validationObject)}
         />
       </div>
 
