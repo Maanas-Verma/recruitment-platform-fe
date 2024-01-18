@@ -49,8 +49,8 @@ function DepartmentTable(props: {
                 />
               </td>
               <td className="p-2 fs-7 ">{department?.name}</td>
-              <td className="p-2 fs-7 w-50">{department?.description}</td>
-              <td className="p-2 fs-7 ">{department?.departmentHead}</td>
+              <td className="p-2 fs-7 ">{department?.description}</td>
+              <td className="p-2 fs-7 ">{department?.head}</td>
               <td className="p-2 fs-7 ">
                 <div className="d-flex flex-wrap flex-row gap-1">
                   {department?.requirements.map((skill) => {

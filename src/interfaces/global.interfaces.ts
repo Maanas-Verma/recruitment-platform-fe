@@ -196,9 +196,11 @@ export interface TechnicalData extends TestElement {
 export interface DepartmentData {
   id: string;
   name: string;
-  description: string;
-  departmentHead: string;
+  description?: string;
+  head?: string;
   requirements: string[];
+  modified_at?: string;
+  created_at?: string;
 }
 
 export interface CandidatesData {
@@ -253,4 +255,11 @@ export interface GetTestResponse extends TestElement {
   created_at: string;
   created_by: null | string;
   questions: string[];
+}
+
+export interface PostDepartmentRequest {
+  name: string;
+  requirements: string[];
+  description?: string;
+  head?: string;
 }

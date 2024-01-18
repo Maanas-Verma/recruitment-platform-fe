@@ -4,15 +4,20 @@ import InputControl from "../../components/InputControl";
 import ReactDropdown from "../../components/ReactDropdown";
 import Button from "../../components/Button";
 import TextAreaControl from "../../components/TextAreaControl";
+import apiService from "../../api-service/apiServices";
+import { PostDepartmentRequest } from "../../interfaces/global.interfaces";
+import { toast } from "react-toastify";
 
 interface DepartmentCreationProps {
   handleClose: () => void;
+  reloadDepartmentAPI: () => void;
 }
 
 interface DepartmentCreationForm {
-  title: string;
-  titleDescription: string;
+  name: string;
   department: string;
+  head?: string;
+  requirements: string | string[];
 }
 
 /**
@@ -21,15 +26,26 @@ interface DepartmentCreationForm {
  * @returns - Form Container return html component.
  */
 const DepartmentCreation = (props: DepartmentCreationProps): ReactElement => {
-  const { handleClose } = props;
+  const { handleClose, reloadDepartmentAPI } = props;
 
   const methods = useForm({
     mode: "all",
   });
   const { handleSubmit } = methods;
 
-  const handleFormSubmit = (data: FieldValue<DepartmentCreationForm>) => {
-    console.log(data);
+  const handleFormSubmit = async (data: FieldValue<DepartmentCreationForm>) => {
+    const formData = data as DepartmentCreationForm;
+    formData.requirements = (formData.requirements as string).split(" ")
+    try {
+      const departmentData = await apiService.postDepartment(formData as PostDepartmentRequest);
+      if (departmentData.data) {
+        toast.success("Department added successfully");
+        handleClose();
+        reloadDepartmentAPI()
+      }
+    } catch (error) {
+      toast.error(`Error while adding: ${error}`);
+    }
   };
 
   return (
@@ -63,7 +79,7 @@ const DepartmentCreation = (props: DepartmentCreationProps): ReactElement => {
                     <InputControl
                       label={"Name"}
                       type={"text"}
-                      controlKey={"title"}
+                      controlKey={"name"}
                       validationObject={{
                         required: "Please fill title as required",
                       }}
@@ -77,15 +93,12 @@ const DepartmentCreation = (props: DepartmentCreationProps): ReactElement => {
                       controlPlaceholder={
                         "Enter department description here..."
                       }
-                      validationObject={{
-                        required: "Please fill description as required",
-                      }}
                     />
                   </div>
                   <div>
                     <ReactDropdown
                       label={"Head"}
-                      controlKey={"department"}
+                      controlKey={"head"}
                       options={[
                         { label: "Arun", value: "Arun" },
                         { label: "Bharti", value: "Bharti" },
@@ -93,9 +106,6 @@ const DepartmentCreation = (props: DepartmentCreationProps): ReactElement => {
                         { label: "Varun", value: "Varun" },
                         { label: "Xavier", value: "Xavier" },
                       ]}
-                      validationObject={{
-                        required: "Please select department as required",
-                      }}
                     />
                   </div>
                   <div>

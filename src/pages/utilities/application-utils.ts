@@ -144,7 +144,7 @@ const dummyDepartmentData: Array<DepartmentData> = [
     name: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
-    departmentHead: "Aman Gupta",
+    head: "Aman Gupta",
     requirements: ["java", "python", "c++"],
   },
   {
@@ -152,7 +152,7 @@ const dummyDepartmentData: Array<DepartmentData> = [
     name: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
-    departmentHead: "Aman Gupta",
+    head: "Aman Gupta",
     requirements: ["java", "python", "c++"],
   },
   {
@@ -160,7 +160,7 @@ const dummyDepartmentData: Array<DepartmentData> = [
     name: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
-    departmentHead: "Aman Gupta",
+    head: "Aman Gupta",
     requirements: ["java", "python", "c++"],
   },
   {
@@ -168,7 +168,7 @@ const dummyDepartmentData: Array<DepartmentData> = [
     name: "Quant",
     description:
       "Testing the ability to solve mathematical modelling, computer systems and data analysis to calculate the optimal probability of executing a profitable trade.",
-    departmentHead: "Aman Gupta",
+    head: "Aman Gupta",
     requirements: ["java", "python", "c++"],
   },
 ];
