@@ -2,6 +2,7 @@ import { ReactElement, SetStateAction, useEffect } from "react";
 import { PostQuestionResponse } from "../../interfaces/global.interfaces";
 import Button from "../../components/Button";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 interface QuestionPanelLeftProps {
   countIDLength: number;
@@ -40,10 +41,22 @@ function QuestionPanelLeft(props: QuestionPanelLeftProps): ReactElement {
     console.log("leftPanel", selectedQuestionIDs);
   }, [addedQuestionLists]);
 
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="d-flex flex-column gap-5 border-bottom shadow-sm p-4">
-        <div className="px-2 fs-5 fw-semibold">Quant</div>
+        <div className="px-2 d-flex justify-content-between">
+          <span className="fs-5 fw-semibold">Quant</span>
+          <Button
+            theme={"grey-dark"}
+            size={"small"}
+            buttonType={"outline"}
+            icon={"x-lg"}
+            extraClass={"p-1 rounded-circle"}
+            onClick={() => navigate("/tech-admin")}
+          />
+        </div>
         <div className="px-2 d-flex justify-content-between">
           <div className="fs-6">
             Long Description of the test - This part of the tutorial is about

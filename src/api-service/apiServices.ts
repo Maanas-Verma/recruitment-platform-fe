@@ -67,7 +67,7 @@ class HrAPI {
    * @param tokenData - Token request details.
    * @returns - Returns a promise with currency pair positions details.
    */
-  filterQuestion = async (
+  getQuestionById = async (
     dataID: string
   ): Promise<AxiosResponse<PostQuestionResponse>> => {
     return axios.get(`${this.base_url}${this.endpoints.question}${dataID}`);
