@@ -1,29 +1,25 @@
-import { ReactElement, useEffect, useState } from "react";
-import {
-  FormProvider,
-  useForm,
-} from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import Button from "../../components/Button";
+import { ReactElement } from "react";
 
-function CandidateResult(): ReactElement{
-  const TestName = 'React Test'
+interface CandidateResultData {
+  [key: string]: {
+    question: string;
+    options: { option_1: string; option_2: string };
+    selectedOptionKey: string;
+    correctOptionKey: string;
+  };
+}
 
-  const getCandidateResultData: { // has to be fetched from api
-    [key: string]: {
-      question: string;
-      options: { option_1: string; option_2: string };
-      selectedOptionKey: string;
-      correctOptionKey: string;
-    };
-  } = {
+function CandidateResult(): ReactElement {
+  const TestName = "React Test";
+
+  const getCandidateResultData: CandidateResultData = {
     question_1: {
       question: "HEHEH",
       options: {
         option_1: "a",
         option_2: "b",
       },
-      selectedOptionKey: "option_1", 
+      selectedOptionKey: "option_1",
       correctOptionKey: "option_2",
     },
     question_2: {
@@ -32,7 +28,7 @@ function CandidateResult(): ReactElement{
         option_1: "c",
         option_2: "d",
       },
-      selectedOptionKey: "", 
+      selectedOptionKey: "",
       correctOptionKey: "option_2",
     },
     question_3: {
@@ -41,7 +37,7 @@ function CandidateResult(): ReactElement{
         option_1: "e",
         option_2: "f",
       },
-      selectedOptionKey: "option_2", 
+      selectedOptionKey: "option_2",
       correctOptionKey: "option_2",
     },
     question_4: {
@@ -50,7 +46,7 @@ function CandidateResult(): ReactElement{
         option_1: "g",
         option_2: "h",
       },
-      selectedOptionKey: "", 
+      selectedOptionKey: "",
       correctOptionKey: "option_2",
     },
     question_5: {
@@ -59,7 +55,7 @@ function CandidateResult(): ReactElement{
         option_1: "i",
         option_2: "j",
       },
-      selectedOptionKey: "option_1", 
+      selectedOptionKey: "option_1",
       correctOptionKey: "option_2",
     },
     question_6: {
@@ -68,70 +64,69 @@ function CandidateResult(): ReactElement{
         option_1: "k",
         option_2: "l",
       },
-      selectedOptionKey: "option_2", 
+      selectedOptionKey: "option_2",
       correctOptionKey: "option_2",
     },
-  }
+  };
 
-  return(
+  return (
     <div className="d-flex flex-column">
-      <div>
-      {TestName}
-      </div>
-      <table className="p-2">
+      <div>{TestName}</div>
+      <table className="p-2 table table-bordered">
         <thead>
-          <tr className="d-flex flex-row justify-content-around">
-            <th>
-              Questions
-            </th>
-            <th>
-              Your Response
-            </th>
-            <th>
-              Correct Response
-            </th>
-            <th>
-              Response Status
-            </th>
+          <tr>
+            <th>Questions</th>
+            <th>Your Response</th>
+            <th>Correct Response</th>
+            <th>Response Status</th>
           </tr>
         </thead>
         <tbody>
-        {Object.keys(getCandidateResultData).map((questionId) => {
-            const {
-              question,
-              options,
-              selectedOptionKey,
-              correctOptionKey,
-            } = getCandidateResultData[questionId];
+          {Object.keys(getCandidateResultData).map((questionId) => {
+            const { question, options, selectedOptionKey, correctOptionKey } =
+              getCandidateResultData[questionId];
 
             const isResponseCorrect = selectedOptionKey === correctOptionKey;
+            const hasResponse =
+              selectedOptionKey && selectedOptionKey.trim() !== "";
 
             return (
-              <tr key={questionId} className="d-flex flex-row justify-content-around">
+              <tr key={questionId}>
                 <td>
                   <div>
-                  Q. {question}
+                    <strong>Q. {question}</strong>
                   </div>
                   <div>
-                  <ol>
-                      {Object.entries(options).map(([optionKey, optionValue]) => (
-                        <li key={optionKey}>
-                          {optionValue}
-                        </li>
-                      ))}
+                    <ol className="list-unstyled">
+                      {Object.entries(options).map(
+                        ([optionKey, optionValue]) => (
+                          <li key={optionKey}>
+                            {optionKey}: {optionValue}
+                          </li>
+                        )
+                      )}
                     </ol>
                   </div>
                 </td>
                 <td>{selectedOptionKey}</td>
                 <td>{correctOptionKey}</td>
-                <td>{isResponseCorrect ? "Correct" : "Incorrect"}</td>
+                <td>
+                  {hasResponse && isResponseCorrect ? (
+                    <i
+                      className="bi bi-check-circle-fill "
+                      style={{ color: "green" }}
+                    ></i>
+                  ) : hasResponse && !isResponseCorrect ? (
+                    <i className="bi bi-x" style={{ color: "red" }}></i>
+                  ) : null}
+                </td>
               </tr>
             );
           })}
         </tbody>
       </table>
     </div>
-  )
+  );
 }
 
 export default CandidateResult;
