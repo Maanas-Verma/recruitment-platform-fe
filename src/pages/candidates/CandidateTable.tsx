@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
 import { CandidatesData } from "../../interfaces/global.interfaces";
+import TagControl from "../../components/TagControl";
 
 /**
  * Test Component which loads test details table.
@@ -34,9 +35,9 @@ function CandidateTable(props: {
             <th className="px-2 py-4">Select</th>
             <th className="px-2 py-4">Name</th>
             <th className="px-2 py-4">Resume</th>
-            <th className="px-2 py-4">skill_set</th>
-            <th className="px-2 py-4">score</th>
-            <th className="px-2 py-4">alloted_test</th>
+            <th className="px-2 py-4">Skill Set</th>
+            <th className="px-2 py-4">Score</th>
+            <th className="px-2 py-4">Assigned Test</th>
           </tr>
         </thead>
         <tbody>
@@ -52,11 +53,18 @@ function CandidateTable(props: {
               <td className="p-2 fs-7 ">{candidates?.name}</td>
               <td className="p-2 fs-7 w-50">{candidates?.resume_url}</td>
               <td className="p-2 fs-7 ">
-                {candidates?.skill_set.map((skill) => {
-                  return (
-                    <span className="badge bg-secondary me-1" key={`skill-${skill}`}>{skill}</span>
-                  );
-                })}
+                <div className="d-flex flex-wrap flex-row gap-1">
+                  {candidates?.skill_set.map((skill) => {
+                    return (
+                      <span
+                        className="badge rounded-pill bg-primary px-2 py-1"
+                        key={`skill-${skill}`}
+                      >
+                        {skill}
+                      </span>
+                    );
+                  })}
+                </div>
               </td>
               <td className="p-2 fs-7 ">{candidates?.score}</td>
               <td className="p-2 fs-7 ">{candidates?.alloted_test}</td>

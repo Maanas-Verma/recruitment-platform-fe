@@ -1,7 +1,8 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import TechnicalCards from "./TechnicalCards";
 import SearchBar from "../../components/SearchBar";
 import { TechnicalData } from "../../interfaces/global.interfaces";
+import { useNavigate } from "react-router-dom";
 
 interface TechnicalSectionProps {
   allTechnical: TechnicalData[];
@@ -16,13 +17,21 @@ function TechnicalSection(props: TechnicalSectionProps): ReactElement {
   const { allTechnical } = props;
   const [selectedCardId, setSelectedCardId] = useState<string>("");
 
-  console.log(selectedCardId);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(selectedCardId);
+    if (selectedCardId) {
+      navigate("/tech-admin/questions");
+    }
+  }, [selectedCardId]);
 
   return (
     <div>
       <SearchBar
         controlPlaceholder="Search Assigned Test"
         controlKey="assigned-test"
+        extraClass="fs-7 p-3 rounded-5"
       />
       <div className="my-5 px-2 overflow-auto" style={{ maxHeight: "35rem" }}>
         <TechnicalCards
