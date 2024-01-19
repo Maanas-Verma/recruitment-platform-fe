@@ -27,7 +27,7 @@ function Home(): ReactElement {
       try {
         const response = await axios.get(
           //TODO: change this to some Id later
-          "http://13.233.194.145:8000/user/candidate/1/"
+          "http://13.233.194.145:8000/user/candidate/2/"
         );
         setUserSpecificData(response.data);
         console.log('responsea aa: ', response);
@@ -77,7 +77,7 @@ function Home(): ReactElement {
     const formData = new FormData();
     formData.append("resume", selectedFile);
 
-    const apiUrl = `http://13.233.194.145:8000/user/candidate/1/`;
+    const apiUrl = `http://13.233.194.145:8000/user/candidate/2/`;
 
     try {
       await axios.patch(apiUrl, formData);
