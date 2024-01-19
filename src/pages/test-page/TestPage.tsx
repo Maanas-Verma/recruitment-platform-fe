@@ -1,12 +1,11 @@
 import { ReactElement, useEffect, useState } from "react";
-import utils from "../utilities/application-utils";
-import TestCreation from "./TestCreation";
 import { TestElement } from "../../interfaces/global.interfaces";
-import TabControl from "../../components/TabControl";
-import Button from "../../components/Button";
 import apiService from "../../api-service/apiServices";
 import TestSection from "./TestSection";
 import TestSideBar from "./TestSideBar";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { getUser } from "../../api-service/sessionStorage";
 
 /**
  * Test Component which loads test details table.
@@ -15,12 +14,29 @@ import TestSideBar from "./TestSideBar";
  */
 function TestPage(): ReactElement {
   const [allTests, setAllTests] = useState<TestElement[]>([]);
-  const [selectedTestStatus, setSelectedTestStatus] = useState<string>("");
   const [showCreateTest, setShowCreateTest] = useState<boolean>(false);
 
+  const navigate = useNavigate();
+
+  const handleGetTest = async () => {
+    try{
+      const getAllTests = await apiService.getTest();
+      if ( getAllTests.data ){
+        setAllTests(getAllTests.data);
+      }
+    } catch (error) {
+      toast.error(`Error while getting all tests: ${error}`);
+    }
+  }
+
   useEffect(() => {
-    setAllTests(utils.dummyTestData);
-  }, [selectedTestStatus, showCreateTest]);
+    const user = getUser();
+    if (user.userType !== "hr") {
+      navigate("/");
+      return;
+    }
+    handleGetTest();
+  },[]);
 
   return (
     <div className="container-fluid row p-0 m-0" style={{ height: "94vh" }}>
@@ -29,6 +45,7 @@ function TestPage(): ReactElement {
           <TestSideBar
             showCreateTest={showCreateTest}
             setShowCreateTest={setShowCreateTest}
+            reloadTestAPI={handleGetTest}
           />
         </div>
       </div>

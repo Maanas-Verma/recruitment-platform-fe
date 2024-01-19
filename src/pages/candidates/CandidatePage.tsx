@@ -1,8 +1,11 @@
 import { ReactElement, useEffect, useState } from "react";
-import utils from "../utilities/application-utils";
 import CandidateSideBar from "./CandidateSideBar";
 import CandidateSection from "./CandidateSection";
-import { CandidatesData } from "../../interfaces/global.interfaces";
+import { GetCandidateDataResponse } from "../../interfaces/global.interfaces";
+import apiService from "../../api-service/apiServices";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { getUser } from "../../api-service/sessionStorage";
 
 /**
  * Test Component which loads test details table.
@@ -10,12 +13,31 @@ import { CandidatesData } from "../../interfaces/global.interfaces";
  * @returns - Test component HTML with test details.
  */
 function CandidatePage(): ReactElement {
-  const [allCandidates, setAllCandidates] = useState<CandidatesData[]>([]);
+  const [allCandidates, setAllCandidates] = useState<
+    GetCandidateDataResponse[]
+  >([]);
   const [showCreateCandidate, setShowCreateCandidate] =
     useState<boolean>(false);
+  const navigate = useNavigate();
+
+  const handleGetCandidate = async (): Promise<void> => {
+    try {
+      const getAllCandidates = await apiService.getCandidate();
+      if (getAllCandidates.data) {
+        setAllCandidates(getAllCandidates.data);
+      }
+    } catch (error) {
+      toast.error(`Error while getting candidates: ${error}`);
+    }
+  };
 
   useEffect(() => {
-    setAllCandidates(utils.dummyCandidateData);
+    const user = getUser();
+    if (user.userType !== "hr") {
+      navigate("/");
+      return;
+    }
+    handleGetCandidate();
   }, [showCreateCandidate]);
 
   return (
@@ -30,7 +52,10 @@ function CandidatePage(): ReactElement {
       </div>
       <div className="col-10 p-0 align-items-stretch d-flex">
         <div className="border border-1 rounded-2 m-4 ms-2 align-items-stretch w-100 p-5 bg-white">
-          <CandidateSection allCandidates={allCandidates} />
+          <CandidateSection
+            allCandidates={allCandidates}
+            reloadCandidateAPI={handleGetCandidate}
+          />
         </div>
       </div>
     </div>

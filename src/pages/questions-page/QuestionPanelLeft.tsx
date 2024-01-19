@@ -1,9 +1,15 @@
-import { ReactElement, useEffect } from "react";
-import { QuestionCreationForm } from "../../interfaces/global.interfaces";
+import { ReactElement, SetStateAction, useEffect } from "react";
+import { PostQuestionResponse } from "../../interfaces/global.interfaces";
 import Button from "../../components/Button";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 interface QuestionPanelLeftProps {
-  allQuestionLists: QuestionCreationForm[];
+  countIDLength: number;
+  setCountIDLength: React.Dispatch<SetStateAction<number>>;
+  selectedQuestionIDs: string[];
+  setSelectedQuestionIDs: React.Dispatch<SetStateAction<string[]>>;
+  addedQuestionLists: PostQuestionResponse[];
 }
 
 /**
@@ -12,15 +18,45 @@ interface QuestionPanelLeftProps {
  * @returns - Technical Section Component to render element.
  */
 function QuestionPanelLeft(props: QuestionPanelLeftProps): ReactElement {
-  const { allQuestionLists } = props;
+  const {
+    addedQuestionLists,
+    countIDLength,
+    setCountIDLength,
+    selectedQuestionIDs,
+    setSelectedQuestionIDs,
+  } = props;
+
+  const filterSubQuestions = (selectedID: string): void => {
+    if (selectedQuestionIDs) {
+      const newParsedQuestionIDs = selectedQuestionIDs.filter(
+        (id) => selectedID !== id
+      );
+      setSelectedQuestionIDs(newParsedQuestionIDs);
+      setCountIDLength(() => countIDLength - 1);
+      toast.success(`Removed Question`);
+    }
+  };
 
   useEffect(() => {
-    console.log("leftPanel"); // debug
-  }, [allQuestionLists]);
+    console.log("leftPanel", selectedQuestionIDs);
+  }, [addedQuestionLists]);
+
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="d-flex flex-column gap-5 border-bottom shadow-sm p-4">
-        <div className="px-2 fs-5 fw-semibold">Quant</div>
+        <div className="px-2 d-flex justify-content-between">
+          <span className="fs-5 fw-semibold">Quant</span>
+          <Button
+            theme={"grey-dark"}
+            size={"small"}
+            buttonType={"outline"}
+            icon={"x-lg"}
+            extraClass={"p-1 rounded-circle"}
+            onClick={() => navigate("/tech-admin")}
+          />
+        </div>
         <div className="px-2 d-flex justify-content-between">
           <div className="fs-6">
             Long Description of the test - This part of the tutorial is about
@@ -31,6 +67,7 @@ function QuestionPanelLeft(props: QuestionPanelLeftProps): ReactElement {
             size={"medium"}
             name={"Create Test"}
             extraClass={"fw-bold fs-7"}
+            onClick={() => {}} // Add API after login done
           />
         </div>
       </div>
@@ -38,7 +75,7 @@ function QuestionPanelLeft(props: QuestionPanelLeftProps): ReactElement {
         className="d-flex flex-column gap-4 overflow-auto p-4"
         style={{ maxHeight: "35rem" }}
       >
-        {allQuestionLists.map((question: QuestionCreationForm) => {
+        {addedQuestionLists.map((question: PostQuestionResponse) => {
           return (
             <div key={question?.id} className="card shadow-sm">
               <Button
@@ -48,6 +85,7 @@ function QuestionPanelLeft(props: QuestionPanelLeftProps): ReactElement {
                 extraClass={
                   "p-0 position-absolute rounded-circle top-0 start-0 translate-middle"
                 }
+                onClick={() => filterSubQuestions(question.id)}
               />
               <div className="row g-0">
                 <div className="card-body">
@@ -59,13 +97,13 @@ function QuestionPanelLeft(props: QuestionPanelLeftProps): ReactElement {
                     <div className="w-50">
                       <span className="me-2">A.</span>
                       <span className="me-2">
-                        {JSON.stringify(question?.other_dependencies?.A)}
+                        {question?.other_dependencies?.A}
                       </span>
                     </div>
                     <div className="w-50">
                       <span className="me-2">B.</span>
                       <span className="me-2">
-                        {JSON.stringify(question?.other_dependencies?.B)}
+                        {question?.other_dependencies?.B}
                       </span>
                     </div>
                   </div>
@@ -73,13 +111,13 @@ function QuestionPanelLeft(props: QuestionPanelLeftProps): ReactElement {
                     <div className="w-50">
                       <span className="me-2">C.</span>
                       <span className="me-2">
-                        {JSON.stringify(question?.other_dependencies?.C)}
+                        {question?.other_dependencies?.C}
                       </span>
                     </div>
                     <div className="w-50">
                       <span className="me-2">D.</span>
                       <span className="me-2">
-                        {JSON.stringify(question?.other_dependencies?.D)}
+                        {question?.other_dependencies?.D}
                       </span>
                     </div>
                   </div>

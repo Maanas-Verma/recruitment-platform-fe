@@ -4,21 +4,19 @@ import InputControl from "../../components/InputControl";
 import ReactDropdown from "../../components/ReactDropdown";
 import Button from "../../components/Button";
 import TextAreaControl from "../../components/TextAreaControl";
-import cryptoRandomString from "crypto-random-string";
-import { QuestionCreationForm } from "../../interfaces/global.interfaces";
+import { PostQuestionRequest } from "../../interfaces/global.interfaces";
+import { toast } from "react-toastify";
+import { AxiosError } from "axios";
+import apiService from "../../api-service/apiServices";
 
 interface QuestionCreationProps {
-  handleFilledForm: React.Dispatch<SetStateAction<QuestionCreationForm>>;
+  totalQuestionCount: number;
+  handleQuestionsCount: React.Dispatch<SetStateAction<number>>;
   handleClose: () => void;
 }
 
-const FormFieldObject = {
-  id: "",
-  description: "",
-  question_type: "",
-  other_dependencies: {},
-  correct_answer: "",
-  created_at: "",
+type indexObject = {
+  [index: string]: string | any;
 };
 
 /**
@@ -27,46 +25,51 @@ const FormFieldObject = {
  * @returns - Question Form Container return html component.
  */
 const QuestionCreation = (props: QuestionCreationProps): ReactElement => {
-  const { handleFilledForm, handleClose } = props;
+  const { totalQuestionCount, handleQuestionsCount, handleClose } = props;
 
   const methods = useForm({
     mode: "all",
   });
   const { handleSubmit } = methods;
 
-  const handleFormSubmit = (data: { [key: string]: string }) => {
-    const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-
-    const parsedData: any = {
-      ...FormFieldObject,
-      id: `test-${cryptoRandomString({
-        length: 8,
-        type: "alphanumeric",
-      })}`,
-      created_at: formattedDate,
+  const handleQuestionSubmit = async (data: indexObject): Promise<void> => {
+    const parsedData: PostQuestionRequest = {
+      description: "",
+      question_type: "",
+      correct_answer: "",
+      tags: null,
+      other_dependencies: {},
     };
 
-    Object.keys(data).forEach((key) => {
-      if (key === "A") {
-        parsedData.other_dependencies[key] = data[key];
-      } else if (key === "B") {
-        parsedData.other_dependencies[key] = data[key];
-      } else if (key === "C") {
-        parsedData.other_dependencies[key] = data[key];
-      } else if (key === "D") {
-        parsedData.other_dependencies[key] = data[key];
+    Object.keys(data).forEach((value) => {
+      const key = value as keyof PostQuestionRequest;
+      if (value === "A") {
+        parsedData["other_dependencies"][key] = data[key];
+      } else if (value === "B") {
+        parsedData["other_dependencies"][key] = data[key];
+      } else if (value === "C") {
+        parsedData["other_dependencies"][key] = data[key];
+      } else if (value === "D") {
+        parsedData["other_dependencies"][key] = data[key];
+      } else if (value === "tags") {
+        parsedData[key] = data[key].split(",");
       } else {
         parsedData[key] = data[key];
       }
     });
-    handleFilledForm(parsedData);
-    handleClose();
+    console.log(parsedData);
+
+    try {
+      const postQuestionResponse = await apiService.postQuestion(parsedData);
+      if (postQuestionResponse?.data) {
+        handleQuestionsCount(() => totalQuestionCount + 1);
+        toast.success("Question Created");
+        handleClose();
+      }
+    } catch (error) {
+      const errors = error as Error | AxiosError;
+      toast.error(errors?.message);
+    }
   };
 
   return (
@@ -93,7 +96,7 @@ const QuestionCreation = (props: QuestionCreationProps): ReactElement => {
             ></Button>
           </div>
           <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(handleFormSubmit)}>
+            <form onSubmit={handleSubmit(handleQuestionSubmit)}>
               <div className="modal-body bg-lavender-lightest">
                 <div className="d-flex flex-column border border-lavender-lightest bg-white rounded-3 p-2 gap-1">
                   <div>
@@ -116,6 +119,14 @@ const QuestionCreation = (props: QuestionCreationProps): ReactElement => {
                         required:
                           "Please select question type field as required",
                       }}
+                    />
+                  </div>
+                  <div>
+                    <TextAreaControl
+                      rows={3}
+                      label={"Tags"}
+                      controlKey={"tags"}
+                      controlPlaceholder={"Add comma separated skills here..."}
                     />
                   </div>
                   <div className="d-flex flex-row justify-content-between">

@@ -4,6 +4,8 @@ import { useForm, FormProvider } from "react-hook-form";
 import Button from "../../components/Button";
 import axios from "axios";
 import { toast } from "react-toastify";
+import apiService from "../../api-service/apiServices";
+import { getUser } from "../../api-service/sessionStorage";
 
 //TODO: add a patch call for resume.
 
@@ -23,15 +25,17 @@ function Home(): ReactElement {
   const companyName = "ICICI";
 
   useEffect(() => {
+    const user = getUser();
+    if (user.userType !== "candidate") {
+      navigate("/");
+      return;
+    }
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          //TODO: change this to some Id later
-          "http://13.233.194.145:8000/user/candidate/2/"
-        );
+        const response = await apiService.getCandidateById(getUser().userId);
         setUserSpecificData(response.data);
-        console.log('responsea aa: ', response);
-        
+        console.log("responsea aa: ", response);
+
         if (response.data.resume !== null || response.data.resume !== "") {
           setIsTestEnabled(true);
           setTestId(response.data.alloted_test);

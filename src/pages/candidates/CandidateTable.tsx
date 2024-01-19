@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
-import { CandidatesData } from "../../interfaces/global.interfaces";
+import { GetCandidateDataResponse } from "../../interfaces/global.interfaces";
 import TagControl from "../../components/TagControl";
+import Button from "../../components/Button";
 
 /**
  * Test Component which loads test details table.
@@ -9,7 +10,7 @@ import TagControl from "../../components/TagControl";
  */
 function CandidateTable(props: {
   selectedCandidate: string[];
-  allCandidates: CandidatesData[];
+  allCandidates: GetCandidateDataResponse[];
   setSelectedCandidates: (value: string[]) => void;
 }): ReactElement {
   const { selectedCandidate, allCandidates, setSelectedCandidates } = props;
@@ -41,7 +42,7 @@ function CandidateTable(props: {
           </tr>
         </thead>
         <tbody>
-          {allCandidates.map((candidates: CandidatesData) => (
+          {allCandidates.map((candidates: GetCandidateDataResponse) => (
             <tr className={"cursor-pointer"} key={`candidate-${candidates.id}`}>
               <td className="p-2">
                 <input
@@ -51,10 +52,10 @@ function CandidateTable(props: {
                 />
               </td>
               <td className="p-2 fs-7 ">{candidates?.name}</td>
-              <td className="p-2 fs-7 w-50">{candidates?.resume_url}</td>
+              <td className="p-2 fs-7 w-50"><Button buttonType="text" name="resume" theme={"primary"} size={"small"} hrefLink={candidates?.resume}/></td>
               <td className="p-2 fs-7 ">
                 <div className="d-flex flex-wrap flex-row gap-1">
-                  {candidates?.skill_set.map((skill) => {
+                  {(candidates.skill_set && candidates.skill_set.length>0) ? candidates?.skill_set.map((skill) => {
                     return (
                       <span
                         className="badge rounded-pill bg-primary px-2 py-1"
@@ -63,7 +64,7 @@ function CandidateTable(props: {
                         {skill}
                       </span>
                     );
-                  })}
+                  }): "No Skill Set"}
                 </div>
               </td>
               <td className="p-2 fs-7 ">{candidates?.score}</td>

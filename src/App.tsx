@@ -13,6 +13,7 @@ import CandidateResult from "./pages/candidates/CandidateResult";
 import TechnicalQuestions from "./pages/questions-page/TechnicalQuestions";
 
 function App(): ReactElement {
+  sessionStorage.clear();
   return (
     <BrowserRouter>
       <NavHeader />
@@ -26,7 +27,6 @@ function App(): ReactElement {
         <Route path="/candidate-test" element={<CandidateTest />} />
         <Route path="/candidate-result" element={<CandidateResult />} />
         <Route path="/tech-admin/questions" element={<TechnicalQuestions />} />
-        <Route path="/logout" element={""} />
       </Routes>
     </BrowserRouter>
   );

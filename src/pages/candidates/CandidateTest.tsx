@@ -3,6 +3,7 @@ import { ReactElement, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
+import { getUser } from "../../api-service/sessionStorage";
 
 
 interface OtherDependencies {
@@ -285,6 +286,14 @@ console.log("Subkit clciked: ", candidateResultData);
     setTestName(fetchedCandidateTestData.name);
     setSelectedQuestionId(fetchedCandidateTestData.questions[0].id);
   }, [testId]);
+
+  useEffect(() => {
+    const user = getUser();
+    if (user.userType !== "candidate") {
+      navigate("/");
+      return;
+    }
+  },[])
 
   return (
     <div className="d-flex flex-row justify-content-between gap-1">

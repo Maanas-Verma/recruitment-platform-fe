@@ -1,7 +1,12 @@
-import { ReactElement } from "react";
-import { QuestionCreationForm } from "../../interfaces/global.interfaces";
+import { ReactElement, SetStateAction, useEffect, useState } from "react";
+import { PostQuestionResponse } from "../../interfaces/global.interfaces";
 import QuestionPanelRight from "./QuestionPanelRight";
 import QuestionPanelLeft from "./QuestionPanelLeft";
+import apiService from "../../api-service/apiServices";
+import { AxiosError } from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { getUser } from "../../api-service/sessionStorage";
 
 /**
  * Technical Page Component which loads whole technical page.
@@ -9,20 +14,64 @@ import QuestionPanelLeft from "./QuestionPanelLeft";
  * @returns - Technical page component return react element.
  */
 function TechnicalQuestions(): ReactElement {
-  // temporary hold create new question
-  const allQuestionLists: Array<QuestionCreationForm> = [];
-  // const [allQuestionLists, setAllQuestionLists] = useState<TechnicalData[]>([]);
+  const [addedQuestionList, setAddedQuestionList] = useState<
+    PostQuestionResponse[]
+  >([]);
+  const [countIDLength, setCountIDLength] = useState<number>(0);
+  const [selectedQuestionIDs, setSelectedQuestionIDs] = useState<string[]>([]);
+
+  const navigate = useNavigate();
+
+  const filterUpdatedQuestionsList = async (
+    questionArray: string[]
+  ): Promise<void> => {
+    try {
+      const getQuestionResponse = await apiService.getQuestion();
+      if (getQuestionResponse?.data) {
+        const updatedQuestionList = getQuestionResponse.data.filter(
+          (response) => questionArray.includes(response.id)
+        );
+        setAddedQuestionList(updatedQuestionList);
+      }
+    } catch (error) {
+      const errors = error as Error | AxiosError;
+      toast.error(errors?.message);
+    }
+  };
+
+  useEffect(() => {
+    filterUpdatedQuestionsList(selectedQuestionIDs);
+  }, [countIDLength]);
+
+  useEffect(() => {
+    const user = getUser();
+    if (user.userType !== "employee") {
+      navigate("/");
+      return;
+    }
+  },[])
 
   return (
     <div className="container-fluid row p-0 m-0" style={{ height: "94vh" }}>
       <div className="col-8 p-0 align-items-stretch d-flex">
         <div className="border border-1 rounded-3 m-4 ms-2 align-items-stretch w-100 bg-white">
-          <QuestionPanelLeft allQuestionLists={allQuestionLists} />
+          <QuestionPanelLeft
+            countIDLength={countIDLength}
+            setCountIDLength={setCountIDLength}
+            selectedQuestionIDs={selectedQuestionIDs}
+            setSelectedQuestionIDs={setSelectedQuestionIDs}
+            addedQuestionLists={addedQuestionList}
+          />
         </div>
       </div>
       <div className="col-4 p-0 align-items-stretch d-flex">
         <div className="border border-1 rounded-3 m-4 me-2 align-items-stretch w-100 bg-white">
-          <QuestionPanelRight allQuestionLists={allQuestionLists} />
+          <QuestionPanelRight
+            countIDLength={countIDLength}
+            setCountIDLength={setCountIDLength}
+            selectedQuestionIDs={selectedQuestionIDs}
+            setSelectedQuestionIDs={setSelectedQuestionIDs}
+          />
         </div>
       </div>
     </div>
