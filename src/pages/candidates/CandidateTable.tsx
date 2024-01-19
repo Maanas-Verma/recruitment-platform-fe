@@ -52,19 +52,29 @@ function CandidateTable(props: {
                 />
               </td>
               <td className="p-2 fs-7 ">{candidates?.name}</td>
-              <td className="p-2 fs-7 w-50"><Button buttonType="text" name="resume" theme={"primary"} size={"small"} hrefLink={candidates?.resume}/></td>
+              <td className="p-2 fs-7 w-50">
+                <Button
+                  buttonType="text"
+                  name="Resume"
+                  theme={"primary"}
+                  size={"small"}
+                  hrefLink={candidates?.resume}
+                />
+              </td>
               <td className="p-2 fs-7 ">
                 <div className="d-flex flex-wrap flex-row gap-1">
-                  {(candidates.skill_set && candidates.skill_set.length>0) ? candidates?.skill_set.map((skill) => {
-                    return (
-                      <span
-                        className="badge rounded-pill bg-primary px-2 py-1"
-                        key={`skill-${skill}`}
-                      >
-                        {skill}
-                      </span>
-                    );
-                  }): "No Skill Set"}
+                  {candidates.skill_set && candidates.skill_set.length > 0
+                    ? candidates?.skill_set.map((skill) => {
+                        return (
+                          <span
+                            className="badge rounded-pill bg-primary px-2 py-1"
+                            key={`skill-${skill}`}
+                          >
+                            {skill}
+                          </span>
+                        );
+                      })
+                    : "No Skill Set"}
                 </div>
               </td>
               <td className="p-2 fs-7 ">{candidates?.score}</td>
