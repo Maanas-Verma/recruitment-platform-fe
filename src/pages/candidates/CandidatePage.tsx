@@ -23,8 +23,16 @@ function CandidatePage(): ReactElement {
   const handleGetCandidate = async (): Promise<void> => {
     try {
       const getAllCandidates = await apiService.getCandidate();
+      const getResumeMatrices = await apiService.getResumeMatrices();
       if (getAllCandidates.data) {
-        setAllCandidates(getAllCandidates.data);
+        const updatedCandidates = getAllCandidates.data.map((candidate) => {
+          const resumeMatrix = getResumeMatrices.data[candidate.id];
+          if (resumeMatrix) {
+            candidate.resumeMatrix = resumeMatrix;
+          }
+          return candidate;
+        });
+        setAllCandidates(updatedCandidates);
       }
     } catch (error) {
       toast.error(`Error while getting candidates: ${error}`);

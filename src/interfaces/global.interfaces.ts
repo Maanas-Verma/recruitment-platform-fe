@@ -274,6 +274,7 @@ export interface GetCandidateDataResponse {
   alloted_test: string;
   modified_at?: string;
   created_at?: string;
+  resumeMatrix?: SingleResumeMatrix;
 }
 
 export interface PostCandidateRequest {
@@ -294,4 +295,12 @@ export interface SignUpRequest {
 export interface SignInRequest {
   username: string;
   password: string;
+}
+
+export interface SingleResumeMatrix {
+  [key: string]: number;
+}
+
+export interface GetResumeMatricesResponse {
+  [key: string]: SingleResumeMatrix;
 }
