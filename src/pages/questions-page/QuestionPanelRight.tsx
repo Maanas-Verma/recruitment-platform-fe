@@ -40,7 +40,6 @@ function QuestionPanelRight(props: QuestionPanelRightProps): ReactElement {
       selectedQuestionIDs.push(selectedID);
       setSelectedQuestionIDs(selectedQuestionIDs);
       setCountIDLength(() => countIDLength + 1);
-      toast.success(`Added Question`);
     }
   };
 

@@ -61,7 +61,7 @@ function DepartmentTable(props: {
             <th className="px-2 py-4">Name</th>
             <th className="px-2 py-4">Description</th>
             <th className="px-2 py-4">Head</th>
-            <th className="px-2 py-4">Requirements</th>
+            <th className="px-2 py-4 w-50">Requirements</th>
           </tr>
         </thead>
         <tbody>

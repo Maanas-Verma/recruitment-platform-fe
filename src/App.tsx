@@ -17,7 +17,10 @@ function App(): ReactElement {
         <Route path="/departments" element={<DepartmentPage />} />
         <Route path="/tests" element={<TestPage />} />
         <Route path="/tech-admin" element={<TechnicalPage />} />
-        <Route path="/tech-admin/questions" element={<TechnicalQuestions />} />
+        <Route
+          path="/tech-admin/questions/:testId"
+          element={<TechnicalQuestions />}
+        />
         <Route path="/logout" element={""} />
       </Routes>
     </BrowserRouter>

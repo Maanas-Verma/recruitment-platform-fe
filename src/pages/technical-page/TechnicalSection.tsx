@@ -1,11 +1,12 @@
 import { ReactElement, useEffect, useState } from "react";
 import TechnicalCards from "./TechnicalCards";
 import SearchBar from "../../components/SearchBar";
-import { TechnicalData } from "../../interfaces/global.interfaces";
+import { GetTestResponse } from "../../interfaces/global.interfaces";
 import { useNavigate } from "react-router-dom";
 
 interface TechnicalSectionProps {
-  allTechnical: TechnicalData[];
+  filterValue: string;
+  allTechnical: GetTestResponse[];
 }
 
 /**
@@ -14,15 +15,14 @@ interface TechnicalSectionProps {
  * @returns - Technical Section Component to render element.
  */
 function TechnicalSection(props: TechnicalSectionProps): ReactElement {
-  const { allTechnical } = props;
+  const { filterValue, allTechnical } = props;
   const [selectedCardId, setSelectedCardId] = useState<string>("");
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(selectedCardId);
     if (selectedCardId) {
-      navigate("/tech-admin/questions");
+      navigate(`/tech-admin/questions/${selectedCardId}`);
     }
   }, [selectedCardId]);
 
@@ -35,6 +35,7 @@ function TechnicalSection(props: TechnicalSectionProps): ReactElement {
       />
       <div className="my-5 px-2 overflow-auto" style={{ maxHeight: "35rem" }}>
         <TechnicalCards
+          filterValue={filterValue}
           filterTechnical={allTechnical}
           setSelectedCardId={setSelectedCardId}
         />

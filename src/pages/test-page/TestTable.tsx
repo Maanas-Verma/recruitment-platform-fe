@@ -1,8 +1,9 @@
 import { ReactElement, useEffect, useState } from "react";
-import { TestElement } from "../../interfaces/global.interfaces";
+import { GetTestResponse } from "../../interfaces/global.interfaces";
 import utils from "../utilities/application-utils";
 import apiService from "../../api-service/apiServices";
 import { toast } from "react-toastify";
+import TagControl from "../../components/TagControl";
 
 /**
  * Test Component which loads test details table.
@@ -10,7 +11,7 @@ import { toast } from "react-toastify";
  * @returns - Test component HTML with test details.
  */
 function TestTable(props: {
-  allTests: TestElement[];
+  allTests: GetTestResponse[];
   testStatus: string;
 }): ReactElement {
   const { allTests, testStatus } = props;
@@ -36,6 +37,16 @@ function TestTable(props: {
     }
   };
 
+  const tagStyle = (text: string): string => {
+    if (text === "CREATED") {
+      return "lavender";
+    } else if (text === "COMPLETED") {
+      return "success";
+    } else {
+      return "warning";
+    }
+  };
+
   useEffect(() => {
     handleGetDepartment();
   }, []);
@@ -54,27 +65,22 @@ function TestTable(props: {
         </thead>
         <tbody>
           {allTests
-            .filter((test: TestElement) => {
+            .filter((test: GetTestResponse) => {
               if (test.status === testStatus) {
                 return true;
               }
             })
-            .map((test: TestElement) => (
+            .map((test: GetTestResponse) => (
               <tr key={test.id} className={"cursor-pointer"}>
                 <td className="p-2 fs-7 ">{test?.name}</td>
                 <td className="p-2 fs-7 w-50">{test?.description}</td>
                 <td className="p-2 fs-7 ">
-                  <div
-                    className={`rounded-pill text-center border ${
-                      test?.status === "Pending"
-                        ? "text-grey border-grey"
-                        : test?.status === "Created"
-                        ? "text-warning border-warning"
-                        : "text-success border-success"
-                    }`}
-                  >
-                    {test?.status}
-                  </div>
+                  <TagControl
+                    text={test.status}
+                    tagType={"badge"}
+                    bgTheme={`${tagStyle(test.status)}-light`}
+                    textTheme={"white"}
+                  />
                 </td>
                 <td className="p-2 fs-7 ">
                   {test.assigned_to !== null

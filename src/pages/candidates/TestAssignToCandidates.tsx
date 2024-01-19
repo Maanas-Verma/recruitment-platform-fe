@@ -2,7 +2,7 @@ import { ReactElement, useEffect, useState } from "react";
 import { FieldValue, FormProvider, useForm } from "react-hook-form";
 import ReactDropdown from "../../components/ReactDropdown";
 import Button from "../../components/Button";
-import { TestElement } from "../../interfaces/global.interfaces";
+import { GetTestResponse } from "../../interfaces/global.interfaces";
 import apiService from "../../api-service/apiServices";
 import { toast } from "react-toastify";
 
@@ -24,7 +24,7 @@ const TestAssignToCandidates = (
   props: TestAssignToCandidatesProps
 ): ReactElement => {
   const { handleClose, sendTestToCandidates } = props;
-  const [allTests, setAllTests] = useState<TestElement[]>([]);
+  const [allTests, setAllTests] = useState<GetTestResponse[]>([]);
 
   const methods = useForm({
     mode: "all",
