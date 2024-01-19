@@ -40,6 +40,7 @@ function TechnicalPage(): ReactElement {
       return;
     }
   }, []);
+
   useEffect(() => {
     handleGetTechnical();
   }, [filterValue]);
