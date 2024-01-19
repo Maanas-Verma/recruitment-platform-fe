@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import { GetCandidateDataResponse } from "../../interfaces/global.interfaces";
-import TagControl from "../../components/TagControl";
 import Button from "../../components/Button";
+import apiService from "../../api-service/apiServices";
 
 /**
  * Test Component which loads test details table.
@@ -25,6 +25,34 @@ function CandidateTable(props: {
     }
     if (updatedSelectedDepartment !== undefined) {
       setSelectedCandidates(updatedSelectedDepartment);
+    }
+  };
+
+  const handleResumeDownload = async (id: string) => {
+    try {
+      const resume = await apiService.getResume(id);
+      const blob = new Blob([resume.data]);
+      const reader = new FileReader();
+      reader.onload = () => {
+        // Create a link element
+        const link = document.createElement("a");
+        link.href = reader.result as string;
+
+        // Set the download attribute with the desired filename
+        link.download = "resume.pdf";
+
+        // Append the link to the body
+        document.body.appendChild(link);
+
+        // Trigger a click on the link to start the download
+        link.click();
+
+        // Remove the link from the DOM
+        document.body.removeChild(link);
+      };
+      reader.readAsDataURL(blob);
+    } catch (error) {
+      console.error("Error downloading file:", error);
     }
   };
 
@@ -52,19 +80,33 @@ function CandidateTable(props: {
                 />
               </td>
               <td className="p-2 fs-7 ">{candidates?.name}</td>
-              <td className="p-2 fs-7 w-50"><Button buttonType="text" name="resume" theme={"primary"} size={"small"} hrefLink={candidates?.resume}/></td>
+              <td className="p-2 fs-7 w-50">
+                {candidates.resume ? (
+                  <Button
+                    buttonType="text"
+                    name="resume"
+                    theme={"primary"}
+                    size={"small"}
+                    onClick={() => handleResumeDownload(candidates?.id)}
+                  />
+                ) : (
+                  "-"
+                )}
+              </td>
               <td className="p-2 fs-7 ">
                 <div className="d-flex flex-wrap flex-row gap-1">
-                  {(candidates.skill_set && candidates.skill_set.length>0) ? candidates?.skill_set.map((skill) => {
-                    return (
-                      <span
-                        className="badge rounded-pill bg-primary px-2 py-1"
-                        key={`skill-${skill}`}
-                      >
-                        {skill}
-                      </span>
-                    );
-                  }): "No Skill Set"}
+                  {candidates.skill_set && candidates.skill_set.length > 0
+                    ? candidates?.skill_set.map((skill) => {
+                        return (
+                          <span
+                            className="badge rounded-pill bg-primary px-2 py-1"
+                            key={`skill-${skill}`}
+                          >
+                            {skill}
+                          </span>
+                        );
+                      })
+                    : "No Skill Set"}
                 </div>
               </td>
               <td className="p-2 fs-7 ">{candidates?.score}</td>

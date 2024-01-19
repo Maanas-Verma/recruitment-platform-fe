@@ -13,7 +13,6 @@ import CandidateResult from "./pages/candidates/CandidateResult";
 import TechnicalQuestions from "./pages/questions-page/TechnicalQuestions";
 
 function App(): ReactElement {
-  sessionStorage.clear();
   return (
     <BrowserRouter>
       <NavHeader />

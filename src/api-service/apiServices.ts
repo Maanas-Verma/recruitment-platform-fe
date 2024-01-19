@@ -26,6 +26,7 @@ class HrAPI {
       department: "/user/department/",
       employee: "/user/employee/",
       candidate: "/user/candidate/",
+      resume :"/user/get_file/"
     };
 
     this.base_url = `${environmentData.url}`;
@@ -98,6 +99,15 @@ class HrAPI {
     id: string
   ): Promise<AxiosResponse<GetCandidateDataResponse>> => {
     return axios.get(`${this.base_url}${this.endpoints.candidate}${id}/`);
+  }
+
+  /**
+   * Makes the API call to Get resume and download it
+   * 
+   * @param id - Candidate id
+   */
+  getResume = async (id: string): Promise<AxiosResponse<Blob>> => {
+    return axios.get(`${this.base_url}${this.endpoints.resume}${id}/`, { responseType: 'blob' });
   }
 
   /**

@@ -41,7 +41,7 @@ function SignInFormProvider(): ReactElement {
       }
       console.log(getUser())
     } catch (error) {
-      toast.error(`Error while getting candidates: ${error}`)
+      toast.error(`Error while sign in and user creation: ${error}`)
     }
   };
 
@@ -65,7 +65,7 @@ function SignInFormProvider(): ReactElement {
 
         <InputControl
           label={"Password"}
-          type={"text"}
+          type={"password"}
           controlKey={"password"}
           validationObject={{
             required: "Please fill title as required",
