@@ -68,10 +68,16 @@ function TechnicalCards(props: TechnicalSectionProps): ReactElement {
           return (
             <div
               key={data.id}
-              className="card mb-4 disabled"
+              className={`card mb-4 ${
+                data.status == "CREATED" ? "bg-grey-lightest" : ""
+              }`}
               style={{ maxWidth: "34rem" }}
-              onClick={() => setSelectedCardId(data.id)}
-              onKeyDown={() => setSelectedCardId(data.id)}
+              onClick={() =>
+                data.status !== "CREATED" ? setSelectedCardId(data.id) : {}
+              }
+              onKeyDown={() =>
+                data.status !== "CREATED" ? setSelectedCardId(data.id) : {}
+              }
               role="button"
               tabIndex={0}
             >
