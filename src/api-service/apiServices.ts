@@ -72,7 +72,7 @@ class HrAPI {
   /**
    * Makes the API call to get employee by id
    * 
-   * @param id - Candidate id
+   * @param id - employee id
    */
   getEmployeeById = async (
     id: string
@@ -90,6 +90,15 @@ class HrAPI {
   > => {
     return axios.get(`${this.base_url}${this.endpoints.candidate}`);
   };
+  
+  /**
+   * Makes the API call to Get Candidate by id
+   */
+  getCandidateById = async (
+    id: string
+  ): Promise<AxiosResponse<GetCandidateDataResponse>> => {
+    return axios.get(`${this.base_url}${this.endpoints.candidate}${id}/`);
+  }
 
   /**
    * Makes the API call to Post a Department.

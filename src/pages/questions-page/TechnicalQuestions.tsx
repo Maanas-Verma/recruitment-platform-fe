@@ -5,6 +5,8 @@ import QuestionPanelLeft from "./QuestionPanelLeft";
 import apiService from "../../api-service/apiServices";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { getUser } from "../../api-service/sessionStorage";
 
 /**
  * Technical Page Component which loads whole technical page.
@@ -17,6 +19,8 @@ function TechnicalQuestions(): ReactElement {
   >([]);
   const [countIDLength, setCountIDLength] = useState<number>(0);
   const [selectedQuestionIDs, setSelectedQuestionIDs] = useState<string[]>([]);
+
+  const navigate = useNavigate();
 
   const filterUpdatedQuestionsList = async (
     questionArray: string[]
@@ -38,6 +42,14 @@ function TechnicalQuestions(): ReactElement {
   useEffect(() => {
     filterUpdatedQuestionsList(selectedQuestionIDs);
   }, [countIDLength]);
+
+  useEffect(() => {
+    const user = getUser();
+    if (user.userType !== "employee") {
+      navigate("/");
+      return;
+    }
+  },[])
 
   return (
     <div className="container-fluid row p-0 m-0" style={{ height: "94vh" }}>

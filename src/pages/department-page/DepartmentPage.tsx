@@ -1,10 +1,11 @@
 import { ReactElement, useEffect, useState } from "react";
-import utils from "../utilities/application-utils";
 import DepartmentSideBar from "./DepartmentSideBar";
 import DepartmentSection from "./DepartmentSection";
 import { DepartmentData } from "../../interfaces/global.interfaces";
 import apiService from "../../api-service/apiServices";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { getUser } from "../../api-service/sessionStorage";
 
 /**
  * Test Component which loads test details table.
@@ -16,18 +17,25 @@ function DepartmentPage(): ReactElement {
   const [showCreateDepartment, setShowCreateDepartment] =
     useState<boolean>(false);
 
+  const navigate = useNavigate();
+
   const handleGetDepartment = async () => {
     try {
       const getAllDepartments = await apiService.getDepartment();
-      if (getAllDepartments.data){
+      if (getAllDepartments.data) {
         setAllDepartments(getAllDepartments.data);
       }
     } catch (error) {
       toast.error(`Error while getting department: ${error}`);
     }
-  }
+  };
 
   useEffect(() => {
+    const user = getUser();
+    if (user.userType !== "hr") {
+      navigate("/");
+      return;
+    }
     handleGetDepartment();
   }, []);
 

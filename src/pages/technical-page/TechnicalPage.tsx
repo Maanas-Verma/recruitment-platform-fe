@@ -3,6 +3,8 @@ import utils from "../utilities/application-utils";
 import TechnicalSideBar from "./TechnicalSideBar";
 import TechnicalSection from "./TechnicalSection";
 import { TechnicalData } from "../../interfaces/global.interfaces";
+import { getUser } from "../../api-service/sessionStorage";
+import { useNavigate } from "react-router-dom";
 
 /**
  * Technical Page Component which loads whole technical page.
@@ -13,11 +15,18 @@ function TechnicalPage(): ReactElement {
   const [allTechnical, setAllTechnical] = useState<TechnicalData[]>([]);
   const [filterValue, setFilterValue] = useState<string>("Pending");
 
+  const navigate = useNavigate();
+
   const handleFilterChange = (event: React.SyntheticEvent, value: string) => {
     setFilterValue(value);
   };
 
   useEffect(() => {
+    const user = getUser();
+    if (user.userType !== "employee") {
+      navigate("/");
+      return;
+    }
     setAllTechnical(utils.dummyTechnicalData);
   }, []);
 

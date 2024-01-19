@@ -2,6 +2,7 @@ import { ReactElement, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
+import { getUser } from "../../api-service/sessionStorage";
 
 interface FormData {
   [key: string]: string | null;
@@ -150,6 +151,14 @@ function CandidateTest(): ReactElement {
   useEffect(() => {
     console.log("getAllQuestionData changed:", getAllQuestionData);
   }, [getAllQuestionData]);
+
+  useEffect(() => {
+    const user = getUser();
+    if (user.userType !== "candidate") {
+      navigate("/");
+      return;
+    }
+  },[])
 
   return (
     <div className="d-flex flex-row justify-content-between gap-1">

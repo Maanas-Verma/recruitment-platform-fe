@@ -4,6 +4,8 @@ import apiService from "../../api-service/apiServices";
 import TestSection from "./TestSection";
 import TestSideBar from "./TestSideBar";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { getUser } from "../../api-service/sessionStorage";
 
 /**
  * Test Component which loads test details table.
@@ -13,6 +15,8 @@ import { toast } from "react-toastify";
 function TestPage(): ReactElement {
   const [allTests, setAllTests] = useState<TestElement[]>([]);
   const [showCreateTest, setShowCreateTest] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   const handleGetTest = async () => {
     try{
@@ -26,6 +30,11 @@ function TestPage(): ReactElement {
   }
 
   useEffect(() => {
+    const user = getUser();
+    if (user.userType !== "hr") {
+      navigate("/");
+      return;
+    }
     handleGetTest();
   },[]);
 

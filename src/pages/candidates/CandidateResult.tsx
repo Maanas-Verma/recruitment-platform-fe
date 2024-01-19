@@ -1,5 +1,7 @@
 import axios from "axios";
 import { ReactElement, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getUser } from "../../api-service/sessionStorage";
 
 interface QuestionData {
   id: string;
@@ -21,6 +23,8 @@ function CandidateResult(): ReactElement {
   const TestName = "React Test";
   const candidateId = 1;
 
+  const navigate = useNavigate();
+
   const fetchData = async () => {
     try {
       const response = await axios.get(
@@ -34,13 +38,17 @@ function CandidateResult(): ReactElement {
   };
 
   useEffect(() => {
+    const user = getUser();
+    if (user.userType !== "candidate") {
+      navigate("/");
+      return;
+    }
     if (candidateId) {
       fetchData();
     }
   }, [candidateId]);
 
-  console.log('resultData: ', resultData);
-  
+  console.log("resultData: ", resultData);
 
   return (
     <div className="d-flex flex-column container-fluid row p-0 m-0">
@@ -60,8 +68,13 @@ function CandidateResult(): ReactElement {
           <tbody>
             {resultData &&
               resultData.data.map((questionData: any) => {
-                const { id, description, other_dependencies, correct_answer, selected_answer } =
-                  questionData;
+                const {
+                  id,
+                  description,
+                  other_dependencies,
+                  correct_answer,
+                  selected_answer,
+                } = questionData;
 
                 const questionId = `question_${id}`;
 

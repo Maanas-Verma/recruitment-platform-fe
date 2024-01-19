@@ -1,6 +1,7 @@
 import { ReactElement, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/hr_logo.png";
+import { getUser } from "../../api-service/sessionStorage";
 
 /**
  * Header Component which loads the navigation links.
@@ -10,6 +11,8 @@ import logo from "../../assets/images/hr_logo.png";
 function NavHeader(): ReactElement {
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const location = useLocation();
+
+  const user = getUser();
 
   useEffect(() => {
     setActiveLink(location.pathname);
@@ -40,68 +43,67 @@ function NavHeader(): ReactElement {
             </div>
           </div>
           <div className="d-flex align-items-stretch">
-            <button
-              type="button"
-              tabIndex={0}
-              className={`ms-4 border-0 shadow-0 bg-white ${
-                activeLink === "/candidates"
-                  ? "text-secondary-dark"
-                  : "text-muted "
-              }`}
-              id="candidate-link"
-              onClick={() => handleNavigation("/candidates")}
-            >
-              Candidates
-            </button>
-            <button
-              type="button"
-              tabIndex={0}
-              className={`ms-4 border-0 shadow-0 bg-white ${
-                activeLink === "/departments"
-                  ? "text-secondary-dark"
-                  : "text-muted "
-              }`}
-              id="department-link"
-              onClick={() => handleNavigation("/departments")}
-            >
-              Departments
-            </button>
-            <button
-              type="button"
-              tabIndex={0}
-              className={`ms-4 border-0 shadow-0 bg-white ${
-                activeLink === "/tests" ? "text-secondary-dark" : " text-muted "
-              }`}
-              id="tests-link"
-              onClick={() => handleNavigation("/tests")}
-            >
-              Tests
-            </button>
-            <button
-              type="button"
-              tabIndex={0}
-              className={`ms-4 border-0 shadow-0 bg-white ${
-                activeLink === "/tech-admin" ||
-                activeLink === "/tech-admin/questions"
-                  ? "text-secondary-dark"
-                  : " text-muted "
-              }`}
-              id="tech-admin-link"
-              onClick={() => handleNavigation("/tech-admin")}
-            >
-              Tech Admin
-            </button>
-            <button
-              type="button"
-              tabIndex={0}
-              className={`ms-4 border-0 shadow-0 bg-white ${
-                activeLink === "/logout" ? "text-secondary-dark" : "text-muted"
-              }`}
-              id="logout-link"
-              onClick={() => handleNavigation("/logout")}
-            >
-              Log Out
-            </button>
+            {user.userType === "hr" && (
+              <>
+                <button
+                  type="button"
+                  tabIndex={0}
+                  className={`ms-4 border-0 shadow-0 bg-white ${
+                    activeLink === "/candidates"
+                      ? "text-secondary-dark"
+                      : "text-muted "
+                  }`}
+                  id="candidate-link"
+                  onClick={() => handleNavigation("/candidates")}
+                >
+                  Candidates
+                </button>
+                <button
+                  type="button"
+                  tabIndex={0}
+                  className={`ms-4 border-0 shadow-0 bg-white ${
+                    activeLink === "/departments"
+                      ? "text-secondary-dark"
+                      : "text-muted "
+                  }`}
+                  id="department-link"
+                  onClick={() => handleNavigation("/departments")}
+                >
+                  Departments
+                </button>
+                <button
+                  type="button"
+                  tabIndex={0}
+                  className={`ms-4 border-0 shadow-0 bg-white ${
+                    activeLink === "/tests"
+                      ? "text-secondary-dark"
+                      : " text-muted "
+                  }`}
+                  id="tests-link"
+                  onClick={() => handleNavigation("/tests")}
+                >
+                  Tests
+                </button>
+              </>
+            )}
+            {user.userType && (
+              <button
+                type="button"
+                tabIndex={0}
+                className={`ms-4 border-0 shadow-0 bg-white ${
+                  activeLink === "/logout"
+                    ? "text-secondary-dark"
+                    : "text-muted"
+                }`}
+                id="logout-link"
+                onClick={() => {
+                  sessionStorage.clear();
+                  handleNavigation("/");
+                }}
+              >
+                Log Out
+              </button>
+            )}
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ import Button from "../../components/Button";
 import apiService from "../../api-service/apiServices";
 import { getUser, setUser } from "../../api-service/sessionStorage";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 interface SignInForm {
   username: string;
@@ -12,6 +13,8 @@ interface SignInForm {
 }
 
 function SignInFormProvider(): ReactElement {
+
+  const navigate = useNavigate();
 
 
   const handleFormSubmit = async (data: FieldValue<SignInForm>) => {
@@ -21,16 +24,20 @@ function SignInFormProvider(): ReactElement {
         const employeeData = await apiService.getEmployeeById(userData.data.employee)
         if( employeeData.data.department === null){
           setUser("employee", userData.data.employee, "")
+          navigate("/tech-admin")
         }
         const departmentData = await apiService.getDepartmentById(employeeData.data.department.toString())
         if(departmentData.data.name==='HR'){
           setUser("hr", userData.data.employee, departmentData.data.name)
+          navigate("/tests")
         }else{
           setUser("employee", userData.data.employee, departmentData.data.name)
+          navigate("/tech-admin")
         }
       }
       else if(userData.data?.candidate){
         setUser("candidate", userData.data.candidate)
+        navigate("/home")
       }
       console.log(getUser())
     } catch (error) {
