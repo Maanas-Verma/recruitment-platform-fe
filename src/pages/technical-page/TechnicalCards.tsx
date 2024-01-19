@@ -104,11 +104,6 @@ function TechnicalCards(props: TechnicalSectionProps): ReactElement {
                     <p className="card-text fs-7 overflow-hidden">
                       {data.description}
                     </p>
-                    <p className="card-text fs-7">
-                      <small className="text-muted">
-                        Created by: {/* <span>{idEmployeeName[}</span> */}
-                      </small>
-                    </p>
                   </div>
                 </div>
               </div>
