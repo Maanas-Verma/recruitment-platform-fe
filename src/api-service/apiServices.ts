@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { Axios, AxiosResponse } from "axios";
 import environmentData from "../environment-constant";
 import {
   DepartmentData,
@@ -53,6 +53,15 @@ class HrAPI {
   ): Promise<AxiosResponse<GetTestResponse>> => {
     return axios.patch(`${this.base_url}${this.endpoints.test}`, data);
   };
+
+  /**
+   * Makes API call to Patch the Candidate assigning.
+   */
+  patchCandidate1 = async (
+    data: {id: string, alloted_test: string}
+  ): Promise<AxiosResponse<GetCandidateDataResponse>> => {
+    return axios.patch(`${environmentData.url}/user/candidate/${data.id}/`,data)
+  }
 
   /**
    * Makes the API call to Get all departments.

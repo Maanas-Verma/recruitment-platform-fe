@@ -6,6 +6,7 @@ import Button from "../../components/Button";
 import TestAssignToCandidates from "./TestAssignToCandidates";
 import apiService from "../../api-service/apiServices";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 interface CandidateSectionProps {
   allCandidates: GetCandidateDataResponse[];
@@ -42,9 +43,20 @@ function CandidateSection(props: CandidateSectionProps): ReactElement {
     setSelectedCandidates(allCandidates.map((candidate) => candidate.id));
   };
 
-  const handleAssignTest = (data: { test: string }) => {
+  const handleAssignTest = (data: any) => {
     console.log(data);
+    // selectedCandidates.map((candidateId) => {
+    //   allCandidates.forEach((obj) => {
+    //     if (obj.id === candidateId) {
+    //       axios.patch('');
+    //     }
+    //   });
+    // });
   };
+
+  console.log(selectedCandidates);
+
+  console.log("All candidates", allCandidates);
 
   return (
     <div>
@@ -87,6 +99,9 @@ function CandidateSection(props: CandidateSectionProps): ReactElement {
           <TestAssignToCandidates
             handleClose={() => setShowAssignTest(false)}
             sendTestToCandidates={handleAssignTest}
+            allCandidatesData = {allCandidates}
+            selectedCandidatesData = {selectedCandidates}
+            reloadCandidateAPI={reloadCandidateAPI}
           />
         ) : (
           ""
