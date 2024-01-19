@@ -1,6 +1,8 @@
 import { ReactElement, useEffect, useState } from "react";
 import TechnicalSideBar from "./TechnicalSideBar";
 import TechnicalSection from "./TechnicalSection";
+import { getUser } from "../../api-service/sessionStorage";
+import { useNavigate } from "react-router-dom";
 import { GetTestResponse } from "../../interfaces/global.interfaces";
 import apiService from "../../api-service/apiServices";
 import { toast } from "react-toastify";
@@ -13,6 +15,8 @@ import { toast } from "react-toastify";
 function TechnicalPage(): ReactElement {
   const [allTechnical, setAllTechnical] = useState<GetTestResponse[]>([]);
   const [filterValue, setFilterValue] = useState<string>("PENDING");
+
+  const navigate = useNavigate();
 
   const handleFilterChange = (event: React.SyntheticEvent, value: string) => {
     setFilterValue(value);
@@ -28,6 +32,14 @@ function TechnicalPage(): ReactElement {
       toast.error(`Error while getting test api: ${error}`);
     }
   };
+
+  useEffect(() => {
+    const user = getUser();
+    if (user.userType !== "employee") {
+      navigate("/");
+      return;
+    }
+  }, []);
 
   useEffect(() => {
     handleGetTechnical();

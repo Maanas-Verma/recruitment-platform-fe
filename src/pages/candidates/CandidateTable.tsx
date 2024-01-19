@@ -1,7 +1,7 @@
 import { ReactElement } from "react";
 import { GetCandidateDataResponse } from "../../interfaces/global.interfaces";
-import TagControl from "../../components/TagControl";
 import Button from "../../components/Button";
+import apiService from "../../api-service/apiServices";
 
 /**
  * Test Component which loads test details table.
@@ -28,6 +28,34 @@ function CandidateTable(props: {
     }
   };
 
+  const handleResumeDownload = async (id: string) => {
+    try {
+      const resume = await apiService.getResume(id);
+      const blob = new Blob([resume.data]);
+      const reader = new FileReader();
+      reader.onload = () => {
+        // Create a link element
+        const link = document.createElement("a");
+        link.href = reader.result as string;
+
+        // Set the download attribute with the desired filename
+        link.download = "resume.pdf";
+
+        // Append the link to the body
+        document.body.appendChild(link);
+
+        // Trigger a click on the link to start the download
+        link.click();
+
+        // Remove the link from the DOM
+        document.body.removeChild(link);
+      };
+      reader.readAsDataURL(blob);
+    } catch (error) {
+      console.error("Error downloading file:", error);
+    }
+  };
+
   return (
     <div className="table-responsive rounded-2 overflow-auto mt-5">
       <table className="table table-hover align-middle">
@@ -36,6 +64,7 @@ function CandidateTable(props: {
             <th className="px-2 py-4">Select</th>
             <th className="px-2 py-4">Name</th>
             <th className="px-2 py-4">Resume</th>
+            <th className="px-2 py-4">Department Alignment</th>
             <th className="px-2 py-4">Skill Set</th>
             <th className="px-2 py-4">Score</th>
             <th className="px-2 py-4">Assigned Test</th>
@@ -52,14 +81,35 @@ function CandidateTable(props: {
                 />
               </td>
               <td className="p-2 fs-7 ">{candidates?.name}</td>
-              <td className="p-2 fs-7 w-50">
-                <Button
-                  buttonType="text"
-                  name="Resume"
-                  theme={"primary"}
-                  size={"small"}
-                  hrefLink={candidates?.resume}
-                />
+              <td className="p-2 fs-7">
+                {candidates.resume ? (
+                  <Button
+                    buttonType="text"
+                    name="resume"
+                    theme={"primary"}
+                    size={"small"}
+                    onClick={() => handleResumeDownload(candidates?.id)}
+                  />
+                ) : (
+                  "-"
+                )}
+              </td>
+              <td>
+                {candidates.resumeMatrix &&
+                  Object.keys(candidates.resumeMatrix).map((key) => (
+                    <div>
+                      <span
+                        className="badge rounded-pill bg-primary px-2 py-1"
+                        key={`matrix-${key}`}
+                      >
+                        {key} -{" "}
+                        {candidates.resumeMatrix
+                          ? candidates.resumeMatrix[key]
+                          : ""}
+                      </span>
+                      <br />
+                    </div>
+                  ))}
               </td>
               <td className="p-2 fs-7 ">
                 <div className="d-flex flex-wrap flex-row gap-1">

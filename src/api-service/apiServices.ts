@@ -4,6 +4,7 @@ import {
   DepartmentData,
   GetCandidateDataResponse,
   GetEmployeeDataResponse,
+  GetResumeMatricesResponse,
   GetTestResponse,
   PatchTestRequest,
   PostCandidateRequest,
@@ -11,6 +12,8 @@ import {
   PostQuestionRequest,
   PostQuestionResponse,
   PostTestRequest,
+  SignInRequest,
+  SignUpRequest,
 } from "../interfaces/global.interfaces";
 
 class HrAPI {
@@ -25,6 +28,7 @@ class HrAPI {
       department: "/user/department/",
       employee: "/user/employee/",
       candidate: "/user/candidate/",
+      resume :"/user/get_file/"
     };
 
     this.base_url = `${environmentData.url}`;
@@ -60,6 +64,17 @@ class HrAPI {
   };
 
   /**
+   * Makes the API call to Get department by id
+   * 
+   * @param id - Department id
+   */
+  getDepartmentById = async (
+    id: string
+  ): Promise<AxiosResponse<DepartmentData>> => {
+    return axios.get(`${this.base_url}${this.endpoints.department}${id}/`);
+  }
+
+  /**
    * Makes the API call to get all employees
    *
    * @returns - Returns a promise with all employees.
@@ -67,6 +82,17 @@ class HrAPI {
   getEmployee = async (): Promise<AxiosResponse<GetEmployeeDataResponse[]>> => {
     return axios.get(`${this.base_url}${this.endpoints.employee}`);
   };
+
+  /**
+   * Makes the API call to get employee by id
+   * 
+   * @param id - employee id
+   */
+  getEmployeeById = async (
+    id: string
+  ): Promise<AxiosResponse<GetEmployeeDataResponse>> => {
+    return axios.get(`${this.base_url}${this.endpoints.employee}${id}/`);
+  }
 
   /**
    * Makes the API call to Get all Candidates
@@ -78,7 +104,33 @@ class HrAPI {
   > => {
     return axios.get(`${this.base_url}${this.endpoints.candidate}`);
   };
+  
+  /**
+   * Makes the API call to Get Candidate by id
+   */
+  getCandidateById = async (
+    id: string
+  ): Promise<AxiosResponse<GetCandidateDataResponse>> => {
+    return axios.get(`${this.base_url}${this.endpoints.candidate}${id}/`);
+  }
 
+  /**
+   * Makes the API call to Get resume and download it
+   * 
+   * @param id - Candidate id
+   */
+  getResume = async (id: string): Promise<AxiosResponse<Blob>> => {
+    return axios.get(`${this.base_url}${this.endpoints.resume}${id}/`, { responseType: 'blob' });
+  }
+
+  /**
+   * Makes the API call for resume matrices.
+   * 
+   * @returns - Returns a promise with resume matrices.
+   */
+  getResumeMatrices = async (): Promise<AxiosResponse<GetResumeMatricesResponse>> => {
+    return axios.get(`${this.base_url}/ml/parse_resume`);
+  }
   /**
    * Makes the API call to Post a Department.
    *
@@ -156,6 +208,24 @@ class HrAPI {
   ): Promise<AxiosResponse<PostQuestionResponse>> => {
     return axios.post(`${this.base_url}${this.endpoints.question}`, postData);
   };
+
+  /**
+   * Makes the API call for Sign Up.
+   * 
+   * @param data - Sign Up request details.
+   */
+  signUp = async (data: SignUpRequest) => {
+    return axios.post(`${this.base_url}/user/user/`, data);
+  }
+
+  /**
+   * Makes the API call for Sign In.
+   * 
+   * @param data - Sign In request details.
+   */
+  signIn = async (data: SignInRequest) => {
+    return axios.post(`${this.base_url}/login/`, data);
+  }
 }
 const apiService = new HrAPI();
 
