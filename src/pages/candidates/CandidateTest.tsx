@@ -86,7 +86,7 @@ function CandidateTest(): ReactElement {
       .then((response) => {
         console.log("Response from server:", response);
         toast.success("Test Submitted Successfully!");
-        navigate('/candidate-result', { state: { testId, userId} })
+        navigate("/candidate-result", { state: { testId, userId } });
       })
       .catch((error) => {
         toast.error("Unable to submit the test!");
@@ -172,7 +172,7 @@ function CandidateTest(): ReactElement {
       console.log("Updated Result Data:", updatedData);
       return updatedData;
     });
-    toast.success("Data for question saved.")
+    toast.success("Data for question saved.");
   };
 
   useEffect(() => {
@@ -209,42 +209,45 @@ function CandidateTest(): ReactElement {
   }, []);
 
   return (
-    <div className="d-flex flex-row justify-content-between gap-1">
-      {candidateTestData && (
-        <div className="d-flex col-8 flex-column border border-1 border-dark rounded p-3">
-          <p>Test ID: {testId}</p>
-          <div>{testName}</div>
-          {selectedQuestionId && selectedQuestionData && (
-            <div className="d-flex flex-column">
-              <FormProvider {...methods}>
-                <form>
-                  <div className="d-flex flex-column">
-                    <strong>{`${selectedQuestionId}. ${selectedQuestionData?.description}`}</strong>
-                    <ol>
-                      {Object.entries(
-                        selectedQuestionData.other_dependencies
-                      ).map(([optionKey, optionValue]) => (
-                        <li key={optionKey}>
-                          <label htmlFor={optionKey}>
-                            <div>
-                              <input
-                                type="radio"
-                                id={optionKey}
-                                name={selectedQuestionId}
-                                value={optionKey}
-                                checked={
-                                  selectedOptions &&
-                                  selectedOptions[selectedQuestionId] ===
-                                    optionKey
-                                }
-                                onChange={() => handleOptionSelect(optionKey)}
-                              />
-                              {optionValue}
-                            </div>
-                          </label>
-                        </li>
-                      ))}
-                    </ol>
+    <div className="container-fluid row p-0 m-0" style={{ height: "94vh" }}>
+      <div className="col-10 p-0 align-items-stretch d-flex">
+        {candidateTestData && (
+          <div className="border border-1 rounded-2 m-4 me-2 align-items-stretch w-100 p-5 bg-white">
+            {selectedQuestionId && selectedQuestionData && (
+              <div className="d-flex flex-column align-items-stretch h-100">
+                <FormProvider {...methods}>
+                  <form className="d-flex flex-column align-items-stretch h-100">
+                    <p>Test ID: {testId}</p>
+                    <div>{testName}</div>
+                    <div className="d-flex flex-column justify-content-between">
+                      <strong>{`${selectedQuestionId}. ${selectedQuestionData?.description}`}</strong>
+                      <ol>
+                        {Object.entries(
+                          selectedQuestionData.other_dependencies
+                        ).map(([optionKey, optionValue]) => (
+                          <li key={optionKey}>
+                            <label htmlFor={optionKey}>
+                              <div>
+                                <input
+                                  type="radio"
+                                  id={optionKey}
+                                  name={selectedQuestionId}
+                                  value={optionKey}
+                                  checked={
+                                    selectedOptions &&
+                                    selectedOptions[selectedQuestionId] ===
+                                      optionKey
+                                  }
+                                  onChange={() => handleOptionSelect(optionKey)}
+                                />
+                                {optionValue}
+                              </div>
+                            </label>
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
+                    <div className="my-auto"></div>
                     <div className="m-2 d-flex gap-2">
                       <Button
                         submitType="button"
@@ -265,46 +268,56 @@ function CandidateTest(): ReactElement {
                         onClick={handleSaveAndNext}
                       />
                     </div>
-                  </div>
-                </form>
-              </FormProvider>
-            </div>
-          )}
-        </div>
-      )}
+                  </form>
+                </FormProvider>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
 
-      <div className="d-flex col-4 border border-1 border-dark rounded p-3">
-        <FormProvider {...methods}>
-          <form>
-            <div className="">
-              <div className="d-flex flex-wrap">
-                {candidateTestData &&
-                  candidateTestData.questions &&
-                  (candidateTestData?.questions).map((questionData) => (
-                    <Button
-                      key={questionData.id}
-                      theme=""
-                      size="small"
-                      name={questionData.id}
-                      buttonId={`question-${questionData.id}`}
-                      extraClass="btn btn-outline-dark btn-sm m-1"
-                      onClick={() => setSelectedQuestionId(questionData.id)}
-                    />
-                  ))}
+      <div className="col-2 p-0 align-items-stretch d-flex">
+        <div className="border border-1 rounded-2 m-4 me-2 align-items-stretch w-100 p-5 bg-white">
+          <FormProvider {...methods}>
+            <form className="align-items-stretch d-flex h-100">
+              <div className="d-flex flex-column align-items-stretch">
+                <div className="d-flex flex-wrap justify-content-between mx-3">
+                  {candidateTestData &&
+                    candidateTestData.questions &&
+                    (candidateTestData?.questions).map((questionData) => (
+                      <div
+                        className="d-flex justify-content-center m-1"
+                        style={{ width: "60px" }}
+                      >
+                        <Button
+                          key={questionData.id}
+                          theme=""
+                          buttonType="outline"
+                          size="large"
+                          name={questionData.id}
+                          buttonId={`question-${questionData.id}`}
+                          extraClass="m-2 btn-outline-dark"
+                          onClick={() => setSelectedQuestionId(questionData.id)}
+                          fullWidth
+                        />
+                      </div>
+                    ))}
+                </div>
+                <div className="my-auto"></div>
+                <div className="d-flex justify-content-end">
+                  <Button
+                    size="medium"
+                    theme="primary"
+                    name="Submit"
+                    buttonId="section-form-submit-btn"
+                    extraClass="btn btn-outline-success btn-sm"
+                    onClick={handleAllQuestionsSubmit}
+                  />
+                </div>
               </div>
-              <div className="">
-                <Button
-                  size="small"
-                  theme=""
-                  name="Submit"
-                  buttonId="section-form-submit-btn"
-                  extraClass="btn btn-outline-success btn-sm"
-                  onClick={handleAllQuestionsSubmit}
-                />
-              </div>
-            </div>
-          </form>
-        </FormProvider>
+            </form>
+          </FormProvider>
+        </div>
       </div>
     </div>
   );

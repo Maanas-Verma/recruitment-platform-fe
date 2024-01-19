@@ -3,6 +3,7 @@ import { FieldValue, FormProvider, useForm } from "react-hook-form";
 import InputControl from "../../components/InputControl";
 import Button from "../../components/Button";
 import apiService from "../../api-service/apiServices";
+import { toast } from "react-toastify";
 
 interface SignUpForm {
   first_name: string;
@@ -11,13 +12,20 @@ interface SignUpForm {
   password: string;
 }
 
-function SignUpFormProvider(): ReactElement {
+interface SignUpFormProviderInterface {
+  setIsSignUp: (value: boolean) => void;
+}
+
+function SignUpFormProvider(props: SignUpFormProviderInterface): ReactElement {
+  const { setIsSignUp } = props;
+
   const handleFormSubmit = async (data: FieldValue<SignUpForm>) => {
     try {
       const userData = await apiService.signUp(data as SignUpForm);
-      console.log(userData.data)
+      toast.success(`User ${userData.data.username} created successfully`);
+      setIsSignUp(false)
     } catch (err) {
-      console.log(err);
+      toast.error(`Error while creating user: ${err}`);
     }
   };
 
@@ -59,7 +67,7 @@ function SignUpFormProvider(): ReactElement {
 
         <InputControl
           label={"Password"}
-          type={"text"}
+          type={"password"}
           controlKey={"password"}
           validationObject={{
             required: "Please fill title as required",

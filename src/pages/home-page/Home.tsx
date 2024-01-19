@@ -19,8 +19,11 @@ function Home(): ReactElement {
   const [userId, setUserId] = useState<any>();
   const navigate = useNavigate();
 
+  const user = getUser();
+  console.log(user)
+
   const imagePath = "/Logo_large.png";
-  const userName = "Manoj Sharma";
+  const userName = user.user_name;
   const companyName = "ICICI";
 
   useEffect(() => {
