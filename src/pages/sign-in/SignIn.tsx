@@ -52,7 +52,7 @@ function SignIn(): ReactElement {
                 />
               </div>
               <div className="card-body py-5 px-md-5">
-                {isSignUp ? <SignUpFormProvider /> : <SignInFormProvider />}
+                {isSignUp ? <SignUpFormProvider setIsSignUp={setIsSignUp}/> : <SignInFormProvider />}
               </div>
             </div>
           </div>

@@ -54,8 +54,8 @@ function CandidateResult(): ReactElement {
 
   return (
     <div className="d-flex flex-column container-fluid row p-0 m-0">
-      <div>
-        <strong>{TestName}</strong>
+      <div className="mt-5 mb-3">
+        <strong className="fs-5">{TestName}</strong>
       </div>
       <div className="p-2 align-items-stretch d-flex">
         <table className="p-2 table table-bordered">

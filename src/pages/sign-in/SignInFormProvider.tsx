@@ -23,20 +23,21 @@ function SignInFormProvider(): ReactElement {
       if(userData.data?.employee){
         const employeeData = await apiService.getEmployeeById(userData.data.employee)
         if( employeeData.data.department === null){
-          setUser("employee", userData.data.employee, "")
+          setUser("employee", userData.data.employee, "", employeeData.data.name)
           navigate("/tech-admin")
         }
         const departmentData = await apiService.getDepartmentById(employeeData.data.department.toString())
         if(departmentData.data.name==='HR'){
-          setUser("hr", userData.data.employee, departmentData.data.name)
+          setUser("hr", userData.data.employee, departmentData.data.name, employeeData.data.name)
           navigate("/tests")
         }else{
-          setUser("employee", userData.data.employee, departmentData.data.name)
+          setUser("employee", userData.data.employee, departmentData.data.name, employeeData.data.name)
           navigate("/tech-admin")
         }
       }
       else if(userData.data?.candidate){
-        setUser("candidate", userData.data.candidate)
+        const candidateData = await apiService.getCandidateById(userData.data.candidate)
+        setUser("candidate", userData.data.candidate, "", candidateData.data.name)
         navigate("/home")
       }
       console.log(getUser())
