@@ -5,10 +5,15 @@ import Button from "../../components/Button";
 import { GetTestResponse } from "../../interfaces/global.interfaces";
 import apiService from "../../api-service/apiServices";
 import { toast } from "react-toastify";
+import axios from "axios";
+import environmentData from "../../environment-constant";
 
 interface TestAssignToCandidatesProps {
   handleClose: () => void;
   sendTestToCandidates: (data: { test: string }) => void;
+  allCandidatesData: any;
+  selectedCandidatesData: any;
+  reloadCandidateAPI: () => void;
 }
 
 interface TestAssignToCandidatesForm {
@@ -23,7 +28,16 @@ interface TestAssignToCandidatesForm {
 const TestAssignToCandidates = (
   props: TestAssignToCandidatesProps
 ): ReactElement => {
-  const { handleClose, sendTestToCandidates } = props;
+  const {
+    handleClose,
+    sendTestToCandidates,
+    allCandidatesData,
+    selectedCandidatesData,
+    reloadCandidateAPI,
+  } = props;
+  console.log("allCandidate: ", allCandidatesData);
+  console.log("selctedCandidate: ", selectedCandidatesData);
+
   const [allTests, setAllTests] = useState<GetTestResponse[]>([]);
 
   const methods = useForm({
@@ -31,8 +45,16 @@ const TestAssignToCandidates = (
   });
   const { handleSubmit } = methods;
 
-  const handleFormSubmit = (data: FieldValue<TestAssignToCandidatesForm>) => {
-    sendTestToCandidates(data as TestAssignToCandidatesForm);
+  const handleFormSubmit = async (data: { [key: string]: string }) => {
+    await selectedCandidatesData.map(async (candidateId: any) => {
+      const data_dump = { id: candidateId, alloted_test: data.test };
+      const value = await apiService.patchCandidate1(
+        data_dump as { id: string; alloted_test: string }
+      );
+    });
+    toast.success("assigned");
+    handleClose();
+    reloadCandidateAPI()
   };
 
   const handleGetTest = async () => {
@@ -88,7 +110,7 @@ const TestAssignToCandidates = (
                         };
                       })}
                       validationObject={{
-                        required: "Please select department as required",
+                        required: "Please select test as required",
                       }}
                     />
                   </div>

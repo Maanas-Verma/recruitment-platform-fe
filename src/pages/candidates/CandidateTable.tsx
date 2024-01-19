@@ -1,7 +1,11 @@
-import { ReactElement } from "react";
-import { GetCandidateDataResponse } from "../../interfaces/global.interfaces";
+import { ReactElement, useEffect, useState } from "react";
+import {
+  GetCandidateDataResponse,
+  GetTestResponse,
+} from "../../interfaces/global.interfaces";
 import Button from "../../components/Button";
 import apiService from "../../api-service/apiServices";
+import { toast } from "react-toastify";
 
 /**
  * Test Component which loads test details table.
@@ -14,6 +18,8 @@ function CandidateTable(props: {
   setSelectedCandidates: (value: string[]) => void;
 }): ReactElement {
   const { selectedCandidate, allCandidates, setSelectedCandidates } = props;
+  const [allTests, setAllTests] = useState<GetTestResponse[]>([]);
+  const [idTestName, setIdTestName] = useState<{[key: string]: string}>({})
 
   const handleCheckboxChange = (id: string) => {
     const updatedSelectedDepartment: string[] = [...selectedCandidate];
@@ -55,6 +61,28 @@ function CandidateTable(props: {
       console.error("Error downloading file:", error);
     }
   };
+
+  const handleGetTest = async () => {
+    try {
+      const getAllTests = await apiService.getTest();
+      if (getAllTests.data) {
+        setAllTests(getAllTests.data);
+        console.log("all test ",getAllTests.data)
+        Object.values(getAllTests.data).forEach((element: GetTestResponse) => {
+          idTestName[element.id]=element.name
+        });
+        console.log("id test name",idTestName)
+      }
+      
+      
+    } catch (error) {
+      toast.error(`Error while getting all tests: ${error}`);
+    }
+  };
+
+  useEffect(() => {
+    handleGetTest();
+  }, []);
 
   return (
     <div
@@ -131,7 +159,7 @@ function CandidateTable(props: {
                 </div>
               </td>
               <td className="p-2 fs-7 ">{candidates?.score}</td>
-              <td className="p-2 fs-7 ">{candidates?.alloted_test}</td>
+              <td className="p-2 fs-7 ">{idTestName[candidates?.alloted_test]}</td>
             </tr>
           ))}
         </tbody>
