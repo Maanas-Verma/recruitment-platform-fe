@@ -25,9 +25,9 @@ function TechnicalSideBar(props: TechnicalSideBarProps): ReactElement {
             alignTab={"vertical"}
             tabType="tag"
             tabList={[
-              { label: "Pending", value: "Pending" },
-              { label: "Created", value: "Created" },
-              { label: "Completed", value: "Completed" },
+              { label: "Pending", value: "PENDING" },
+              { label: "Created", value: "CREATED" },
+              { label: "Completed", value: "COMPLETED" },
             ]}
             handleTabChange={handleFilterChange}
           />

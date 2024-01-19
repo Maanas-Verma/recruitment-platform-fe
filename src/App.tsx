@@ -25,7 +25,7 @@ function App(): ReactElement {
         <Route path="/tech-admin" element={<TechnicalPage />} />
         <Route path="/candidate-test" element={<CandidateTest />} />
         <Route path="/candidate-result" element={<CandidateResult />} />
-        <Route path="/tech-admin/questions" element={<TechnicalQuestions />} />
+        <Route path="/tech-admin/questions/:testId" element={<TechnicalQuestions />} />
       </Routes>
     </BrowserRouter>
   );
