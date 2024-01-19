@@ -52,14 +52,17 @@ function TestTable(props: {
   }, []);
 
   return (
-    <div className="table-responsive rounded-2 overflow-auto mt-5">
+    <div
+      className="table-responsive rounded-2 overflow-auto mt-5"
+      style={{ maxHeight: "35rem" }}
+    >
       <table className="table table-hover align-middle">
-        <thead className="table-info">
+        <thead className="table-info sticky-top">
           <tr>
             <th className="px-2 py-4">Name</th>
-            <th className="px-2 py-4">Title Description</th>
+            <th className="px-2 py-4">Short Description</th>
             <th className="px-2 py-4">Status</th>
-            <th className="px-2 py-4">Assigned</th>
+            <th className="px-2 py-4">Assigned Department</th>
             <th className="px-2 py-4">Modified</th>
           </tr>
         </thead>
@@ -82,11 +85,11 @@ function TestTable(props: {
                     textTheme={"white"}
                   />
                 </td>
-                <td className="p-2 fs-7 ">
+                <td className="p-2 fs-7 text-center ">
                   {test.assigned_to !== null ? (
                     idDepartmentName[test.assigned_to]
                   ) : (
-                    <span className="ms-5">{"---"}</span>
+                    <span>{"---"}</span>
                   )}
                 </td>
                 <td className="p-2 fs-7 ">

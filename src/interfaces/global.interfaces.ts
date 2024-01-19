@@ -219,7 +219,7 @@ export interface PostTestRequest {
   name: string;
   description: string;
   assigned_to: string;
-  created_by: string;
+  created_by?: string;
 }
 export interface PatchTestRequest {
   id: string;

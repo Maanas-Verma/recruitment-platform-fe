@@ -5,19 +5,16 @@ import ReactDropdown from "../../components/ReactDropdown";
 import Button from "../../components/Button";
 import TextAreaControl from "../../components/TextAreaControl";
 import apiService from "../../api-service/apiServices";
-import { DropdownChoicesInterface, GetEmployeeDataResponse, PostTestRequest } from "../../interfaces/global.interfaces";
+import { getUser } from "../../api-service/sessionStorage";
+import {
+  DropdownChoicesInterface,
+  PostTestRequest,
+} from "../../interfaces/global.interfaces";
 import { toast } from "react-toastify";
 
 interface TestCreationProps {
   handleClose: () => void;
   reloadTestAPI: () => void;
-}
-
-interface TestCreationForm {
-  title: string;
-  titleDescription: string;
-  department: string;
-  created_by: string;
 }
 
 /**
@@ -30,18 +27,26 @@ const TestCreation = (props: TestCreationProps): ReactElement => {
   const [allEmployee, setAllEmployees] = useState<DropdownChoicesInterface[]>(
     []
   );
-  const [allDepartment, setAllDepartment] = useState<DropdownChoicesInterface[]>(
-    []
-  );
+  const [allDepartment, setAllDepartment] = useState<
+    DropdownChoicesInterface[]
+  >([]);
+
+  const authUser = getUser();
 
   const methods = useForm({
     mode: "all",
   });
   const { handleSubmit } = methods;
 
-  const handleFormSubmit = async (data: FieldValue<TestCreationForm>) => {
+  const handleFormSubmit = async (data: { [key: string]: string }) => {
+    const parsedData: PostTestRequest = {
+      name: data.name,
+      description: data.description,
+      assigned_to: data.assigned_to,
+      created_by: authUser.userId,
+    };
     try {
-      const testData = await apiService.postTestToken(data as PostTestRequest);
+      const testData = await apiService.postTestToken(parsedData);
       if (testData.data) {
         toast.success("Test added successfully");
         handleClose();
@@ -86,7 +91,7 @@ const TestCreation = (props: TestCreationProps): ReactElement => {
     } catch (error) {
       toast.error(`Error while getting department: ${error}`);
     }
-  }
+  };
 
   useEffect(() => {
     handleGetEmployee();
@@ -122,7 +127,7 @@ const TestCreation = (props: TestCreationProps): ReactElement => {
                 <div className="d-flex flex-column border border-lavender-lightest bg-white rounded-3 p-2 gap-1">
                   <div>
                     <InputControl
-                      label={"Name"}
+                      label={"Test Name"}
                       type={"text"}
                       controlKey={"name"}
                       validationObject={{
@@ -133,21 +138,11 @@ const TestCreation = (props: TestCreationProps): ReactElement => {
                   <div>
                     <TextAreaControl
                       rows={5}
-                      label={"Test Description"}
+                      label={"Short Description"}
                       controlKey={"description"}
                       controlPlaceholder={"Enter detail here..."}
                       validationObject={{
                         required: "Please fill title description as required",
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <ReactDropdown
-                      label={"Created by"}
-                      controlKey={"created_by"}
-                      options={allEmployee}
-                      validationObject={{
-                        required: "Please select HR employee as required",
                       }}
                     />
                   </div>
