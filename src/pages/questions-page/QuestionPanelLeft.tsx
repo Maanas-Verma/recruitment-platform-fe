@@ -58,7 +58,7 @@ function QuestionPanelLeft(props: QuestionPanelLeftProps): ReactElement {
     }
   };
 
-  const postCreatedTest = async (data: PatchTestRequest): Promise<void> => {
+  const patchCreateTest = async (data: PatchTestRequest): Promise<void> => {
     try {
       const getAllTestDetails = await apiService.patchTest(data);
       if (getAllTestDetails?.data?.id) {
@@ -97,7 +97,7 @@ function QuestionPanelLeft(props: QuestionPanelLeftProps): ReactElement {
             name={"Create Test"}
             extraClass={"fw-bold fs-7"}
             onClick={() =>
-              postCreatedTest({
+              patchCreateTest({
                 id: assignedTestId as string,
                 status: "CREATED",
                 questions: selectedQuestionIDs,
