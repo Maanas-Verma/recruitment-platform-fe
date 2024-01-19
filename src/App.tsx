@@ -13,7 +13,7 @@ import CandidateResult from "./pages/candidates/CandidateResult";
 import TechnicalQuestions from "./pages/questions-page/TechnicalQuestions";
 
 function App(): ReactElement {
-  sessionStorage.clear();
+  // sessionStorage.clear(); //uncomment at some stage of project
   return (
     <BrowserRouter>
       <NavHeader />

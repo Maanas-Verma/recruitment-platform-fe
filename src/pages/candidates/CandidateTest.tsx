@@ -4,7 +4,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
 import { getUser } from "../../api-service/sessionStorage";
-
+import { toast } from "react-toastify";
 
 interface OtherDependencies {
   [key: string]: string;
@@ -45,20 +45,19 @@ interface CandidateResultData {
 }
 
 function CandidateTest(): ReactElement {
+  const navigate = useNavigate();
   const methods = useForm<FormData>({
     mode: "all",
   });
   const location = useLocation();
   const testId = location.state?.testId;
+  const userId = location.state?.userId;
   const [candidateTestData, setCandidateTestData] =
     useState<CandidateTestData | null>(null);
 
   const [testName, setTestName] = useState<string>("");
-
   const [selectedQuestionId, setSelectedQuestionId] = useState<string>("");
-
   const [selectedOptions, setSelectedOptions] = useState<any>({});
-
   const [candidateResultData, setCandidateResultData] = useState<
     CandidateResultData[]
   >([]);
@@ -67,12 +66,32 @@ function CandidateTest(): ReactElement {
     (question) => question.id === selectedQuestionId
   );
 
-  const handleAllQuestionsSubmit = () => {
+  const handleAllQuestionsSubmit = async () => {
     console.log("All questions Submit called");
-    // call post api
+    await handleSaveAndNext();
 
-console.log("Subkit clciked: ", candidateResultData);
+    const updatedCandidateResultData = {
+      test: candidateResultData[0]?.test || "",
+      candidate: candidateResultData[0]?.candidate || "",
+      questions: candidateResultData[0]?.questions || [],
+    };
 
+    console.log("Submit clicked:", updatedCandidateResultData);
+
+    axios
+      .patch(
+        "http://13.233.194.145:8000/test_app/test_response/",
+        updatedCandidateResultData
+      )
+      .then((response) => {
+        console.log("Response from server:", response);
+        toast.success("Test Submitted Successfully!");
+        navigate('/candidate-result', { state: { testId, userId} })
+      })
+      .catch((error) => {
+        toast.error("Unable to submit the test!");
+        console.error("Error submitting data:", error);
+      });
   };
 
   const handleOptionSelect = (optionId: string) => {
@@ -92,199 +111,92 @@ console.log("Subkit clciked: ", candidateResultData);
   const handleSaveAndNext = () => {
     const currentQuestionId = selectedQuestionId;
     const selectedOption = selectedOptions[currentQuestionId] ?? "";
-  
-    const questionIndex = candidateResultData.findIndex((resultData) =>
-      resultData.questions.some((question) => question.id === currentQuestionId)
-    );
-  
-    if (questionIndex !== -1) {
-      setCandidateResultData((prevData) =>
-        prevData.map((resultData, index) =>
-          index === questionIndex
-            ? {
-                ...resultData,
-                questions: resultData.questions.map((question) =>
-                  question.id === currentQuestionId
-                    ? { ...question, selectedOptionKey: selectedOption }
-                    : question
-                ),
-              }
-            : resultData
-        )
+
+    if (candidateTestData) {
+      const testIndex = candidateResultData.findIndex(
+        (resultData) => resultData.test === candidateTestData.id
       );
-    } else {
-      setCandidateResultData((prevData) => [
-        ...prevData,
-        {
-          test: fetchedCandidateTestData.id,
-          candidate: fetchedCandidateTestData.assigned_to || "",
-          questions: [
-            {
-              id: currentQuestionId,
-              selectedOptionKey: selectedOption,
-            },
-          ],
-        },
-      ]);
+
+      const questionIndex =
+        testIndex !== -1
+          ? candidateResultData[testIndex].questions.findIndex(
+              (question) => question.id === currentQuestionId
+            )
+          : -1;
+
+      if (testIndex !== -1 && questionIndex !== -1) {
+        setCandidateResultData((prevData) => {
+          const updatedData = [...prevData];
+          updatedData[testIndex].questions[questionIndex] = {
+            id: currentQuestionId,
+            selectedOptionKey: selectedOption,
+          };
+          return updatedData;
+        });
+      } else if (testIndex !== -1) {
+        // Add new question to an existing test
+        setCandidateResultData((prevData) => {
+          const updatedData = [...prevData];
+          updatedData[testIndex].questions.push({
+            id: currentQuestionId,
+            selectedOptionKey: selectedOption,
+          });
+          return updatedData;
+        });
+      } else {
+        // Add a new test with a question
+        setCandidateResultData((prevData) => [
+          ...prevData,
+          {
+            test: candidateTestData.id,
+            candidate: userId || null,
+            questions: [
+              {
+                id: currentQuestionId,
+                selectedOptionKey: selectedOption,
+              },
+            ],
+          },
+        ]);
+      }
     }
-  
+
     console.log(
       "Save & Next clicked. Selected Option:",
       selectedOption,
       "for question:",
       currentQuestionId
     );
-  
-    // Use the callback to log the updated state
+
     setCandidateResultData((updatedData) => {
       console.log("Updated Result Data:", updatedData);
       return updatedData;
     });
   };
-  
-
-  // const fetchCandidateTestData = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `http://13.233.194.145:8000/test_app/test/get-test-by-id?id=${testId}`
-  //     );
-  //     setCandidateTestData(response.data);
-  //     console.log("candidate test data:", response.data);
-  //   } catch (error) {
-  //     console.error("Error fetching candidate test data:", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (testId) {
-  //     fetchCandidateTestData();
-  //   }
-  // }, [testId]);
-
-  // console.log('Candidate Test Data: ', candidateTestData);
-
-  const fetchedCandidateTestData = {
-    id: "1",
-    conduced_on: null,
-    created_at: "2024-01-18 11:33:57.509280+00:00",
-    modified_at: "2024-01-18 14:18:39.656435+00:00",
-    created_by: null,
-    assigned_to: null,
-    name: "Sample1",
-    description: "Sample test",
-    status: "PENDING",
-    questions: [
-      {
-        id: "3",
-        created_at: "2024-01-18 11:54:07.219410+00:00",
-        description: "What is the primary goal of financial management?",
-        question_type: "MCQ",
-        tags: null,
-        correct_answer: "A",
-        other_dependencies: {
-          A: "Maximize shareholder wealth",
-          B: "Minimize employee turnover",
-          C: "Increase market share",
-          D: "Reduce product costs",
-        },
-      },
-      {
-        id: "4",
-        created_at: "2024-01-18 11:54:07.319270+00:00",
-        description:
-          "Which financial statement represents a company's financial position at a specific point in time?",
-        question_type: "MCQ",
-        tags: null,
-        correct_answer: "C",
-        other_dependencies: {
-          A: "Income statement",
-          B: "Statement of cash flows",
-          C: "Balance sheet",
-          D: "Statement of retained earnings",
-        },
-      },
-      {
-        id: "5",
-        created_at: "2024-01-18 11:54:07.421706+00:00",
-        description:
-          "What is the formula for calculating the Net Present Value (NPV) of a project?",
-        question_type: "MCQ",
-        tags: null,
-        correct_answer: "B",
-        other_dependencies: {
-          A: "NPV = Initial Investment / Discount Rate",
-          B: "NPV = Future Cash Flows - Initial Investment",
-          C: "NPV = Discount Rate / Initial Investment",
-          D: "NPV = Initial Investment x Discount Rate",
-        },
-      },
-      {
-        id: "6",
-        created_at: "2024-01-18 11:54:07.523889+00:00",
-        description:
-          'In finance, what does the term "diversification" refer to?',
-        question_type: "MCQ",
-        tags: null,
-        correct_answer: "B",
-        other_dependencies: {
-          A: "Concentrating investments in a single asset",
-          B: "Spreading investments across different assets",
-          C: "Increasing the risk of a portfolio",
-          D: "Ignoring market trends",
-        },
-      },
-      {
-        id: "7",
-        created_at: "2024-01-18 11:54:07.631930+00:00",
-        description:
-          'What does the term "liquidity" represent in the context of financial markets?',
-        question_type: "MCQ",
-        tags: null,
-        correct_answer: "A",
-        other_dependencies: {
-          A: "Ability to buy and sell assets quickly without causing a significant price change",
-          B: "Total value of a company's assets",
-          C: "Long-term financial stability",
-          D: "Profitability ratio of a firm",
-        },
-      },
-      {
-        id: "8",
-        created_at: "2024-01-18 11:54:07.747007+00:00",
-        description:
-          "What is the formula for calculating the Price-Earnings (P/E) ratio?",
-        question_type: "MCQ",
-        tags: null,
-        correct_answer: "A",
-        other_dependencies: {
-          A: "P/E = Market Price per Share / Earnings per Share",
-          B: "P/E = Earnings per Share / Market Price per Share",
-          C: "P/E = Dividends per Share / Earnings per Share",
-          D: "P/E = Earnings per Share x Dividends per Share",
-        },
-      },
-    ],
-  };
 
   useEffect(() => {
-    // const fetchCandidateTestData = async () => {
-    //   try {
-    //     const response = await axios.get(
-    //       `http://13.233.194.145:8000/test_app/test/get-test-by-id?id=${testId}`
-    //     );
-    //     setCandidateTestData(response.data);
-    //     console.log("candidate test data:", response.data);
-    //   } catch (error) {
-    //     console.error("Error fetching candidate test data:", error);
-    //   }
-    // };
-    // Uncomment the following if statement to fetch data dynamically
-    // if (testId) {
-    //   fetchCandidateTestData();
-    // }
-    setCandidateTestData(fetchedCandidateTestData);
-    setTestName(fetchedCandidateTestData.name);
-    setSelectedQuestionId(fetchedCandidateTestData.questions[0].id);
+    const fetchCandidateTestData = async () => {
+      try {
+        const response = await axios.get(
+          `http://13.233.194.145:8000/test_app/test/get-test-by-id?id=${testId}`
+        );
+        setCandidateTestData(response.data);
+        setTestName(response.data.name);
+        setSelectedQuestionId(response.data.questions[0].id);
+      } catch (error) {
+        console.error("Error fetching candidate test data:", error);
+      }
+    };
+
+    if (testId) {
+      fetchCandidateTestData();
+    }
+
+    const user = getUser();
+    if (user.userType !== "candidate") {
+      navigate("/");
+      return;
+    }
   }, [testId]);
 
   useEffect(() => {
@@ -293,70 +205,73 @@ console.log("Subkit clciked: ", candidateResultData);
       navigate("/");
       return;
     }
-  },[])
+  }, []);
 
   return (
     <div className="d-flex flex-row justify-content-between gap-1">
-      <div className="d-flex col-8 flex-column border border-1 border-dark rounded p-3">
-        <p>Test ID: {testId}</p>
-        <div>{testName}</div>
-        {selectedQuestionId && selectedQuestionData && (
-          <div className="d-flex flex-column">
-            <FormProvider {...methods}>
-              <form>
-                <div className="d-flex flex-column">
-                  <strong>{`${selectedQuestionId}. ${selectedQuestionData?.description}`}</strong>
-                  <ol>
-                    {Object.entries(
-                      selectedQuestionData.other_dependencies
-                    ).map(([optionKey, optionValue]) => (
-                      <li key={optionKey}>
-                        <label htmlFor={optionKey}>
-                          <div>
-                            <input
-                              type="radio"
-                              id={optionKey}
-                              name={selectedQuestionId}
-                              value={optionKey}
-                              checked={
-                                selectedOptions &&
-                                selectedOptions[selectedQuestionId] ===
-                                  optionKey
-                              }
-                              onChange={() => handleOptionSelect(optionKey)}
-                            />
-                            {optionValue}
-                          </div>
-                        </label>
-                      </li>
-                    ))}
-                  </ol>
-                  <div className="m-2 d-flex gap-2">
-                    <Button
-                      submitType="button"
-                      theme=""
-                      size="small"
-                      name="Clear Selection"
-                      buttonId=""
-                      extraClass="btn btn-outline-dark btn-lg"
-                      onClick={handleClearSelection}
-                    />
-                    <Button
-                      submitType="button"
-                      theme=""
-                      size="small"
-                      name="Save & Next"
-                      buttonId=""
-                      extraClass="btn btn-outline-dark btn-lg"
-                      onClick={handleSaveAndNext}
-                    />
+      {candidateTestData && (
+        <div className="d-flex col-8 flex-column border border-1 border-dark rounded p-3">
+          <p>Test ID: {testId}</p>
+          <div>{testName}</div>
+          {selectedQuestionId && selectedQuestionData && (
+            <div className="d-flex flex-column">
+              <FormProvider {...methods}>
+                <form>
+                  <div className="d-flex flex-column">
+                    <strong>{`${selectedQuestionId}. ${selectedQuestionData?.description}`}</strong>
+                    <ol>
+                      {Object.entries(
+                        selectedQuestionData.other_dependencies
+                      ).map(([optionKey, optionValue]) => (
+                        <li key={optionKey}>
+                          <label htmlFor={optionKey}>
+                            <div>
+                              <input
+                                type="radio"
+                                id={optionKey}
+                                name={selectedQuestionId}
+                                value={optionKey}
+                                checked={
+                                  selectedOptions &&
+                                  selectedOptions[selectedQuestionId] ===
+                                    optionKey
+                                }
+                                onChange={() => handleOptionSelect(optionKey)}
+                              />
+                              {optionValue}
+                            </div>
+                          </label>
+                        </li>
+                      ))}
+                    </ol>
+                    <div className="m-2 d-flex gap-2">
+                      <Button
+                        submitType="button"
+                        theme=""
+                        size="small"
+                        name="Clear Selection"
+                        buttonId=""
+                        extraClass="btn btn-outline-dark btn-lg"
+                        onClick={handleClearSelection}
+                      />
+                      <Button
+                        submitType="button"
+                        theme=""
+                        size="small"
+                        name="Save & Next"
+                        buttonId=""
+                        extraClass="btn btn-outline-dark btn-lg"
+                        onClick={handleSaveAndNext}
+                      />
+                    </div>
                   </div>
-                </div>
-              </form>
-            </FormProvider>
-          </div>
-        )}
-      </div>
+                </form>
+              </FormProvider>
+            </div>
+          )}
+        </div>
+      )}
+
       <div className="d-flex col-4 border border-1 border-dark rounded p-3">
         <FormProvider {...methods}>
           <form>
