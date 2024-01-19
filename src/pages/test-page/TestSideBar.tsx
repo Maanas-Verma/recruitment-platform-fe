@@ -1,7 +1,6 @@
-import { ReactElement, SetStateAction, useState } from "react";
+import { ReactElement } from "react";
 import TestCreation from "./TestCreation";
 import Button from "../../components/Button";
-import apiService from "../../api-service/apiServices";
 
 interface TestSectionProps {
   showCreateTest: boolean;
@@ -34,7 +33,10 @@ function TestSideBar(props: TestSectionProps): ReactElement {
         />
       </div>
       {showCreateTest ? (
-        <TestCreation handleClose={() => setShowCreateTest(false)} reloadTestAPI={reloadTestAPI} />
+        <TestCreation
+          handleClose={() => setShowCreateTest(false)}
+          reloadTestAPI={reloadTestAPI}
+        />
       ) : (
         ""
       )}

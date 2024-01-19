@@ -1,10 +1,16 @@
-import { ReactElement, SetStateAction, useEffect } from "react";
-import { PostQuestionResponse } from "../../interfaces/global.interfaces";
+import { ReactElement, SetStateAction, useEffect, useState } from "react";
+import {
+  GetTestResponse,
+  PatchTestRequest,
+  PostQuestionResponse,
+} from "../../interfaces/global.interfaces";
 import Button from "../../components/Button";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import apiService from "../../api-service/apiServices";
 
 interface QuestionPanelLeftProps {
+  assignedTestId: string | undefined;
   countIDLength: number;
   setCountIDLength: React.Dispatch<SetStateAction<number>>;
   selectedQuestionIDs: string[];
@@ -19,12 +25,14 @@ interface QuestionPanelLeftProps {
  */
 function QuestionPanelLeft(props: QuestionPanelLeftProps): ReactElement {
   const {
+    assignedTestId,
     addedQuestionLists,
     countIDLength,
     setCountIDLength,
     selectedQuestionIDs,
     setSelectedQuestionIDs,
   } = props;
+  const [assignedTest, setAssignedTest] = useState<GetTestResponse>();
 
   const filterSubQuestions = (selectedID: string): void => {
     if (selectedQuestionIDs) {
@@ -33,12 +41,36 @@ function QuestionPanelLeft(props: QuestionPanelLeftProps): ReactElement {
       );
       setSelectedQuestionIDs(newParsedQuestionIDs);
       setCountIDLength(() => countIDLength - 1);
-      toast.success(`Removed Question`);
+    }
+  };
+
+  const getAssignedTestDetails = async (): Promise<void> => {
+    try {
+      const getAllTestDetails = await apiService.getTest();
+      if (getAllTestDetails?.data[0]?.id) {
+        const filterAssignedTest = getAllTestDetails.data.find(
+          (test) => test.id === assignedTestId
+        );
+        setAssignedTest(filterAssignedTest);
+      }
+    } catch (error) {
+      toast.error(`Error while getting test api: ${error}`);
+    }
+  };
+
+  const patchCreateTest = async (data: PatchTestRequest): Promise<void> => {
+    try {
+      const getAllTestDetails = await apiService.patchTest(data);
+      if (getAllTestDetails?.data?.id) {
+        toast.success(`Successfully Created Test`);
+      }
+    } catch (error) {
+      toast.error(`Error while getting test api: ${error}`);
     }
   };
 
   useEffect(() => {
-    console.log("leftPanel", selectedQuestionIDs);
+    getAssignedTestDetails();
   }, [addedQuestionLists]);
 
   const navigate = useNavigate();
@@ -47,7 +79,7 @@ function QuestionPanelLeft(props: QuestionPanelLeftProps): ReactElement {
     <>
       <div className="d-flex flex-column gap-5 border-bottom shadow-sm p-4">
         <div className="px-2 d-flex justify-content-between">
-          <span className="fs-5 fw-semibold">Quant</span>
+          <span className="fs-5 fw-semibold">{assignedTest?.name}</span>
           <Button
             theme={"grey-dark"}
             size={"small"}
@@ -58,16 +90,19 @@ function QuestionPanelLeft(props: QuestionPanelLeftProps): ReactElement {
           />
         </div>
         <div className="px-2 d-flex justify-content-between">
-          <div className="fs-6">
-            Long Description of the test - This part of the tutorial is about
-            core JavaScript, the language itself.
-          </div>
+          <div className="fs-6">{assignedTest?.description}</div>
           <Button
             theme={"primary"}
             size={"medium"}
             name={"Create Test"}
             extraClass={"fw-bold fs-7"}
-            onClick={() => {}} // Add API after login done
+            onClick={() =>
+              patchCreateTest({
+                id: assignedTestId as string,
+                status: "CREATED",
+                questions: selectedQuestionIDs,
+              })
+            }
           />
         </div>
       </div>

@@ -5,6 +5,7 @@ import {
   GetCandidateDataResponse,
   GetEmployeeDataResponse,
   GetTestResponse,
+  PatchTestRequest,
   PostCandidateRequest,
   PostDepartmentRequest,
   PostQuestionRequest,
@@ -39,6 +40,17 @@ class HrAPI {
    */
   getTest = async (): Promise<AxiosResponse<GetTestResponse[]>> => {
     return axios.get(`${this.base_url}${this.endpoints.test}`);
+  };
+
+  /**
+   * Makes the API call to Patch the Test.
+   *
+   * @returns - Returns a promise with the Tests.
+   */
+  patchTest = async (
+    data: PatchTestRequest
+  ): Promise<AxiosResponse<GetTestResponse>> => {
+    return axios.patch(`${this.base_url}${this.endpoints.test}`, data);
   };
 
   /**

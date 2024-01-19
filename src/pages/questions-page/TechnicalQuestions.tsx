@@ -1,4 +1,4 @@
-import { ReactElement, SetStateAction, useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { PostQuestionResponse } from "../../interfaces/global.interfaces";
 import QuestionPanelRight from "./QuestionPanelRight";
 import QuestionPanelLeft from "./QuestionPanelLeft";
@@ -7,6 +7,7 @@ import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { getUser } from "../../api-service/sessionStorage";
+import { useParams } from "react-router-dom";
 
 /**
  * Technical Page Component which loads whole technical page.
@@ -14,6 +15,8 @@ import { getUser } from "../../api-service/sessionStorage";
  * @returns - Technical page component return react element.
  */
 function TechnicalQuestions(): ReactElement {
+  const { testId } = useParams<string>();
+
   const [addedQuestionList, setAddedQuestionList] = useState<
     PostQuestionResponse[]
   >([]);
@@ -61,6 +64,7 @@ function TechnicalQuestions(): ReactElement {
             selectedQuestionIDs={selectedQuestionIDs}
             setSelectedQuestionIDs={setSelectedQuestionIDs}
             addedQuestionLists={addedQuestionList}
+            assignedTestId={testId}
           />
         </div>
       </div>

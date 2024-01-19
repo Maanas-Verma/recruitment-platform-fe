@@ -39,7 +39,7 @@ function CandidateSideBar(props: CandidateSectionProps): ReactElement {
         ></Button>
       </div>
       <div className="my-6">
-        <div>
+        <div className="my-4">
           <Button
             size="medium"
             theme="primary"
@@ -76,7 +76,6 @@ function CandidateSideBar(props: CandidateSectionProps): ReactElement {
       ) : (
         ""
       )}
-      <div className="my-auto"></div>
     </div>
   );
 }
