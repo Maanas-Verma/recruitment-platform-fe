@@ -18,6 +18,7 @@ function Home(): ReactElement {
   const [isTestEnabled, setIsTestEnabled] = useState<boolean>(false);
   const [userSpecificData, setUserSpecificData] = useState<any>(null);
   const [testId, setTestId] = useState<any>(null);
+  const [userId, setUserId] = useState<any>();
   const navigate = useNavigate();
 
   const imagePath = "/Logo_large.png";
@@ -36,9 +37,13 @@ function Home(): ReactElement {
         setUserSpecificData(response.data);
         console.log("responsea aa: ", response);
 
-        if (response.data.resume !== null || response.data.resume !== "") {
+        if (
+          (response.data.resume !== null || response.data.resume !== "") &&
+          response.data.alloted_test !== null
+        ) {
           setIsTestEnabled(true);
           setTestId(response.data.alloted_test);
+          setUserId(response.data.id);
         }
       } catch (error) {
         console.error("Error fetching user specific data:", error);
@@ -69,7 +74,7 @@ function Home(): ReactElement {
   const handleEnterTheTest = () => {
     console.log("Enter the test clicked");
     alert("You are about to enter the test!");
-    navigate("/candidate-test", { state: { testId } });
+    navigate("/candidate-test", { state: { testId, userId} });
   };
 
   const handleFileUpload = async () => {
@@ -81,15 +86,16 @@ function Home(): ReactElement {
     const formData = new FormData();
     formData.append("resume", selectedFile);
 
-    const apiUrl = `http://13.233.194.145:8000/user/candidate/1/`;
+    const apiUrl = `http://13.233.194.145:8000/user/candidate/${userId}/`;
 
     try {
       await axios.patch(apiUrl, formData);
-
-      // Fetch updated user data after successful upload
       const response = await axios.get(apiUrl);
       setUserSpecificData(response.data);
-      if (response.data.resume !== null || response.data.resume !== "") {
+      if (
+        (response.data.resume !== null || response.data.resume !== "") &&
+        response.data.alloted_test !== null
+      ) {
         setIsTestEnabled(true);
       }
       console.log("File uploaded successfully:", response.data);

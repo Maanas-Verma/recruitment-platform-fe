@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ReactElement, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getUser } from "../../api-service/sessionStorage";
 
 interface QuestionData {
@@ -21,14 +21,16 @@ interface FetchedResultData {
 function CandidateResult(): ReactElement {
   const [resultData, setResultData] = useState<FetchedResultData | null>(null);
   const TestName = "React Test";
-  const candidateId = 1;
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const testId = location.state?.testId;
+  const userId = location.state?.userId;
 
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `http://13.233.194.145:8000/test_app/get_candidate_test_response/${candidateId}`
+        `http://13.233.194.145:8000/test_app/get_candidate_test_response/${userId}`
       );
       setResultData(response.data);
       console.log("Response:", response.data);
@@ -43,10 +45,10 @@ function CandidateResult(): ReactElement {
       navigate("/");
       return;
     }
-    if (candidateId) {
+    if (userId) {
       fetchData();
     }
-  }, [candidateId]);
+  }, [userId]);
 
   console.log("resultData: ", resultData);
 
