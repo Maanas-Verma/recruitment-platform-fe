@@ -64,6 +64,7 @@ function CandidateTable(props: {
             <th className="px-2 py-4">Select</th>
             <th className="px-2 py-4">Name</th>
             <th className="px-2 py-4">Resume</th>
+            <th className="px-2 py-4">Department Alignment</th>
             <th className="px-2 py-4">Skill Set</th>
             <th className="px-2 py-4">Score</th>
             <th className="px-2 py-4">Assigned Test</th>
@@ -80,7 +81,7 @@ function CandidateTable(props: {
                 />
               </td>
               <td className="p-2 fs-7 ">{candidates?.name}</td>
-              <td className="p-2 fs-7 w-50">
+              <td className="p-2 fs-7">
                 {candidates.resume ? (
                   <Button
                     buttonType="text"
@@ -92,6 +93,23 @@ function CandidateTable(props: {
                 ) : (
                   "-"
                 )}
+              </td>
+              <td>
+                {candidates.resumeMatrix &&
+                  Object.keys(candidates.resumeMatrix).map((key) => (
+                    <div>
+                      <span
+                        className="badge rounded-pill bg-primary px-2 py-1"
+                        key={`matrix-${key}`}
+                      >
+                        {key} -{" "}
+                        {candidates.resumeMatrix
+                          ? candidates.resumeMatrix[key]
+                          : ""}
+                      </span>
+                      <br />
+                    </div>
+                  ))}
               </td>
               <td className="p-2 fs-7 ">
                 <div className="d-flex flex-wrap flex-row gap-1">

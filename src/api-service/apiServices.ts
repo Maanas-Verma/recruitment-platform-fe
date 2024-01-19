@@ -4,6 +4,7 @@ import {
   DepartmentData,
   GetCandidateDataResponse,
   GetEmployeeDataResponse,
+  GetResumeMatricesResponse,
   GetTestResponse,
   PatchTestRequest,
   PostCandidateRequest,
@@ -122,6 +123,14 @@ class HrAPI {
     return axios.get(`${this.base_url}${this.endpoints.resume}${id}/`, { responseType: 'blob' });
   }
 
+  /**
+   * Makes the API call for resume matrices.
+   * 
+   * @returns - Returns a promise with resume matrices.
+   */
+  getResumeMatrices = async (): Promise<AxiosResponse<GetResumeMatricesResponse>> => {
+    return axios.get(`${this.base_url}/ml/parse_resume`);
+  }
   /**
    * Makes the API call to Post a Department.
    *
