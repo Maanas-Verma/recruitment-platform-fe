@@ -172,6 +172,7 @@ function CandidateTest(): ReactElement {
       console.log("Updated Result Data:", updatedData);
       return updatedData;
     });
+    toast.success("Data for question saved.")
   };
 
   useEffect(() => {
