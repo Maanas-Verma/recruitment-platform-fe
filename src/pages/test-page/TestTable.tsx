@@ -83,9 +83,11 @@ function TestTable(props: {
                   />
                 </td>
                 <td className="p-2 fs-7 ">
-                  {test.assigned_to !== null
-                    ? idDepartmentName[test.assigned_to]
-                    : ""}
+                  {test.assigned_to !== null ? (
+                    idDepartmentName[test.assigned_to]
+                  ) : (
+                    <span className="ms-5">{"---"}</span>
+                  )}
                 </td>
                 <td className="p-2 fs-7 ">
                   {utils.FormatDate(test?.modified_at)}
