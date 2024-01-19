@@ -7,8 +7,6 @@ import { toast } from "react-toastify";
 import apiService from "../../api-service/apiServices";
 import { getUser } from "../../api-service/sessionStorage";
 
-//TODO: add a patch call for resume.
-
 function Home(): ReactElement {
   const methods = useForm({
     mode: "all",
@@ -74,7 +72,7 @@ function Home(): ReactElement {
   const handleEnterTheTest = () => {
     console.log("Enter the test clicked");
     alert("You are about to enter the test!");
-    navigate("/candidate-test", { state: { testId, userId} });
+    navigate("/candidate-test", { state: { testId, userId } });
   };
 
   const handleFileUpload = async () => {
@@ -106,11 +104,14 @@ function Home(): ReactElement {
   };
 
   return (
-    <div className="d-flex flex-row mx-0 mt-6">
-      <div className="d-flex  p-2 flex-shrink">
+    <div
+      className="container-fluid row d-flex flex-row justify-content-center align-items-center p-0 m-0"
+      style={{ height: "94vh" }}
+    >
+      <div className="d-flex col-6 justify-content-center">
         <img src={imagePath} alt=""></img>
       </div>
-      <div className="d-flex col-8 flex-column">
+      <div className="d-flex col-6 flex-column">
         <div className="d-flex flex-column">
           <h3>
             <strong>
