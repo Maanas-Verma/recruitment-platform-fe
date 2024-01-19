@@ -57,9 +57,12 @@ function CandidateTable(props: {
   };
 
   return (
-    <div className="table-responsive rounded-2 overflow-auto mt-5">
+    <div
+      className="table-responsive rounded-2 overflow-auto mt-5"
+      style={{ maxHeight: "35rem" }}
+    >
       <table className="table table-hover align-middle">
-        <thead className="table-info">
+        <thead className="table-info sticky-top">
           <tr>
             <th className="px-2 py-4">Select</th>
             <th className="px-2 py-4">Name</th>
@@ -85,7 +88,7 @@ function CandidateTable(props: {
                 {candidates.resume ? (
                   <Button
                     buttonType="text"
-                    name="resume"
+                    name="Resume"
                     theme={"primary"}
                     size={"small"}
                     onClick={() => handleResumeDownload(candidates?.id)}

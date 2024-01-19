@@ -106,8 +106,7 @@ function TechnicalCards(props: TechnicalSectionProps): ReactElement {
                     </p>
                     <p className="card-text fs-7">
                       <small className="text-muted">
-                        Created by:{" "}
-                        <span>{idEmployeeName[data?.created_by]}</span>
+                        Created by: {/* <span>{idEmployeeName[}</span> */}
                       </small>
                     </p>
                   </div>

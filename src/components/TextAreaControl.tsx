@@ -32,7 +32,7 @@ function TextAreaControl(props: TextAreaControlDetails): ReactElement {
       <div className="d-flex justify-content-between align-items-center">
         {label && (
           <label
-            className="m-1 text-muted fs-7"
+            className="m-1 text-muted fs-8"
             id={`label-${controlKey}`}
             htmlFor={inputId || `textarea-control-${controlKey}`}
           >

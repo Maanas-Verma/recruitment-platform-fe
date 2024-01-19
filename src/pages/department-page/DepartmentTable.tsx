@@ -53,15 +53,18 @@ function DepartmentTable(props: {
   }, []);
 
   return (
-    <div className="table-responsive rounded-2 overflow-auto mt-5">
+    <div
+      className="table-responsive rounded-2 overflow-auto mt-5"
+      style={{ maxHeight: "35rem" }}
+    >
       <table className="table table-hover align-middle">
-        <thead className="table-info">
+        <thead className="table-info sticky-top">
           <tr>
             <th className="px-2 py-4">Select</th>
             <th className="px-2 py-4">Name</th>
-            <th className="px-2 py-4">Description</th>
+            <th className="px-2 py-4">Short Description</th>
             <th className="px-2 py-4">Head</th>
-            <th className="px-2 py-4 w-50">Requirements</th>
+            <th className="px-2 py-4 w-50">Skill Requirements</th>
           </tr>
         </thead>
         <tbody>

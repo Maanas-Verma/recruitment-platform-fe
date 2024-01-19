@@ -118,7 +118,7 @@ const DepartmentCreation = (props: DepartmentCreationProps): ReactElement => {
                   <div>
                     <TextAreaControl
                       rows={3}
-                      label={"Description"}
+                      label={"Short Description"}
                       controlKey={"description"}
                       controlPlaceholder={
                         "Enter department description here..."
@@ -138,8 +138,9 @@ const DepartmentCreation = (props: DepartmentCreationProps): ReactElement => {
                   <div>
                     <TextAreaControl
                       rows={3}
-                      label={"Requirements"}
+                      label={"Skill Requirements"}
                       controlKey={"requirements"}
+                      controlPlaceholder={"Enter Skill requirements here..."}
                       validationObject={{
                         required: "Please fill requirements as required",
                       }}
