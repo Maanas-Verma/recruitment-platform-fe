@@ -32,6 +32,9 @@ function Home(): ReactElement {
       navigate("/");
       return;
     }
+    if (!userId) {
+      setUserId(user.userId);
+    }
     const fetchData = async () => {
       try {
         const response = await apiService.getCandidateById(getUser().userId);
@@ -44,7 +47,6 @@ function Home(): ReactElement {
         ) {
           setIsTestEnabled(true);
           setTestId(response.data.alloted_test);
-          setUserId(response.data.id);
         }
       } catch (error) {
         console.error("Error fetching user specific data:", error);
@@ -52,7 +54,7 @@ function Home(): ReactElement {
     };
 
     fetchData();
-  }, []);
+  }, [navigate, user.userId]);
 
   const handleClick = () => {
     const newWindow = window.open(
@@ -78,7 +80,13 @@ function Home(): ReactElement {
     navigate("/candidate-test", { state: { testId, userId } });
   };
 
-  const handleFileUpload = async () => {
+  const handleFileUpload = async (userId: string) => {
+    if (!userId) {
+      console.error("UserId is not defined");
+      return;
+    }
+
+    console.log(userId);
     if (!selectedFile) {
       console.error("No file selected");
       return;
@@ -147,15 +155,15 @@ function Home(): ReactElement {
                 )}
               </div>
 
-              <Button
-                size="medium"
-                theme="dark"
-                buttonType="outline"
-                name="Submit"
-                submitType="submit"
-                onClick={handleFileUpload}
-                disabled={!selectedFile}
-              />
+                <Button
+                  size="medium"
+                  theme="dark"
+                  buttonType="outline"
+                  name="Submit"
+                  submitType="submit"
+                  onClick={() => handleFileUpload(userId)}
+                  disabled={!selectedFile}
+                />
             </form>
           </FormProvider>
         </div>
