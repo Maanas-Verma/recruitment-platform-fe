@@ -26,7 +26,7 @@ function Home(): ReactElement {
 
   const userDetail: userSessionDetail = getUser();
   const userName = userDetail.userName?.toUpperCase();
-  const imagePath = "/Logo_large.png";
+  const imagePath = "/logo512.png";
 
   useEffect(() => {
     const user: userSessionDetail = getUser();
