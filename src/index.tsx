@@ -5,10 +5,16 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axiosResponseInterceptor from "./api-service/axios-response-interceptor";
+import axiosRequestInterceptor from "./api-service/axios-request-interceptor";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
+axiosRequestInterceptor();
+axiosResponseInterceptor();
+
 root.render(
   <React.StrictMode>
     <ToastContainer

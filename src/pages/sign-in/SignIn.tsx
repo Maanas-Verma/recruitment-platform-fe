@@ -1,6 +1,4 @@
-import { ReactElement, useState, useContext, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useForm, FormProvider, FieldValue, set } from "react-hook-form";
+import { ReactElement, useState } from "react";
 import SignUpFormProvider from "./SignUpFormProvider";
 import SignInFormProvider from "./SignInFormProvider";
 import TabControl from "../../components/TabControl";
@@ -12,10 +10,9 @@ import TabControl from "../../components/TabControl";
  */
 
 function SignIn(): ReactElement {
-  const navigate = useNavigate();
   const [isSignUp, setIsSignUp] = useState(false);
 
-  const handleToChange = (event: React.SyntheticEvent, value: string) => {
+  const handleToChange = () => {
     setIsSignUp(!isSignUp);
   };
 
@@ -32,12 +29,13 @@ function SignIn(): ReactElement {
               <span className="text-primary">Recruit with Precision</span>
             </h1>
             <span>
-            The secret of my success is that we have gone to exceptional lengths to hire the best people in the world
+              The secret of my success is that we have gone to exceptional
+              lengths to hire the best people in the world.
             </span>
           </div>
 
           <div className="col-lg-6 px-5 d-flex justify-content-center">
-            <div className="card" style={{ width: "400px", height: "400px" }}>
+            <div className="card" style={{ width: "400px", height: "450px" }}>
               <div className="card-header bg-transparent border-bottom-0 pt-6 px-md-5">
                 <TabControl
                   value={isSignUp ? "Sign Up" : "Sign In"}
@@ -48,9 +46,11 @@ function SignIn(): ReactElement {
                   ]}
                 />
               </div>
-              <div className="card-body py-5 px-md-5">
-                {isSignUp ? <SignUpFormProvider setIsSignUp={setIsSignUp}/> : <SignInFormProvider />}
-              </div>
+              {isSignUp ? (
+                <SignUpFormProvider setIsSignUp={setIsSignUp} />
+              ) : (
+                <SignInFormProvider />
+              )}
             </div>
           </div>
         </div>

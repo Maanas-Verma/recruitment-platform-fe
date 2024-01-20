@@ -1,6 +1,13 @@
 import { ChangeEvent, FocusEvent } from "react";
 import { RegisterOptions } from "react-hook-form";
 
+export interface userSessionDetail {
+  userType: "employee" | "candidate" | "hr";
+  userId: string;
+  department?: string;
+  userName?: string;
+}
+
 export interface TokenResponse {
   access_token: string;
   expires_in: number;

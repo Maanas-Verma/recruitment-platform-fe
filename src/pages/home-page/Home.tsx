@@ -6,28 +6,31 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import apiService from "../../api-service/apiServices";
 import { getUser } from "../../api-service/sessionStorage";
+import {
+  userSessionDetail,
+  GetCandidateDataResponse,
+} from "../../interfaces/global.interfaces";
 
 function Home(): ReactElement {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isTestEnabled, setIsTestEnabled] = useState<boolean>(false);
+  const [userSpecificData, setUserSpecificData] =
+    useState<GetCandidateDataResponse>();
+  const [testId, setTestId] = useState<any>(null);
+  const [userId, setUserId] = useState<any>();
+
   const methods = useForm({
     mode: "all",
   });
-
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isTestEnabled, setIsTestEnabled] = useState<boolean>(false);
-  const [userSpecificData, setUserSpecificData] = useState<any>(null);
-  const [testId, setTestId] = useState<any>(null);
-  const [userId, setUserId] = useState<any>();
   const navigate = useNavigate();
 
-  const user = getUser();
-  console.log(user)
-
+  const userDetail: userSessionDetail = getUser();
+  const userName = userDetail.userName?.toUpperCase();
   const imagePath = "/Logo_large.png";
-  const userName = user.user_name;
-  const companyName = "ICICI";
 
   useEffect(() => {
-    const user = getUser();
+    const user: userSessionDetail = getUser();
+
     if (user.userType !== "candidate") {
       navigate("/");
       return;
@@ -35,26 +38,29 @@ function Home(): ReactElement {
     if (!userId) {
       setUserId(user.userId);
     }
-    const fetchData = async () => {
-      try {
-        const response = await apiService.getCandidateById(getUser().userId);
-        setUserSpecificData(response.data);
-        console.log("responsea aa: ", response);
 
+    const fetchCandidateData = async (candidateID: string) => {
+      try {
+        const getResponse = await apiService.getCandidateById(candidateID);
+        if (getResponse?.data) {
+          setUserSpecificData(getResponse.data);
+          console.log("Response: ", getResponse.data);
+        }
         if (
-          (response.data.resume !== null || response.data.resume !== "") &&
-          response.data.alloted_test !== null
+          (getResponse?.data?.resume !== null ||
+            getResponse?.data?.resume !== "") &&
+          getResponse?.data?.alloted_test !== null
         ) {
           setIsTestEnabled(true);
-          setTestId(response.data.alloted_test);
+          setTestId(getResponse?.data?.alloted_test);
         }
       } catch (error) {
-        console.error("Error fetching user specific data:", error);
+        console.error("Error:", error);
       }
     };
 
-    fetchData();
-  }, [navigate, user.userId]);
+    fetchCandidateData(user.userId);
+  }, [navigate, userDetail.userId]);
 
   const handleClick = () => {
     const newWindow = window.open(
@@ -124,51 +130,51 @@ function Home(): ReactElement {
       </div>
       <div className="d-flex col-6 flex-column">
         <div className="d-flex flex-column">
-          <h3>
-            <strong>
-              <div>Hi, {userName}</div>
-              <div>Welcome to {companyName}</div>
-            </strong>
+          <h3 className="d-flex flex-column fw-bold gap-2">
+            <span>Hi, </span>
+            <span>{userName}</span>
           </h3>
         </div>
-        <div>
+        <div className="mt-6">
+          <h2 className="fw-normal text-primary">Welcome to ICICI</h2>
+        </div>
+        <div className="mt-4 mb-6">
           <FormProvider {...methods}>
             <form onSubmit={(e) => e.preventDefault()}>
-              <label
-                htmlFor="file-upload"
-                className="border border-1 rounded-3 mt-3 p-2"
-              >
-                Upload Your Resume
-                <input
-                  type="file"
-                  id="file-upload"
-                  name="asd"
-                  onChange={handleFileChange}
-                  className="p-2"
-                />
-              </label>
-              <div style={{ overflow: "auto" }}>
+              <div className="d-flex flex-column border border-1 rounded-3 p-4 gap-4">
+                <label htmlFor="file-upload" className="text-muted fw-normal">
+                  Kindly upload your resume below:
+                </label>
+                <div className="d-flex justify-content-between">
+                  <input
+                    className={"form-control w-75"}
+                    id="file-upload"
+                    type="file"
+                    name="asd"
+                    onChange={handleFileChange}
+                  />
+                  <Button
+                    size="small"
+                    theme="dark"
+                    buttonType="outline"
+                    name="Submit"
+                    submitType="submit"
+                    onClick={() => handleFileUpload(userId)}
+                    disabled={!selectedFile}
+                  />
+                </div>
+              </div>
+              <div className="p-2 fs-7 overflow-auto">
                 {userSpecificData && userSpecificData.resume && (
-                  <span className="col-3">
+                  <span className="col-3 text-success">
                     Uploaded File: {userSpecificData.resume}
                   </span>
                 )}
               </div>
-
-                <Button
-                  size="medium"
-                  theme="dark"
-                  buttonType="outline"
-                  name="Submit"
-                  submitType="submit"
-                  onClick={() => handleFileUpload(userId)}
-                  disabled={!selectedFile}
-                />
             </form>
           </FormProvider>
         </div>
-
-        <div>
+        <div className="d-flex justify-content-between mt-6">
           <Button
             size="medium"
             theme="dark"
@@ -178,8 +184,6 @@ function Home(): ReactElement {
             buttonId="enter-the-test"
             onClick={handleEnterTheTest}
           ></Button>
-        </div>
-        <div>
           <Button
             size="medium"
             theme="dark"
