@@ -32,10 +32,7 @@ function SignIn(): ReactElement {
               <span className="text-primary">Recruit with Precision</span>
             </h1>
             <span>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus
-              magni quas placeat earum. Qui repellat libero officiis totam neque
-              rerum quae, alias perferendis obcaecati maiores vel in eaque
-              commodi unde.
+            The secret of my success is that we have gone to exceptional lengths to hire the best people in the world
             </span>
           </div>
 
