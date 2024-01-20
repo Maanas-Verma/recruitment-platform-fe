@@ -12,7 +12,7 @@ function CandidateResult(): ReactElement {
   const [resultData, setResultData] = useState<GetCandidateResultData | null>(
     null
   );
-  const TestName = "React Test";
+  const TestName = "React Test Response";
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -44,16 +44,16 @@ function CandidateResult(): ReactElement {
   return (
     <div className="d-flex flex-column container-fluid row p-0 m-0">
       <div className="mt-5 mb-3">
-        <strong className="fs-5">{TestName}</strong>
+        <h5 className="fs-5 fw-semibold text-secondary-darker">{TestName}</h5>
       </div>
-      <div className="p-2 align-items-stretch d-flex">
-        <table className="p-2 table table-responsive table-bordered">
-          <thead className="text-secondary-dark">
+      <div className="d-flex align-items-stretch px-2 py-4">
+        <table className="p-2 table table-responsive table-bordered border-grey-lighter rounded-2">
+          <thead className="bg-lavender-lightest text-secondary-dark">
             <tr>
               <th>Questions</th>
-              <th>Your Response</th>
-              <th>Correct Response</th>
-              <th>Response Status</th>
+              <th className="text-center">Your Response</th>
+              <th className="text-center">Correct Response</th>
+              <th className="text-center">Response Status</th>
             </tr>
           </thead>
           <tbody>
@@ -77,16 +77,17 @@ function CandidateResult(): ReactElement {
                 return (
                   <tr key={questionId}>
                     <td>
-                      <div>
-                        <strong>Q. {description}</strong>
-                      </div>
-                      <div className="d-flex align-items-stretch">
-                        <ol className="list-unstyled">
+                      <div className="fw-semibold">Q. {description}</div>
+                      <div className="d-flex">
+                        <ol className="flex-fill list-unstyled">
                           {Object.entries(other_dependencies).map(
                             ([optionKey, optionValue]) => (
-                              <li key={optionKey} className="col-md-6">
-                                <div>{`${optionKey}: ${optionValue}`}</div>
-                              </li>
+                              <div key={optionKey} className="px-3 my-2">
+                                <div className="d-flex flex-row align-items-center gap-2">
+                                  <span>{optionKey}.</span>
+                                  <span>{optionValue}</span>
+                                </div>
+                              </div>
                             )
                           )}
                         </ol>
@@ -107,7 +108,7 @@ function CandidateResult(): ReactElement {
                           ></i>
                         ) : hasResponse && !isResponseCorrect ? (
                           <i
-                            className="fs-5 bi bi-x"
+                            className="fs-5 bi bi-x-circle-fill"
                             style={{ color: "red" }}
                           ></i>
                         ) : null}
