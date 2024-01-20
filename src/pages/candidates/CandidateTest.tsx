@@ -5,69 +5,37 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
 import { getUser } from "../../api-service/sessionStorage";
 import { toast } from "react-toastify";
-
-interface OtherDependencies {
-  [key: string]: string;
-}
-
-interface Question {
-  id: string;
-  created_at: string;
-  description: string;
-  question_type: string;
-  tags: string[] | null;
-  correct_answer: string;
-  other_dependencies: OtherDependencies;
-}
-
-interface QuestionSelection {
-  id: string;
-  selectedOptionKey: string;
-}
-
-interface CandidateTestData {
-  id: string;
-  conduced_on: string | null;
-  created_at: string;
-  modified_at: string;
-  created_by: string | null;
-  assigned_to: string | null;
-  name: string;
-  description: string;
-  status: string;
-  questions: Question[];
-}
-
-interface CandidateResultData {
-  test: string;
-  candidate: string;
-  questions: QuestionSelection[];
-}
+import apiService from "../../api-service/apiServices";
+import {
+  GetCandidateTestData,
+  PatchCandidateResultData,
+} from "../../interfaces/global.interfaces";
 
 function CandidateTest(): ReactElement {
-  const navigate = useNavigate();
-  const methods = useForm<FormData>({
-    mode: "all",
-  });
-  const location = useLocation();
-  const testId = location.state?.testId;
-  const userId = location.state?.userId;
   const [candidateTestData, setCandidateTestData] =
-    useState<CandidateTestData | null>(null);
-
+    useState<GetCandidateTestData | null>(null);
   const [testName, setTestName] = useState<string>("");
   const [selectedQuestionId, setSelectedQuestionId] = useState<string>("");
   const [selectedOptions, setSelectedOptions] = useState<any>({});
   const [candidateResultData, setCandidateResultData] = useState<
-    CandidateResultData[]
+    PatchCandidateResultData[]
   >([]);
+
+  const methods = useForm<FormData>({
+    mode: "all",
+  });
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const testId = location.state?.testId;
+  const userId = location.state?.userId;
 
   const selectedQuestionData = candidateTestData?.questions.find(
     (question) => question.id === selectedQuestionId
   );
 
-  const handleAllQuestionsSubmit = async () => {
-    console.log("All questions Submit called");
+  const handleAllQuestionsSubmit = async (): Promise<void> => {
     await handleSaveAndNext();
 
     const updatedCandidateResultData = {
@@ -78,20 +46,17 @@ function CandidateTest(): ReactElement {
 
     console.log("Submit clicked:", updatedCandidateResultData);
 
-    axios
-      .patch(
-        "http://13.233.194.145:8000/test_app/test_response/",
+    try {
+      const patchTestResponse = await apiService.patchCandidateTestData(
         updatedCandidateResultData
-      )
-      .then((response) => {
-        console.log("Response from server:", response);
+      );
+      if (patchTestResponse?.data) {
         toast.success("Test Submitted Successfully!");
         navigate("/candidate-result", { state: { testId, userId } });
-      })
-      .catch((error) => {
-        toast.error("Unable to submit the test!");
-        console.error("Error submitting data:", error);
-      });
+      }
+    } catch (error) {
+      toast.error("Unable to submit the test!");
+    }
   };
 
   const handleOptionSelect = (optionId: string) => {
@@ -161,73 +126,64 @@ function CandidateTest(): ReactElement {
       }
     }
 
-    console.log(
-      "Save & Next clicked. Selected Option:",
-      selectedOption,
-      "for question:",
-      currentQuestionId
-    );
-
     setCandidateResultData((updatedData) => {
-      console.log("Updated Result Data:", updatedData);
       return updatedData;
     });
-    toast.success("Data for question saved.");
+
+    toast.success(`Option ${selectedOption} saved for the question.`);
   };
 
   useEffect(() => {
+    const user = getUser();
+
+    if (user.userType !== "candidate") {
+      navigate("/");
+      return;
+    }
+
     const fetchCandidateTestData = async () => {
       try {
-        const response = await axios.get(
-          `http://13.233.194.145:8000/test_app/test/get-test-by-id?id=${testId}`
-        );
-        setCandidateTestData(response.data);
-        setTestName(response.data.name);
-        setSelectedQuestionId(response.data.questions[0].id);
+        const getTestResponse = await apiService.getCandidateTestData(testId);
+        if (getTestResponse?.data) {
+          setCandidateTestData(getTestResponse.data);
+          setTestName(getTestResponse.data.name);
+          setSelectedQuestionId(getTestResponse.data.questions[0].id);
+        }
       } catch (error) {
-        console.error("Error fetching candidate test data:", error);
+        console.error("Error:", error);
       }
     };
 
     if (testId) {
       fetchCandidateTestData();
     }
-
-    const user = getUser();
-    if (user.userType !== "candidate") {
-      navigate("/");
-      return;
-    }
   }, [testId]);
-
-  useEffect(() => {
-    const user = getUser();
-    if (user.userType !== "candidate") {
-      navigate("/");
-      return;
-    }
-  }, []);
 
   return (
     <div className="container-fluid row p-0 m-0" style={{ height: "94vh" }}>
       <div className="col-10 p-0 align-items-stretch d-flex">
         {candidateTestData && (
           <div className="border border-1 rounded-2 m-4 me-2 align-items-stretch w-100 p-5 bg-white">
-            {selectedQuestionId && selectedQuestionData && (
+            {selectedQuestionId && selectedQuestionData ? (
               <div className="d-flex flex-column align-items-stretch h-100">
                 <FormProvider {...methods}>
                   <form className="d-flex flex-column align-items-stretch h-100">
-                    <p>Test ID: {testId}</p>
-                    <div>{testName}</div>
-                    <div className="d-flex flex-column justify-content-between">
-                      <strong>{`${selectedQuestionId}. ${selectedQuestionData?.description}`}</strong>
+                    <div className="d-flex justify-content-between">
+                      <h5>
+                        Test Name:{" "}
+                        <span className="text-secondary-dark">{testName}</span>
+                      </h5>
+                      <h5>Test ID: {testId}</h5>
+                    </div>
+                    <div className="d-flex flex-column justify-content-between mt-4">
+                      <h5>{`${selectedQuestionId}. ${selectedQuestionData?.description}`}</h5>
                       <ol>
                         {Object.entries(
                           selectedQuestionData.other_dependencies
                         ).map(([optionKey, optionValue]) => (
-                          <li key={optionKey}>
+                          <div key={optionKey} className="px-3 my-2">
                             <label htmlFor={optionKey}>
-                              <div>
+                              <div className="d-flex flex-row align-items-center">
                                 <input
                                   type="radio"
                                   id={optionKey}
@@ -240,24 +196,15 @@ function CandidateTest(): ReactElement {
                                   }
                                   onChange={() => handleOptionSelect(optionKey)}
                                 />
-                                {optionValue}
+                                <span className="ms-2">{optionValue}</span>
                               </div>
                             </label>
-                          </li>
+                          </div>
                         ))}
                       </ol>
                     </div>
                     <div className="my-auto"></div>
-                    <div className="m-2 d-flex gap-2">
-                      <Button
-                        submitType="button"
-                        theme=""
-                        size="small"
-                        name="Clear Selection"
-                        buttonId=""
-                        extraClass="btn btn-outline-dark btn-lg"
-                        onClick={handleClearSelection}
-                      />
+                    <div className="m-2 d-flex  justify-content-between gap-2">
                       <Button
                         submitType="button"
                         theme=""
@@ -267,10 +214,21 @@ function CandidateTest(): ReactElement {
                         extraClass="btn btn-outline-dark btn-lg"
                         onClick={handleSaveAndNext}
                       />
+                      <Button
+                        submitType="button"
+                        theme=""
+                        size="small"
+                        name="Clear Selection"
+                        buttonId=""
+                        extraClass="btn btn-outline-dark btn-lg"
+                        onClick={handleClearSelection}
+                      />
                     </div>
                   </form>
                 </FormProvider>
               </div>
+            ) : (
+              "Test has been not assigned to you."
             )}
           </div>
         )}

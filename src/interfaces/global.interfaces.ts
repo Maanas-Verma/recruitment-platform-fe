@@ -263,6 +263,58 @@ export interface DropdownChoicesInterface {
   value: string;
 }
 
+export interface QuestionSelection {
+  id: string;
+  selectedOptionKey: string;
+}
+
+export interface PatchCandidateResultData {
+  test: string;
+  candidate: string;
+  questions: QuestionSelection[];
+}
+
+export interface OtherDependencies {
+  [key: string]: string;
+}
+export interface Question {
+  id: string;
+  created_at: string;
+  description: string;
+  question_type: string;
+  tags: string[] | null;
+  correct_answer: string;
+  other_dependencies: OtherDependencies;
+}
+
+export interface GetCandidateTestData {
+  id: string;
+  conduced_on: string | null;
+  created_at: string;
+  modified_at: string;
+  created_by: string | null;
+  assigned_to: string | null;
+  name: string;
+  description: string;
+  status: string;
+  questions: Question[];
+}
+
+export interface QuestionData {
+  id: string;
+  description: string;
+  other_dependencies: {
+    [key: string]: string;
+  };
+  correct_answer: string;
+  selected_answer: string;
+}
+
+export interface GetCandidateResultData {
+  candidate_id: string;
+  data: QuestionData[];
+}
+
 export interface GetCandidateDataResponse {
   id: string;
   name: string;

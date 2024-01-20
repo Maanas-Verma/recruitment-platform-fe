@@ -3,9 +3,12 @@ import environmentData from "../environment-constant";
 import {
   DepartmentData,
   GetCandidateDataResponse,
+  GetCandidateResultData,
+  GetCandidateTestData,
   GetEmployeeDataResponse,
   GetResumeMatricesResponse,
   GetTestResponse,
+  PatchCandidateResultData,
   PatchTestRequest,
   PostCandidateRequest,
   PostDepartmentRequest,
@@ -25,10 +28,12 @@ class HrAPI {
     this.endpoints = {
       question: "/test_app/question/",
       test: "/test_app/test/",
+      test_response: "/test_app/test_response/",
+      test_result_response: "/test_app/get_candidate_test_response/",
       department: "/user/department/",
       employee: "/user/employee/",
       candidate: "/user/candidate/",
-      resume :"/user/get_file/"
+      resume: "/user/get_file/",
     };
 
     this.base_url = `${environmentData.url}`;
@@ -55,13 +60,48 @@ class HrAPI {
   };
 
   /**
+   * Makes API call to Get the Candidate Test.
+   */
+  getCandidateTestData = async (
+    allotedTestId: string
+  ): Promise<AxiosResponse<GetCandidateTestData>> => {
+    return axios.get(
+      `${this.base_url}${this.endpoints.test}get-test-by-id?id=${allotedTestId}`
+    );
+  };
+
+  /**
+   * Makes API call to Post Patch the Candidate Test.
+   */
+  patchCandidateTestData = async (
+    data: PatchCandidateResultData
+  ): Promise<AxiosResponse<GetCandidateTestData>> => {
+    return axios.patch(`${this.base_url}${this.endpoints.test_response}`, data);
+  };
+
+  /**
+   * Makes API call to get response sheet for the Candidate Test.
+   */
+  getCandidateResultData = async (
+    userId: string
+  ): Promise<AxiosResponse<GetCandidateResultData>> => {
+    return axios.get(
+      `${this.base_url}${this.endpoints.test_result_response}${userId}`
+    );
+  };
+
+  /**
    * Makes API call to Patch the Candidate assigning.
    */
-  patchCandidate1 = async (
-    data: {id: string, alloted_test: string}
-  ): Promise<AxiosResponse<GetCandidateDataResponse>> => {
-    return axios.patch(`${environmentData.url}/user/candidate/${data.id}/`,data)
-  }
+  patchCandidate1 = async (data: {
+    id: string;
+    alloted_test: string;
+  }): Promise<AxiosResponse<GetCandidateDataResponse>> => {
+    return axios.patch(
+      `${environmentData.url}/user/candidate/${data.id}/`,
+      data
+    );
+  };
 
   /**
    * Makes the API call to Get all departments.
@@ -74,14 +114,14 @@ class HrAPI {
 
   /**
    * Makes the API call to Get department by id
-   * 
+   *
    * @param id - Department id
    */
   getDepartmentById = async (
     id: string
   ): Promise<AxiosResponse<DepartmentData>> => {
     return axios.get(`${this.base_url}${this.endpoints.department}${id}/`);
-  }
+  };
 
   /**
    * Makes the API call to get all employees
@@ -94,14 +134,14 @@ class HrAPI {
 
   /**
    * Makes the API call to get employee by id
-   * 
+   *
    * @param id - employee id
    */
   getEmployeeById = async (
     id: string
   ): Promise<AxiosResponse<GetEmployeeDataResponse>> => {
     return axios.get(`${this.base_url}${this.endpoints.employee}${id}/`);
-  }
+  };
 
   /**
    * Makes the API call to Get all Candidates
@@ -113,7 +153,7 @@ class HrAPI {
   > => {
     return axios.get(`${this.base_url}${this.endpoints.candidate}`);
   };
-  
+
   /**
    * Makes the API call to Get Candidate by id
    */
@@ -121,25 +161,29 @@ class HrAPI {
     id: string
   ): Promise<AxiosResponse<GetCandidateDataResponse>> => {
     return axios.get(`${this.base_url}${this.endpoints.candidate}${id}/`);
-  }
+  };
 
   /**
    * Makes the API call to Get resume and download it
-   * 
+   *
    * @param id - Candidate id
    */
   getResume = async (id: string): Promise<AxiosResponse<Blob>> => {
-    return axios.get(`${this.base_url}${this.endpoints.resume}${id}/`, { responseType: 'blob' });
-  }
+    return axios.get(`${this.base_url}${this.endpoints.resume}${id}/`, {
+      responseType: "blob",
+    });
+  };
 
   /**
    * Makes the API call for resume matrices.
-   * 
+   *
    * @returns - Returns a promise with resume matrices.
    */
-  getResumeMatrices = async (): Promise<AxiosResponse<GetResumeMatricesResponse>> => {
+  getResumeMatrices = async (): Promise<
+    AxiosResponse<GetResumeMatricesResponse>
+  > => {
     return axios.get(`${this.base_url}/ml/parse_resume`);
-  }
+  };
   /**
    * Makes the API call to Post a Department.
    *
@@ -220,21 +264,21 @@ class HrAPI {
 
   /**
    * Makes the API call for Sign Up.
-   * 
+   *
    * @param data - Sign Up request details.
    */
   signUp = async (data: SignUpRequest) => {
     return axios.post(`${this.base_url}/user/user/`, data);
-  }
+  };
 
   /**
    * Makes the API call for Sign In.
-   * 
+   *
    * @param data - Sign In request details.
    */
   signIn = async (data: SignInRequest) => {
     return axios.post(`${this.base_url}/login/`, data);
-  }
+  };
 }
 const apiService = new HrAPI();
 
