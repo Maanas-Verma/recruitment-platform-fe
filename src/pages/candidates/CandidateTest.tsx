@@ -16,6 +16,7 @@ function CandidateTest(): ReactElement {
     useState<GetCandidateTestData | null>(null);
   const [testName, setTestName] = useState<string>("");
   const [selectedQuestionId, setSelectedQuestionId] = useState<string>("");
+  const [selectedQuestionIndex, setSelectedQuestionIndex] = useState<number>(0);
   const [selectedOptions, setSelectedOptions] = useState<any>({});
   const [candidateResultData, setCandidateResultData] = useState<
     PatchCandidateResultData[]
@@ -62,6 +63,10 @@ function CandidateTest(): ReactElement {
       ...prevOption,
       [selectedQuestionId]: optionId,
     }));
+    const newIndex = candidateTestData?.questions.findIndex(
+      (question) => question.id === selectedQuestionId
+    ) || 0;
+    setSelectedQuestionIndex(newIndex);
   };
 
   const handleClearSelection = () => {
@@ -174,7 +179,7 @@ function CandidateTest(): ReactElement {
                       <h5>Test ID: {testId}</h5>
                     </div>
                     <div className="d-flex flex-column justify-content-between mt-4">
-                      <h5>{`${selectedQuestionId}. ${selectedQuestionData?.description}`}</h5>
+                    <h5>{`${selectedQuestionIndex + 1}. ${selectedQuestionData?.description}`}</h5>
                       <ol>
                         {Object.entries(
                           selectedQuestionData.other_dependencies
@@ -218,7 +223,7 @@ function CandidateTest(): ReactElement {
                         size="small"
                         name="Clear Selection"
                         buttonId=""
-                        extraClass="btn btn-outline-dark btn-lg"
+                        extraClass="btn btn-outline-dark"
                         onClick={handleClearSelection}
                       />
                     </div>
@@ -240,20 +245,24 @@ function CandidateTest(): ReactElement {
                 <div className="d-flex flex-wrap justify-content-between mx-3">
                   {candidateTestData &&
                     candidateTestData.questions &&
-                    (candidateTestData?.questions).map((questionData) => (
+                    (candidateTestData?.questions).map((questionData, index) => (
                       <div
                         className="d-flex justify-content-center m-1"
                         style={{ width: "60px" }}
+                        key = {`question-${questionData.id}-${index}`}
                       >
                         <Button
                           key={questionData.id}
                           theme=""
                           buttonType="outline"
                           size="large"
-                          name={questionData.id}
+                          name={(index+1).toString()}
                           buttonId={`question-${questionData.id}`}
                           extraClass="m-2 btn-outline-dark"
-                          onClick={() => setSelectedQuestionId(questionData.id)}
+                          onClick={() => {
+                            setSelectedQuestionId(questionData.id);
+                            setSelectedQuestionIndex(index);
+                          }}
                           fullWidth
                         />
                       </div>
