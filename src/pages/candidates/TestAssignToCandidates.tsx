@@ -35,8 +35,6 @@ const TestAssignToCandidates = (
     selectedCandidatesData,
     reloadCandidateAPI,
   } = props;
-  console.log("allCandidate: ", allCandidatesData);
-  console.log("selctedCandidate: ", selectedCandidatesData);
 
   const [allTests, setAllTests] = useState<GetTestResponse[]>([]);
 

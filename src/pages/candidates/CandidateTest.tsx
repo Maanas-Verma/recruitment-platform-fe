@@ -44,8 +44,6 @@ function CandidateTest(): ReactElement {
       questions: candidateResultData[0]?.questions || [],
     };
 
-    console.log("Submit clicked:", updatedCandidateResultData);
-
     try {
       const patchTestResponse = await apiService.patchCandidateTestData(
         updatedCandidateResultData

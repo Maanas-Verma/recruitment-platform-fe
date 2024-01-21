@@ -29,7 +29,7 @@ const CandidateCreation = (props: CandidateCreationProps): ReactElement => {
   const { handleSubmit } = methods;
 
   const handleFormSubmit = (data: FieldValue<CandidateCreationForm>) => {
-    console.log(data);
+    console.log("Create Candidates",data);
   };
 
   return (

@@ -23,15 +23,16 @@ function CandidateSection(props: CandidateSectionProps): ReactElement {
   const [selectedCandidates, setSelectedCandidates] = useState<string[]>([]);
   const [showAssignTest, setShowAssignTest] = useState<boolean>(false);
 
-  const handleRemoveButton = () => {
+  const handleRemoveButton = async () => {
     try {
-      selectedCandidates.forEach((candidateId) => {
-        apiService.removeCandidate(candidateId);
-      });
+      await apiService.removeCandidates(
+        selectedCandidates
+      );
+      setSelectedCandidates([]);
       reloadCandidateAPI();
       toast.success("Candidate removed successfully");
     } catch (error) {
-      console.log(`Error while removing candidate: ${error}`);
+      toast.error(`Error while removing candidate: ${error}`);
     }
   };
 
@@ -44,19 +45,8 @@ function CandidateSection(props: CandidateSectionProps): ReactElement {
   };
 
   const handleAssignTest = (data: any) => {
-    console.log(data);
-    // selectedCandidates.map((candidateId) => {
-    //   allCandidates.forEach((obj) => {
-    //     if (obj.id === candidateId) {
-    //       axios.patch('');
-    //     }
-    //   });
-    // });
+    console.log("handle assign test", data);
   };
-
-  console.log(selectedCandidates);
-
-  console.log("All candidates", allCandidates);
 
   return (
     <div>
@@ -99,8 +89,8 @@ function CandidateSection(props: CandidateSectionProps): ReactElement {
           <TestAssignToCandidates
             handleClose={() => setShowAssignTest(false)}
             sendTestToCandidates={handleAssignTest}
-            allCandidatesData = {allCandidates}
-            selectedCandidatesData = {selectedCandidates}
+            allCandidatesData={allCandidates}
+            selectedCandidatesData={selectedCandidates}
             reloadCandidateAPI={reloadCandidateAPI}
           />
         ) : (
