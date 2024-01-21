@@ -6,7 +6,7 @@ import Button from "../../components/Button";
 import TestAssignToCandidates from "./TestAssignToCandidates";
 import apiService from "../../api-service/apiServices";
 import { toast } from "react-toastify";
-import axios from "axios";
+import PopUpModal from "../../components/PopUpModal";
 
 interface CandidateSectionProps {
   allCandidates: GetCandidateDataResponse[];
@@ -18,16 +18,15 @@ interface CandidateSectionProps {
  *
  * @returns - Test component HTML with test details.
  */
-function CandidateSection(props: CandidateSectionProps): ReactElement {
+function CandidateSection(props: Readonly<CandidateSectionProps>): ReactElement {
   const { allCandidates, reloadCandidateAPI } = props;
   const [selectedCandidates, setSelectedCandidates] = useState<string[]>([]);
   const [showAssignTest, setShowAssignTest] = useState<boolean>(false);
+  const [modalShow, setModalShow] = useState<boolean>(false);
 
   const handleRemoveButton = async () => {
     try {
-      await apiService.removeCandidates(
-        selectedCandidates
-      );
+      await apiService.removeCandidates(selectedCandidates);
       setSelectedCandidates([]);
       reloadCandidateAPI();
       toast.success("Candidate removed successfully");
@@ -74,8 +73,17 @@ function CandidateSection(props: CandidateSectionProps): ReactElement {
           theme="primary"
           name="Remove Candidate"
           buttonId="remove-candidate"
-          onClick={handleRemoveButton}
+          onClick={() => setModalShow(true)}
         ></Button>
+        {modalShow && (
+          <PopUpModal
+            title={"Remove Candidate"}
+            messageText={"Are you sure you want to remove selected candidates"}
+            messageTheme="alert alert-warning" //decide on this theme
+            onClose={() => setModalShow(false)}
+            onConfirm={handleRemoveButton}
+          />
+        )}
         <Button
           disabled={selectedCandidates.length === 0}
           size="small"
