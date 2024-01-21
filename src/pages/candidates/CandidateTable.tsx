@@ -19,7 +19,7 @@ function CandidateTable(props: {
 }): ReactElement {
   const { selectedCandidate, allCandidates, setSelectedCandidates } = props;
   const [allTests, setAllTests] = useState<GetTestResponse[]>([]);
-  const [idTestName, setIdTestName] = useState<{[key: string]: string}>({})
+  const [idTestName, setIdTestName] = useState<{ [key: string]: string }>({});
 
   const handleCheckboxChange = (id: string) => {
     const updatedSelectedDepartment: string[] = [...selectedCandidate];
@@ -68,7 +68,7 @@ function CandidateTable(props: {
       if (getAllTests.data) {
         setAllTests(getAllTests.data);
         Object.values(getAllTests.data).forEach((element: GetTestResponse) => {
-          idTestName[element.id]=element.name
+          idTestName[element.id] = element.name;
         });
       }
     } catch (error) {
@@ -123,11 +123,11 @@ function CandidateTable(props: {
               </td>
               <td>
                 {candidates.resumeMatrix &&
-                  Object.keys(candidates.resumeMatrix).map((key) => (
-                    <div>
+                  Object.keys(candidates.resumeMatrix).map((key, index) => (
+                    <div key ={`matrix-${key}-${index}`} >
                       <span
                         className="badge rounded-pill bg-primary px-2 py-1"
-                        key={`matrix-${key}`}
+                        id={`matrix-${key}-${index}`}
                       >
                         {key} -{" "}
                         {candidates.resumeMatrix
@@ -155,7 +155,9 @@ function CandidateTable(props: {
                 </div>
               </td>
               <td className="p-2 fs-7 ">{candidates?.score}</td>
-              <td className="p-2 fs-7 ">{idTestName[candidates?.alloted_test]}</td>
+              <td className="p-2 fs-7 ">
+                {idTestName[candidates?.alloted_test]}
+              </td>
             </tr>
           ))}
         </tbody>

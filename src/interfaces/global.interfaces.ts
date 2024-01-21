@@ -354,3 +354,11 @@ export interface SingleResumeMatrix {
 export interface GetResumeMatricesResponse {
   [key: string]: SingleResumeMatrix;
 }
+
+export interface PopUpModalProps {
+  title: string;
+  messageText: string;
+  messageTheme?: string;
+  onConfirm?: () => void;
+  onClose?: () => void;
+}
