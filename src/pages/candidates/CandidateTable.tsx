@@ -67,14 +67,10 @@ function CandidateTable(props: {
       const getAllTests = await apiService.getTest();
       if (getAllTests.data) {
         setAllTests(getAllTests.data);
-        console.log("all test ",getAllTests.data)
         Object.values(getAllTests.data).forEach((element: GetTestResponse) => {
           idTestName[element.id]=element.name
         });
-        console.log("id test name",idTestName)
       }
-      
-      
     } catch (error) {
       toast.error(`Error while getting all tests: ${error}`);
     }

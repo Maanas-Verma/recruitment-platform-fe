@@ -44,7 +44,6 @@ function Home(): ReactElement {
         const getResponse = await apiService.getCandidateById(candidateID);
         if (getResponse?.data) {
           setUserSpecificData(getResponse.data);
-          console.log("Response: ", getResponse.data);
         }
         if (
           (getResponse?.data?.resume !== null ||
@@ -81,7 +80,6 @@ function Home(): ReactElement {
   };
 
   const handleEnterTheTest = () => {
-    console.log("Enter the test clicked");
     alert("You are about to enter the test!");
     navigate("/candidate-test", { state: { testId, userId } });
   };
@@ -113,10 +111,9 @@ function Home(): ReactElement {
       ) {
         setIsTestEnabled(true);
       }
-      console.log("File uploaded successfully:", response.data);
       toast.success("File uploaded successfully!");
     } catch (error) {
-      console.error("Error uploading file:", error);
+      toast.error("Error uploading file:"+ error);
     }
   };
 

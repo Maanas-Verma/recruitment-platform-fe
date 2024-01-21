@@ -211,8 +211,17 @@ class HrAPI {
    *
    * @returns - Returns a promise with the test object.
    */
-  removeCandidate = async (id: string): Promise<AxiosResponse<null>> => {
-    return axios.delete(`${this.base_url}${this.endpoints.candidate}${id}/`);
+  removeCandidates = async (
+    idArr: string[]
+  ): Promise<AxiosResponse<null>[][]> => {
+    const obj: Promise<AxiosResponse<null>[]>[] = [];
+    Object.values(idArr).map((id) => {
+      obj.push(
+        axios.delete(`${this.base_url}${this.endpoints.candidate}${id}/`)
+      );
+    });
+    console.log("all api calls done");
+    return Promise.all(obj);
   };
 
   /**
