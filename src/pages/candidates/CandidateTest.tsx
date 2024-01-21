@@ -63,10 +63,6 @@ function CandidateTest(): ReactElement {
       ...prevOption,
       [selectedQuestionId]: optionId,
     }));
-    const newIndex = candidateTestData?.questions.findIndex(
-      (question) => question.id === selectedQuestionId
-    ) || 0;
-    setSelectedQuestionIndex(newIndex);
   };
 
   const handleClearSelection = () => {
